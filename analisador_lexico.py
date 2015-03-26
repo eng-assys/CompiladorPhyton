@@ -83,7 +83,7 @@ def ehReservada(entrada):
 
 # Metodo que verifica se a entrada eh um caracter inválido
 def ehCaracterInvalido(caracter):
-  caracteres_invalidos = '''!#$%&():?@^_`|~¹²³£¢¬ªº´'''
+  caracteres_invalidos = '''#$%():?@^_`|~¹²³£¢¬ªº´'''
   if(caracter in caracteres_invalidos):
     return True
   return False
