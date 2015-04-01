@@ -1,19 +1,91 @@
-// Oi meu nome eh Lucas
+// Exemplo de comentario de linha
+// ==============================================================
 /*
-
-Buga Buga oioioi
-
+*
+* Exemplo de comentario de bloco
+*
 */
+// ==============================================================
+// Testes com identificadores
+// Certo
+fabiana_bertoni // OK
+Andressa // OK
+Lucas_ // OK
+Lucas_2015 // OK
+a // OK
+// Com erro
+_ana123 // Ele pega o caractere e identifica como invalido depois ele identifica o identificador normalmente
+123_ana // Ele identifica o numero normalmente - diz que o '_' eh errado - identifica o identificador normalmente
+ana$dell // OK
+ana¬invalido // Quando o caractere eh invalido ele tira o mesmo e deixa passar o identificador como se nada tivesse ocorrido
+// ==============================================================
+// Testes com número 
+// Certo
+1 // OK
+12345 // OK
+123.2121 // OK
+1.0 // OK
+//Errado
+.80 // Identifica inicialmente o '.' como operador e por ultimo identifica o 80 como numero normalmente
 
-inteiro i = 22;
+//  ESTA APARECENDO UM ERRO DE CARACTERE INVALIDO NA LINHA 29 - DEUS SABE O QUE ESTA ACONTECE AQUI
 
-se(deuMerda ==21){
+8. // OK
+// ==============================================================
+// Testes com cadeia constante
+// Certo
+"qualquercoisa" // OK
+"qualquer coisa * 8 7 & %" // OK
+"" // OK
+// Errado
+// OK O DE BAIXO
+"askasjkajakjskas
+// OK O DE BAIXO
+kkasljalkjskl" 
+"jsksjk¬sjhskjhs" // OK
+// OK O DE BAIXO
+"oioi' 
+// ==============================================================
+// Testes com caractere constante
+// Certo
+'9'
+'h'
+' '
+'^'
+// Errado
+' //(Nao indica erro de caractere)
+'n // OK
+n' // OK
+'¬' // Esta caindo no ultimo if, mas era para cair no if de caractere constante
+'l" //OK
+'' // OK
+'uuu' // OK - Verificar se ele percorre todo o erro o erro ateh achar um separador
+'nnn // Tem que identificar o erro e ir ateh o final para achar algum separador
+nnn' //OK
+''' // Nao identifique a aspas simples como token (ele esta pegando os espacos e dizendo que eh caractere invalido)
+// ==============================================================
+// Testes de operadores
+// Certo
+.
++
+-
+*
+/
+++
+--
+!= //(Diz que o ! eh invalido e identifica o = como operador)
+<
+<=
+>
+>=
+&& //(Diz que o & eh invalido e identifica o = como operador)
+|| //(Diz que o | eh invalido e identifica o = como operador)
+=
 
-oi = 25.55;
 
 
 
-}
 
 
-retorno 0;
+
+

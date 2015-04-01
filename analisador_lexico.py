@@ -81,13 +81,6 @@ def ehReservada(entrada):
     return True
   return False
 
-# Metodo que verifica se a entrada eh um caracter inválido
-def ehCaracterInvalido(caracter):
-  caracteres_invalidos = '''#$%():?@^_`|~¹²³£¢¬ªº´'''
-  if(caracter in caracteres_invalidos):
-    return True
-  return False
-
 # ========================== INICIO DO PROGRAMA
 # Abre o arquivo de saida do programa
 arquivo_saida = open('resp-lex.lo', 'w')
@@ -265,10 +258,9 @@ while linha_programa:
             arquivo_saida.write('tok5 '+string_temp+'\n')
       
       # ===================================================================================
-      # Verificando Erros Léxicos - Caracter Invalido
-      elif(ehCaracterInvalido(caracter_atual)):
-        arquivo_saida.write('Erro Lexico - Caracter Invalido ' + caracter_atual + ' - linha: %d\n' %numero_linha)
-        print(caracter_atual)
+      # Verificando Erros Lexicos - Caracter Invalido
+      elif caracter_atual != '\n':
+        arquivo_saida.write('Erro Lexico - Caracter Invalido: ' + caracter_atual + ' - linha: %d\n' %numero_linha)
       # ===================================================================================
       
       i += 1 # Incrementando a leitura dos caracteres da linha lida no momento
