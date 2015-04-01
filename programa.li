@@ -1,58 +1,46 @@
-// Exemplo de comentario de linha
-// ==============================================================
+// EXEMPLO DE COMENTARIO DE LINHA
+// ==============================
+
 /*
 *
-* Exemplo de comentario de bloco
+* EXEMPLO DE COMENTARIO DE BLOCO
 *
 */
-// ==============================================================
-// Testes com identificadores
-// Certo
+
+// ==============================
+// IDENTIFICADORES
+// CERTO
 fabiana_bertoni // OK
 Andressa // OK
 Lucas_ // OK
 Lucas_2015 // OK
 a // OK
-// Com erro
+// COM ERRO
 _ana123 // Ele pega o caractere e identifica como invalido depois ele identifica o identificador normalmente
 123_ana // Ele identifica o numero normalmente - diz que o '_' eh errado - identifica o identificador normalmente
 ana$dell // OK
 ana¬invalido // Quando o caractere eh invalido ele tira o mesmo e deixa passar o identificador como se nada tivesse ocorrido
 // ==============================================================
-// Testes com número 
-// Certo
+// NUMEROS
+// CERTO
 1 // OK
 12345 // OK
 123.2121 // OK
 1.0 // OK
-//Errado
+// COM ERRO
 .80 // Identifica inicialmente o '.' como operador e por ultimo identifica o 80 como numero normalmente
 
 //  ESTA APARECENDO UM ERRO DE CARACTERE INVALIDO NA LINHA 29 - DEUS SABE O QUE ESTA ACONTECE AQUI
 
 8. // OK
 // ==============================================================
-// Testes com cadeia constante
-// Certo
-"qualquercoisa" // OK
-"qualquer coisa * 8 7 & %" // OK
-"" // OK
-// Errado
-// OK O DE BAIXO
-"askasjkajakjskas
-// OK O DE BAIXO
-kkasljalkjskl" 
-"jsksjk¬sjhskjhs" // OK
-// OK O DE BAIXO
-"oioi' 
-// ==============================================================
-// Testes com caractere constante
-// Certo
+// CARACTERE CONSTANTE
+// CERTO
 '9'
 'h'
 ' '
 '^'
-// Errado
+// COM ERRO
 ' //(Nao indica erro de caractere)
 'n // OK
 n' // OK
@@ -64,26 +52,70 @@ n' // OK
 nnn' //OK
 ''' // Nao identifique a aspas simples como token (ele esta pegando os espacos e dizendo que eh caractere invalido)
 // ==============================================================
-// Testes de operadores
+// OPERADORES
 // Certo
-.
-+
--
-*
-/
-++
---
+. //OK
++ //OK
+- //OK
+* //OK
+/ //OK
+++ //OK
+-- //OK
 != //(Diz que o ! eh invalido e identifica o = como operador)
-<
-<=
->
->=
-&& //(Diz que o & eh invalido e identifica o = como operador)
-|| //(Diz que o | eh invalido e identifica o = como operador)
-=
+< //OK
+<= //OK
+> //OK
+>= //OK
+== //OK
+&& // (Diz que o & eh invalido e identifica o = como operador)
+|| // (Diz que o | eh invalido e identifica o = como operador)
+= //OK
+// Errado (Falta a implementacao)
++++ // Eh para dizer que tem caractere demais, algo assim
+--- // Erro de mais um operador junto
+.+ // Mesmo erro anterior
+>== //Mesmo erro anterior
+&
+|
+!
 
 
+// 					===========================
+// 					TESTES PASSANDO TOTALMENTE
+// 					===========================
+// DELIMITADORES
+// ===========================
+// CERTO
+// ======
+; //OK
+, //OK
+( //OK
+) //OK
+{ //OK
+} //OK
+[ //OK
+] //OK
+// ========
+// COM ERRO
+// ========
+// OBS: encontrar possiveis erros para delimitadores mal-formados ou coisa do tipo
 
+// ===========================
+// CADEIA CONSTANTE
+// ===========================
+// ======
+// CERTO
+// ======
+"qualquercoisa" 				// OK
+"qualquer coisa * 8 7 & %"      // OK
+""                              // OK
+// ========
+// COM ERRO
+// ========
+"askasjkajakjskas               // OK
+kkasljalkjskl" 					// OK
+"jsksjk¬sjhskjhs" 				// OK
+"oioi' 							// OK
 
 
 
