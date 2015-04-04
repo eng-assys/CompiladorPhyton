@@ -1,19 +1,98 @@
-tok6 inteiro
-tok5 i
-tok1 =
-tok3 22
-tok2 ;
-tok6 se
-tok2 (
-tok5 deuMerda
+tok4 9
+tok4 h
+tok4  
+tok4 ^
+Erro Lexico - Caractere nao fechado - Linha: 9
+Erro Lexico - Caractere nao fechado - Linha: 10
+Erro Lexico - Caractere nao fechado - Linha: 11
+Erro Lexico - Identificador com caracter invalido: ' - linha: 12
+Erro Lexico - Tamanho de Caractere invalido - Linha: 13
+Erro Lexico - Caractere nao fechado - Linha: 14
+Erro Lexico - Caractere nao pode ser vazio - Linha: 15
+Erro Lexico - Tamanho de Caractere invalido - Linha: 16
+Erro Lexico - Caractere nao fechado - Linha: 17
+Erro Lexico - Identificador com caracter invalido: ' - linha: 18
+Erro Lexico - Caractere invalido - Linha: 19
+tok7qualquercoisa
+tok7qualquer coisa * 8 7 & %
+tok7 empty
+Erro Lexico - String nao fechada - Linha: 55
+Erro Lexico - String nao fechada - Linha: 56
+Erro Lexico - Identificador com caracter invalido: " - linha: 57
+Erro Lexico - Caractere invalido na string: Â - Linha: 58
+Erro Lexico - Caractere invalido na string: Â - Linha: 59
+Erro Lexico - String nao fechada - Linha: 60
+tok1 .
+tok1 +
+tok1 -
+tok1 *
+tok1 /
+tok1 ++
+tok1 --
+tok1 !=
+tok1 <
+tok1 <=
+tok1 >
+tok1 >=
 tok1 ==
-tok3 21
+tok1 &&
+tok1 ||
+tok1 =
+Erro Lexico - Caracter Invalido: & - linha: 86
+Erro Lexico - Caracter Invalido: | - linha: 87
+Erro Lexico - Caracter Invalido: ! - linha: 88
+tok1 ++
+tok1 +
+tok1 .
+tok1 <
+tok5 fabiana_bertoni
+tok5 Andressa
+tok5 Lucas_
+tok5 Lucas_2015
+tok5 a
+Erro Lexico - Caracter Invalido: _ - linha: 105
+tok5 ana123
+tok3 123
+Erro Lexico - Caracter Invalido: _ - linha: 106
+tok5 ana
+Erro Lexico - Identificador com caracter invalido: $ - linha: 107
+Erro Lexico - Identificador com caracter invalido: Â - linha: 108
+Erro Lexico - Caracter Invalido: & - linha: 109
+tok5 variavel
+tok6 algoritmo
+tok6 variaveis
+tok6 constantes
+tok6 registro
+tok6 funcao
+tok6 retorno
+tok6 vazio
+tok6 se
+tok6 senao
+tok6 enquanto
+tok6 para
+tok6 leia
+tok6 escreva
+tok6 inteiro
+tok6 real
+tok6 booleano
+tok6 char
+tok6 cadeia
+tok6 verdadeiro
+tok6 falso
+tok3 1
+tok3 12345
+tok3 123.2121
+tok3 1.0
+tok1 .
+tok3 80
+Erro Lexico - Numero mal formado - Linha: 150
+tok3 78
+tok5 abc
+tok2 ;
+tok2 ,
+tok2 (
 tok2 )
 tok2 {
-tok5 oi
-tok1 =
-tok3 25.55
 tok2 }
-tok6 retorno
-tok3 0
-tok2 ;
+tok2 [
+tok2 ]

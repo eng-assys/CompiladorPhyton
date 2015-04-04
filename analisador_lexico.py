@@ -22,6 +22,10 @@
 # Fim de arquivo inesperado (comentario de bloco nao fechado)
 # Caractere ou string mal formados
 # ==============================================================================
+
+# Incluindo caracteres especiais no programa
+# -*- coding: utf-8 -*-
+
 # Bibliotecas para entrada e saida de arquivos
 import sys
 import os.path
@@ -148,56 +152,54 @@ while linha_programa:
         arquivo_saida.write('tok1 '+caracter_atual+caractere_seguinte+'\n')
         i += 1
       elif ehOperador(caracter_atual):
-        arquivo_saida.write('tok1 %s\n' %caracter_atual)
+        arquivo_saida.write('tok1 '+caracter_atual+'\n')
 
       # ===================================================================================
       # Verificando se o elemento em questao eh caractere constante - OK
       # string.punctuation[6] retorna o simbolo - ' - que representa o inicio do caractere constante
       elif (caracter_atual == string.punctuation[6]):
-        i += 1
-        caracter_atual = linha_programa[i]
-        caractere_seguinte = None
-        if ((i+1) < tamanho_linha):
-          caractere_seguinte = linha_programa[i+1]
-        if (caracter_atual == string.punctuation[6]):
-          arquivo_saida.write('Erro Lexico - Caracter Constante vazio - Linha: %d\n' %numero_linha)
+        if not (string.punctuation[6] in linha_programa[i+1:]):
+          arquivo_saida.write('Erro Lexico - Caractere nao fechado - Linha: %d\n' %numero_linha)
+          i = tamanho_linha
+        elif ehSimbolo(linha_programa[i+1]) and linha_programa[i+1] != string.punctuation[6] and linha_programa[i+2] == string.punctuation[6]:
+          arquivo_saida.write('tok4 '+linha_programa[i+1]+'\n')
+          i+=2
           break
-        elif (ehSimbolo(caracter_atual) and caractere_seguinte == string.punctuation[6]):
-          arquivo_saida.write('tok4 '+caracter_atual+'\n')
-          i += 1
-        elif ((not ehSimbolo(caracter_atual)) and caractere_seguinte == string.punctuation[6]):
-          arquivo_saida.write('Erro Lexico - Caracter Constante com simbolo nao pertencente a linguagem - Linha: %d\n' %numero_linha)
-        elif (caractere_seguinte != string.punctuation[6]):
-          while (i+1 < tamanho_linha):
-            i += 1
-            caracter_atual = linha_programa[i]
-            if caracter_atual == string.punctuation[6] or ehDelimitador(caracter_atual) or caracter_atual == ' ' or caracter_atual == '\n':
-              arquivo_saida.write('Erro Lexico - Caracter constante mal formado: %d\n' %numero_linha)
-              if ehDelimitador(caracter_atual):
-                i -= 1
-              break
+        elif ((not ehSimbolo(linha_programa[i+1])) or linha_programa[i+1] == string.punctuation[6]) and linha_programa[i+2] == string.punctuation[6]:
+          arquivo_saida.write('Erro Lexico - Caractere invalido - Linha: %d\n' %numero_linha)
+          i+=2
+          break
+        elif linha_programa[i+1] == string.punctuation[6]:
+          arquivo_saida.write('Erro Lexico - Caractere nao pode ser vazio - Linha: %d\n' %numero_linha)
+          break
+        else:
+          arquivo_saida.write('Erro Lexico - Tamanho de Caractere invalido - Linha: %d\n' %numero_linha)
+          i=linha_programa[i+1:].find(string.punctuation[6])+1
 
       # ===================================================================================
       # Verificando se o elemento em questao eh cadeia constante - OK
       # string.punctuation[1] retorna o simbolo - " - que representa o inicio da cadeia constante
       elif (caracter_atual == string.punctuation[1]):
-        i += 1
-        caracter_atual = linha_programa[i]
-        if (caracter_atual == string.punctuation[1]):
+        ehValido = True
+        if linha_programa[i+1] == '\n' or linha_programa[i+1] == ' ' or linha_programa[i+1] == '\t' or linha_programa[i+1] == '\r' or not(string.punctuation[1] in linha_programa[1:]):
+          arquivo_saida.write('Erro Lexico - String nao fechada - Linha: %d\n' %numero_linha)
+          break
+        elif linha_programa[i+1] == string.punctuation[1]:
+          i+=1
           arquivo_saida.write('tok7 empty\n')
           break
+        fim_cadeia = linha_programa[i+1:].find(string.punctuation[1])
+        string_temp = linha_programa[i+1:fim_cadeia+1]
+        
+        i = fim_cadeia+1 # Indicando aonde na linha o programa principal deve continuar
 
-        string_temp = caracter_atual
-        while ehSimbolo(caracter_atual) and caracter_atual != string.punctuation[1] and (i+1 < tamanho_linha):
-          i += 1
-          caracter_atual = linha_programa[i]
-          if caracter_atual != string.punctuation[1]:
-            string_temp += caracter_atual
-        if caracter_atual != string.punctuation[1]:
-          arquivo_saida.write('Erro Lexico - Cadeia Constante mal formada - Linha: %d\n' %numero_linha)
-          break
-        arquivo_saida.write('tok7 '+string_temp+'\n')
-
+        for x in string_temp:
+          if not ehSimbolo(x):
+            arquivo_saida.write('Erro Lexico - Caractere invalido na string: '+x+' - Linha: %d\n' %numero_linha)
+            ehValido = False
+            break
+        if ehValido:
+          arquivo_saida.write('tok7'+string_temp+'\n')
       # ===================================================================================
       # Verificando se o elemento em questao eh um numero - OK
       elif (ehDigito(caracter_atual)):

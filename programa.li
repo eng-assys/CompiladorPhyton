@@ -1,17 +1,4 @@
 // ==============================================================
-// NUMEROS
-// CERTO
-1 // OK
-12345 // OK
-123.2121 // OK
-1.0 // OK
-// COM ERRO
-.80 // Identifica inicialmente o '.' como operador e por ultimo identifica o 80 como numero normalmente
-
-//  ESTA APARECENDO UM ERRO DE CARACTERE INVALIDO NA LINHA 29 - DEUS SABE O QUE ESTA ACONTECE AQUI
-
-8. // OK
-// ==============================================================
 // CARACTERE CONSTANTE
 // CERTO
 '9'
@@ -19,6 +6,7 @@
 ' '
 '^'
 // COM ERRO
+'
 ' //(Nao indica erro de caractere)
 'n // OK
 n' // OK
@@ -31,6 +19,8 @@ nnn' //OK
 ''' // Nao identifique a aspas simples como token (ele esta pegando os espacos e dizendo que eh caractere invalido)
 
 // VER ALGUM ERRO DE SIMBILO NAO PERTENCENTE A LINGUAGEM exceto \n, \r, espaço, “, ‘, delimitadores, operadores.
+
+
 
 // 					===========================
 // 					TESTES PASSANDO TOTALMENTE
@@ -51,24 +41,6 @@ nnn' //OK
 */
 
 // ===========================
-// DELIMITADORES
-// ===========================
-// CERTO
-// ======
-; //OK
-, //OK
-( //OK
-) //OK
-{ //OK
-} //OK
-[ //OK
-] //OK
-// ========
-// COM ERRO
-// ========
-// OBS: encontrar possiveis erros para delimitadores mal-formados ou coisa do tipo
-
-// ===========================
 // CADEIA CONSTANTE
 // ===========================
 // ======
@@ -76,14 +48,16 @@ nnn' //OK
 // ======
 "qualquercoisa" 				// OK
 "qualquer coisa * 8 7 & %"      // OK
-""                              // OK
+"";                  k            // OK
 // ========
 // COM ERRO - CADEIA CONSTANTE MAL FORMADA
 // ========
-"askasjkajakjskas               // OK
-kkasljalkjskl" 					// OK
-"jsksjk¬sjhskjhs" 				// OK
-"oioi' 							// OK
+"
+"askasjkajakjskas               // OK - CADEIA MAL FORMADA
+kkasljalkjskl" 					// OK - IDENTIFICADOR MAL FORMADO
+"¬jsksjksjhskjhs" 				// OK - SIMBOLO NAO PERTENCENTE AO ALFABETO PRESENTE NA CADEIA
+"jsksjksºjhskjhs" 				// OK - SIMBOLO NAO PERTENCENTE AO ALFABETO PRESENTE NA CADEIA
+"oioi' 							// OK - CADEIA MAL FORMADA
 
 // ==============================
 // OPERADORES
@@ -112,7 +86,7 @@ kkasljalkjskl" 					// OK
 &	//OK
 |	//OK
 !	//OK
-+++ //OK - NAO EH ERRO LEXICO, POIS IDENTIFICA COMO OPERADOR '++' E OPERADOR '+' CORRETAMENTE
++++ //OK - NAO EH ERRO LEXICO, POIS IDENTIFICA COMO OPERADOR '++' E OPERADOR '+' CORRETAMENTE. NAS PROXIMAS ETAPAS DE COMPILACAO SERAO IDENTIFICADOS COMO OUTRO TIPO ERRO
 .<	//OK - NAO EH ERRO LEXICO, POIS IDENTIFICA COMO OPERADOR '.' E OPERADOR '<' CORRETAMENTE
 
 // ==============================
@@ -139,25 +113,53 @@ ana¬invalido 			// OK - INDICA IDENTIFICADOR INVALIDO
 // ======
 // CERTO
 // ======
-algoritmo
-variaveis
-constantes
-registro
-funcao
-retorno
-vazio
-se
-senao
-enquanto
-para
-leia
-escreva
-inteiro
-real
-booleano
-char
-cadeia
-verdadeiro
-falso
+algoritmo	//OK
+variaveis	//OK
+constantes	//OK
+registro	//OK
+funcao		//OK
+retorno		//OK
+vazio		//OK
+se			//OK
+senao		//OK
+enquanto	//OK
+para		//OK
+leia		//OK
+escreva		//OK
+inteiro		//OK
+real		//OK
+booleano	//OK
+char		//OK
+cadeia		//OK
+verdadeiro	//OK
+falso		//OK
 
+// ==============================
+// NUMEROS
+// ======
+// CERTO
+// ======
+1 			// OK
+12345 		// OK
+123.2121 	// OK
+1.0 		// OK
+// ========
+// COM ERRO
+// ========
+.80 		// OK - IDENTIFICA O OPERADOR '.' E DEPOIS O 80 COMO NUMERO
+8. 			// OK - IDENTIFICA NUMERO INVALIDO POR NAO CONTER NENHUM DIGITO DEPOIS DO '.'
+78abc		//OK - IDENTIFICA O NUMERO 78 E DEPOIS O IDENTIFICADOR abc
 
+// ===========================
+// DELIMITADORES
+// ===========================
+// CERTO
+// ======
+; //OK
+, //OK
+( //OK
+) //OK
+{ //OK
+} //OK
+[ //OK
+] //OK
