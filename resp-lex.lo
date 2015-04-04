@@ -4,23 +4,24 @@ tok400
 tok400 ^
 Erro Lexico - Caractere nao fechado - Linha: 9
 Erro Lexico - Caractere nao fechado - Linha: 10
-Erro Lexico - Identificador com caracter invalido: ' - linha: 11
-Erro Lexico - Tamanho de Caractere invalido - Linha: 12
-Erro Lexico - Caractere nao fechado - Linha: 13
-Erro Lexico - Caractere nao pode ser vazio - Linha: 14
-Erro Lexico - Tamanho de Caractere invalido - Linha: 15
-Erro Lexico - Caractere nao fechado - Linha: 16
-Erro Lexico - Identificador com caracter invalido: ' - linha: 17
-Erro Lexico - Caractere invalido - Linha: 18
+Erro Lexico - Caractere nao fechado - Linha: 11
+Erro Lexico - Identificador com caracter invalido: ' - linha: 12
+Erro Lexico - Tamanho ou simbolo do Caractere invalido - Linha: 13
+Erro Lexico - Caractere nao fechado - Linha: 14
+Erro Lexico - Caractere nao pode ser vazio - Linha: 15
+Erro Lexico - Tamanho ou simbolo do Caractere invalido - Linha: 16
+Erro Lexico - Caractere nao fechado - Linha: 17
+Erro Lexico - Identificador com caracter invalido: ' - linha: 18
+Erro Lexico - Caractere nao pode ser aspas simples - Linha: 19
 tok700 qualquercoisa
 tok700 qualquer coisa * 8 7 & %
 tok700 empty
-Erro Lexico - String nao fechada - Linha: 54
 Erro Lexico - String nao fechada - Linha: 55
-Erro Lexico - Identificador com caracter invalido: " - linha: 56
-Erro Lexico - Caractere invalido na string: Â - Linha: 57
+Erro Lexico - String nao fechada - Linha: 56
+Erro Lexico - Identificador com caracter invalido: " - linha: 57
 Erro Lexico - Caractere invalido na string: Â - Linha: 58
-Erro Lexico - String nao fechada - Linha: 59
+Erro Lexico - Caractere invalido na string: Â - Linha: 59
+Erro Lexico - String nao fechada - Linha: 60
 tok100 .
 tok101 +
 tok102 -
@@ -37,9 +38,9 @@ tok107 ==
 tok113 &&
 tok114 ||
 tok115 =
-Erro Lexico - Caracter Invalido: & - linha: 85
-Erro Lexico - Caracter Invalido: | - linha: 86
-Erro Lexico - Caracter Invalido: ! - linha: 87
+Erro Lexico - Caracter Invalido: & - linha: 86
+Erro Lexico - Caracter Invalido: | - linha: 87
+Erro Lexico - Caracter Invalido: ! - linha: 88
 tok105 ++
 tok101 +
 tok100 .
@@ -49,14 +50,14 @@ tok500 Andressa
 tok500 Lucas_
 tok500 Lucas_2015
 tok500 a
-Erro Lexico - Caracter Invalido: _ - linha: 104
+Erro Lexico - Caracter Invalido: _ - linha: 105
 tok500 ana123
 tok300 123
-Erro Lexico - Caracter Invalido: _ - linha: 105
+Erro Lexico - Caracter Invalido: _ - linha: 106
 tok500 ana
-Erro Lexico - Identificador com caracter invalido: $ - linha: 106
-Erro Lexico - Identificador com caracter invalido: Â - linha: 107
-Erro Lexico - Caracter Invalido: & - linha: 108
+Erro Lexico - Identificador com caracter invalido: $ - linha: 107
+Erro Lexico - Identificador com caracter invalido: Â - linha: 108
+Erro Lexico - Caracter Invalido: & - linha: 109
 tok500 variavel
 tok600 algoritmo
 tok601 variaveis
@@ -84,7 +85,7 @@ tok300 123.2121
 tok300 1.0
 tok100 .
 tok300 80
-Erro Lexico - Numero mal formado - Linha: 149
+Erro Lexico - Numero mal formado - Linha: 150
 tok300 78
 tok500 abc
 tok200 ;

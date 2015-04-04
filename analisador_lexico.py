@@ -8,12 +8,63 @@
 # Essa codificacao eh usada no arquivo de saida que contem os 
 # resultados de operacao do analisador lexico
 # tok1 - Operador
+#   tok100 - Operador Ponto
+#   tok101 - Operador Mais
+#   tok102 - Operador Menos
+#   tok103 - Operador Vezes
+#   tok104 - Operador Barra
+#   tok105 - Operador Mais Mais
+#   tok106 - Operador MenosMenos
+#   tok107 - Operador IgualIgual
+#   tok108 - Operador Diferente
+#   tok109 - Operador MaiorQue
+#   tok110 - Operador MaiorIgualQue
+#   tok111 - Operador Menor
+#   tok112 - Operador MenorIgualQue
+#   tok113 - Operador E
+#   tok114 - Operador OU
+#   tok115 - Operador Igual
+
 # tok2 - Delimitador
-# tok3 - Numero
-# tok4 - Caractere Constante
-# tok5 - Identificador
+#   tok200 - Delimitador PontoVirgula
+#   tok201 - Delimitador Virgula
+#   tok202 - Delimitador ParenteseEsquedo
+#   tok203 - Delimitador ParenteseDireito
+#   tok204 - Delimitador ChaveEsqueda
+#   tok205 - Delimitador ChaveDireita
+#   tok206 - Delimitador ColcheteEsquerdo
+#   tok207 - Delimitador ColcheteDireito
+
+# tok300 - Numero
+
+# tok400 - Caractere Constante
+
+# tok500 - Identificador
+
 # tok6 - Palavra reservada
-# tok7 - Cadeia constante
+#   tok600 - Palavra reservada algoritmo
+#   tok601 - Palavra reservada variaveis
+#   tok602 - Palavra reservada constantes
+#   tok603 - Palavra reservada registro
+#   tok604 - Palavra reservada funcao
+#   tok605 - Palavra reservada retorno
+#   tok606 - Palavra reservada vazio
+#   tok607 - Palavra reservada se
+#   tok608 - Palavra reservada senao
+#   tok609 - Palavra reservada enquanto
+#   tok610 - Palavra reservada para
+#   tok611 - Palavra reservada leia
+#   tok612 - Palavra reservada escreva
+#   tok613 - Palavra reservada inteiro
+#   tok614 - Palavra reservada real
+#   tok615 - Palavra reservada booleano
+#   tok616 - Palavra reservada char
+#   tok617 - Palavra reservada cadeia
+#   tok618 - Palavra reservada verdadeiro
+#   tok619 - Palavra reservada falso
+
+# tok700 - Cadeia constante
+#  tok700 empty - Cadeia constante vazia
 # ========================== ERROS LEXICOS
 # Simbolo nao pertencente ao conjunto de simbolos terminais da linguagem
 # Identificador Mal formado
@@ -40,10 +91,17 @@ import string
 # entrada caso o mesmo seja encontrado
 def ehDelimitador(caracter):
   # String com os delimitadores componentes da linguagem
-  delimitadores = ",;(){}[]"
+  delimitadores = ";,(){}[]"
   if caracter in delimitadores:
     return True
   return False
+
+# Metodo que especifica qual dos tokens delimitadores eh a entrada
+def qualTokenDelimitador(entrada):
+  # String com os operadores componentes da linguagem
+  delimitadores = ";,(){}[]"
+  posicao = delimitadores.find(entrada)
+  return "tok20"+str(posicao)
 
 # Metodo que verifica se a entrada eh uma letra
 def ehLetra (caracter):
@@ -72,18 +130,46 @@ def ehSimbolo(caracter):
 # Metodo que verifica se a entrada eh um operador
 def ehOperador(entrada):
   # Listas com os operadores componentes da linguagem
-  operadores = '. + ++ - -- * / = == != > >= <= < && ||'.split()
+  operadores = '. + - * / ++ -- == != > >= < <= && || ='.split()
   if entrada in operadores:
     return True
   return False
   
+  # Metodo que especifica qual dos tokens operadores eh a entrada
+def qualTokenOperador(entrada):
+  # Listas com os operadores componentes da linguagem
+  operadores = '. + - * / ++ -- == != > >= < <= && || ='.split()
+  posicao = 0
+  for x in operadores:
+    if x == entrada:
+      break
+    posicao += 1
+  if(posicao > 9):
+    return "tok1"+str(posicao)
+  else:
+    return "tok10"+str(posicao)
+
 # Metodo que verifica se a entrada eh uma palavra reservada
 def ehReservada(entrada):
   # Criando Listas para abrigar palavras que serao indexadas por uma mesma letra no dicionario a seguir
-  reservadas = '''algoritmo booleano char constantes cadeia escreva enquanto funcao falso inteiro leia para registro real retorno variaveis se senao verdadeiro vazio'''.split()
+  reservadas = '''algoritmo variaveis constantes registro funcao retorno vazio se senao enquanto para leia escreva inteiro real booleano char cadeia verdadeiro falso'''.split()
   if entrada in reservadas:
     return True
   return False
+
+# Metodo que especifica qual dos tokens palavras reservadas eh a entrada
+def qualTokenReservada(entrada):
+  # Listas com os operadores componentes da linguagem
+  reservadas = '''algoritmo variaveis constantes registro funcao retorno vazio se senao enquanto para leia escreva inteiro real booleano char cadeia verdadeiro falso'''.split()
+  posicao = 0
+  for x in reservadas:
+    if x == entrada:
+      break
+    posicao += 1
+  if(posicao > 9):
+    return "tok6"+str(posicao)
+  else:
+    return "tok60"+str(posicao)
 
 # ========================== INICIO DO PROGRAMA
 # Abre o arquivo de saida do programa
@@ -117,7 +203,7 @@ while linha_programa:
       # ===================================================================================
       # Verifica se o caracter eh um delimitador - OK
       if (ehDelimitador(caracter_atual)):
-        arquivo_saida.write('tok2 '+caracter_atual+'\n')
+        arquivo_saida.write(qualTokenDelimitador(caracter_atual)+' '+caracter_atual+'\n')
       # ===================================================================================
       # Consumindo comentarios de linha - OK
       elif (caracter_atual == '/' and caractere_seguinte == '/'):
@@ -149,31 +235,30 @@ while linha_programa:
       # ===================================================================================
       # Verificando se o elemento eh um operador
       elif caractere_seguinte != None and ehOperador(caracter_atual+caractere_seguinte):
-        arquivo_saida.write('tok1 '+caracter_atual+caractere_seguinte+'\n')
+        arquivo_saida.write(qualTokenOperador(caracter_atual+caractere_seguinte)+' '+caracter_atual+caractere_seguinte+'\n')
         i += 1
       elif ehOperador(caracter_atual):
-        arquivo_saida.write('tok1 '+caracter_atual+'\n')
+        arquivo_saida.write(qualTokenOperador(caracter_atual)+' '+caracter_atual+'\n')
 
       # ===================================================================================
       # Verificando se o elemento em questao eh caractere constante - OK
       # string.punctuation[6] retorna o simbolo - ' - que representa o inicio do caractere constante
       elif (caracter_atual == string.punctuation[6]):
-        if not (string.punctuation[6] in linha_programa[i+1:]):
+
+        if (linha_programa[i+1] == '\n') or (not (string.punctuation[6] in linha_programa[i+1:])):
           arquivo_saida.write('Erro Lexico - Caractere nao fechado - Linha: %d\n' %numero_linha)
           i = tamanho_linha
         elif ehSimbolo(linha_programa[i+1]) and linha_programa[i+1] != string.punctuation[6] and linha_programa[i+2] == string.punctuation[6]:
-          arquivo_saida.write('tok4 '+linha_programa[i+1]+'\n')
+          arquivo_saida.write('tok400 '+linha_programa[i+1]+'\n')
           i+=2
-          break
-        elif ((not ehSimbolo(linha_programa[i+1])) or linha_programa[i+1] == string.punctuation[6]) and linha_programa[i+2] == string.punctuation[6]:
-          arquivo_saida.write('Erro Lexico - Caractere invalido - Linha: %d\n' %numero_linha)
+        elif linha_programa[i+1] == string.punctuation[6] and linha_programa[i+2] == string.punctuation[6]:
+          arquivo_saida.write('Erro Lexico - Caractere nao pode ser aspas simples - Linha: %d\n' %numero_linha)
           i+=2
-          break
         elif linha_programa[i+1] == string.punctuation[6]:
           arquivo_saida.write('Erro Lexico - Caractere nao pode ser vazio - Linha: %d\n' %numero_linha)
-          break
+          i+=1
         else:
-          arquivo_saida.write('Erro Lexico - Tamanho de Caractere invalido - Linha: %d\n' %numero_linha)
+          arquivo_saida.write('Erro Lexico - Tamanho ou simbolo do Caractere invalido - Linha: %d\n' %numero_linha)
           i=linha_programa[i+1:].find(string.punctuation[6])+1
 
       # ===================================================================================
@@ -186,7 +271,7 @@ while linha_programa:
           break
         elif linha_programa[i+1] == string.punctuation[1]:
           i+=1
-          arquivo_saida.write('tok7 empty\n')
+          arquivo_saida.write('tok700 empty\n')
           break
         fim_cadeia = linha_programa[i+1:].find(string.punctuation[1])
         string_temp = linha_programa[i+1:fim_cadeia+1]
@@ -199,7 +284,7 @@ while linha_programa:
             ehValido = False
             break
         if ehValido:
-          arquivo_saida.write('tok7'+string_temp+'\n')
+          arquivo_saida.write('tok700 '+string_temp+'\n')
       # ===================================================================================
       # Verificando se o elemento em questao eh um numero - OK
       elif (ehDigito(caracter_atual)):
@@ -226,13 +311,13 @@ while linha_programa:
             arquivo_saida.write('Erro Lexico - Numero mal formado - Linha: %d\n' %numero_linha)
 
           if (j > 0):
-            arquivo_saida.write('tok3 '+string_temp+'\n')
+            arquivo_saida.write('tok300 '+string_temp+'\n')
             break
           else: 
             arquivo_saida.write('Erro Lexico - Numero mal formado - Linha: %d\n' %numero_linha)
             break
             
-        arquivo_saida.write('tok3 '+string_temp+'\n')
+        arquivo_saida.write('tok300 '+string_temp+'\n')
         i -= 1
       # ===================================================================================
       # Verificando identificadores ou palavras reservadas - OK
@@ -264,9 +349,9 @@ while linha_programa:
               break
         else: # Se nao houver erros basta verificar se o elemento eh palavra reservada tambem
           if (ehReservada(string_temp)):
-            arquivo_saida.write('tok6 '+string_temp+'\n')
+            arquivo_saida.write(qualTokenReservada(string_temp)+' '+string_temp+'\n')
           else:
-            arquivo_saida.write('tok5 '+string_temp+'\n')
+            arquivo_saida.write('tok500 '+string_temp+'\n')
       
       # ===================================================================================
       # Verificando Erros Lexicos - Caracter Invalido

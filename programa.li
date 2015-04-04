@@ -7,10 +7,10 @@
 '^'
 // COM ERRO
 '
-' //(Nao indica erro de caractere)
-'n // OK
-n' // OK
-'¬' // Esta caindo no ultimo if, mas era para cair no if de caractere constante
+' 			// OK - CARACTERE NAO FECHADO
+'n 			// OK - CARACTERE NAO FECHADO
+n' 			// OK - IDENTIFICADOR MAL FORMADO
+'º'			
 'l" //OK
 '' // OK
 'uuu' // OK - Verificar se ele percorre todo o erro o erro ateh achar um separador
