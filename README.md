@@ -17,3 +17,5 @@ Acabei de colocar os tipos de tokens especificos, por exemplo, operadores não �
 Finalizado sem a interface gráfica
 
 Atualização do programa de testes e erro de string vazia consertado... Agora só falta a interface gráfica mesmo... Espero :'(
+
+Acabei a interface gráfica - agora só falta fazer um executável.
