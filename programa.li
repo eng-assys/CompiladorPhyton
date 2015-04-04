@@ -1,25 +1,3 @@
-// EXEMPLO DE COMENTARIO DE LINHA
-// ==============================
-
-/*
-*
-* EXEMPLO DE COMENTARIO DE BLOCO
-*
-*/
-
-// ==============================
-// IDENTIFICADORES
-// CERTO
-fabiana_bertoni // OK
-Andressa // OK
-Lucas_ // OK
-Lucas_2015 // OK
-a // OK
-// COM ERRO
-_ana123 // Ele pega o caractere e identifica como invalido depois ele identifica o identificador normalmente
-123_ana // Ele identifica o numero normalmente - diz que o '_' eh errado - identifica o identificador normalmente
-ana$dell // OK
-ana¬invalido // Quando o caractere eh invalido ele tira o mesmo e deixa passar o identificador como se nada tivesse ocorrido
 // ==============================================================
 // NUMEROS
 // CERTO
@@ -51,38 +29,28 @@ n' // OK
 'nnn // Tem que identificar o erro e ir ateh o final para achar algum separador
 nnn' //OK
 ''' // Nao identifique a aspas simples como token (ele esta pegando os espacos e dizendo que eh caractere invalido)
-// ==============================================================
-// OPERADORES
-// Certo
-. //OK
-+ //OK
-- //OK
-* //OK
-/ //OK
-++ //OK
--- //OK
-!= //(Diz que o ! eh invalido e identifica o = como operador)
-< //OK
-<= //OK
-> //OK
->= //OK
-== //OK
-&& // (Diz que o & eh invalido e identifica o = como operador)
-|| // (Diz que o | eh invalido e identifica o = como operador)
-= //OK
-// Errado (Falta a implementacao)
-+++ // Eh para dizer que tem caractere demais, algo assim
---- // Erro de mais um operador junto
-.+ // Mesmo erro anterior
->== //Mesmo erro anterior
-&
-|
-!
 
+// VER ALGUM ERRO DE SIMBILO NAO PERTENCENTE A LINGUAGEM exceto \n, \r, espaço, “, ‘, delimitadores, operadores.
 
 // 					===========================
 // 					TESTES PASSANDO TOTALMENTE
 // 					===========================
+
+// ===========================
+// COMENTARIO DE LINHA
+// ===========================
+// EXEMPLO DE COMENTARIO DE LINHA
+
+// ===========================
+// COMENTARIO DE BLOCO
+// ===========================
+/*
+*
+* EXEMPLO DE COMENTARIO DE BLOCO
+*
+*/
+
+// ===========================
 // DELIMITADORES
 // ===========================
 // CERTO
@@ -110,14 +78,86 @@ nnn' //OK
 "qualquer coisa * 8 7 & %"      // OK
 ""                              // OK
 // ========
-// COM ERRO
+// COM ERRO - CADEIA CONSTANTE MAL FORMADA
 // ========
 "askasjkajakjskas               // OK
 kkasljalkjskl" 					// OK
 "jsksjk¬sjhskjhs" 				// OK
 "oioi' 							// OK
 
+// ==============================
+// OPERADORES
+// ======
+// CERTO
+// ======
+. 	//OK
++ 	//OK
+- 	//OK
+* 	//OK
+/ 	//OK
+++ 	//OK
+-- 	//OK
+!= 	//OK
+< 	//OK
+<= 	//OK
+> 	//OK
+>= 	//OK
+== 	//OK
+&& 	//OK
+|| 	//OK
+= 	//OK
+// ========
+// COM ERRO
+// ========
+&	//OK
+|	//OK
+!	//OK
++++ //OK - NAO EH ERRO LEXICO, POIS IDENTIFICA COMO OPERADOR '++' E OPERADOR '+' CORRETAMENTE
+.<	//OK - NAO EH ERRO LEXICO, POIS IDENTIFICA COMO OPERADOR '.' E OPERADOR '<' CORRETAMENTE
 
+// ==============================
+// IDENTIFICADORES
+// ======
+// CERTO
+// ======
+fabiana_bertoni 		// OK
+Andressa 				// OK
+Lucas_ 					// OK
+Lucas_2015 				// OK
+a 						// OK
+// ========
+// COM ERRO
+// ========
+_ana123 				// OK - IDENTIFICA O CARACTERE INVALIDO '_' E O IDENTIFICADOR ana123
+123_ana 				// OK - IDENTIFICA O NUMERO 123, O CARACTERE INVALIDO '_' E O IDENTIFICADOR ANA
+ana$dell 				// OK - INDICA IDENTIFICADOR INVALIDO
+ana¬invalido 			// OK - INDICA IDENTIFICADOR INVALIDO
+&variavel				// OK - INDICA CARACTERE VALIDO E O IDENTIFICADOR variavel
 
+// ==============================
+// PALAVRAS RESERVADAS
+// ======
+// CERTO
+// ======
+algoritmo
+variaveis
+constantes
+registro
+funcao
+retorno
+vazio
+se
+senao
+enquanto
+para
+leia
+escreva
+inteiro
+real
+booleano
+char
+cadeia
+verdadeiro
+falso
 
 

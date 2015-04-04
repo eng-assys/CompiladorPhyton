@@ -144,12 +144,11 @@ while linha_programa:
         i += 1 # Faco isso para que nao considere o '/' do final do bloco (na composicao */) no proximo loop
       # ===================================================================================
       # Verificando se o elemento eh um operador
-      elif (ehOperador(caracter_atual)):
-        if(ehOperador(caracter_atual+caractere_seguinte) and caractere_seguinte != None):
-          arquivo_saida.write('tok1 '+caracter_atual+caractere_seguinte+'\n')
-          i += 1
-        else:
-          arquivo_saida.write('tok1 %s\n' %caracter_atual)
+      elif caractere_seguinte != None and ehOperador(caracter_atual+caractere_seguinte):
+        arquivo_saida.write('tok1 '+caracter_atual+caractere_seguinte+'\n')
+        i += 1
+      elif ehOperador(caracter_atual):
+        arquivo_saida.write('tok1 %s\n' %caracter_atual)
 
       # ===================================================================================
       # Verificando se o elemento em questao eh caractere constante - OK
@@ -160,14 +159,23 @@ while linha_programa:
         caractere_seguinte = None
         if ((i+1) < tamanho_linha):
           caractere_seguinte = linha_programa[i+1]
-
-        if (ehSimbolo(caracter_atual) and caractere_seguinte == string.punctuation[6]):
+        if (caracter_atual == string.punctuation[6]):
+          arquivo_saida.write('Erro Lexico - Caracter Constante vazio - Linha: %d\n' %numero_linha)
+          break
+        elif (ehSimbolo(caracter_atual) and caractere_seguinte == string.punctuation[6]):
           arquivo_saida.write('tok4 '+caracter_atual+'\n')
           i += 1
-        elif ((caracter_atual == string.punctuation[6]) and (caractere_seguinte != caracter_atual)):
-          arquivo_saida.write('Erro Lexico - Caracter Constante vazio - Linha: %d\n' %numero_linha)
-        elif (ehSimbolo(caracter_atual) and caractere_seguinte != string.punctuation[6]):
-          arquivo_saida.write('Erro Lexico - Caracter Constante mal formado - Linha: %d\n' %numero_linha)
+        elif ((not ehSimbolo(caracter_atual)) and caractere_seguinte == string.punctuation[6]):
+          arquivo_saida.write('Erro Lexico - Caracter Constante com simbolo nao pertencente a linguagem - Linha: %d\n' %numero_linha)
+        elif (caractere_seguinte != string.punctuation[6]):
+          while (i+1 < tamanho_linha):
+            i += 1
+            caracter_atual = linha_programa[i]
+            if caracter_atual == string.punctuation[6] or ehDelimitador(caracter_atual) or caracter_atual == ' ' or caracter_atual == '\n':
+              arquivo_saida.write('Erro Lexico - Caracter constante mal formado: %d\n' %numero_linha)
+              if ehDelimitador(caracter_atual):
+                i -= 1
+              break
 
       # ===================================================================================
       # Verificando se o elemento em questao eh cadeia constante - OK
@@ -236,21 +244,22 @@ while linha_programa:
           caracter_atual = linha_programa[i]
           if (ehLetra(caracter_atual) or ehDigito(caracter_atual) or caracter_atual == '_'):
             string_temp += caracter_atual
-          elif (ehDelimitador(caracter_atual) or caracter_atual == ' '):
+          elif (ehDelimitador(caracter_atual) or caracter_atual == ' ' or caracter_atual == '\t' or caracter_atual == '\r'):
             i -= 1 # Preciso voltar um elemento da linha para que o delimitador seja reconhecido no momento certo
             break
-          elif (ehSimbolo(caracter_atual)):
-            arquivo_saida.write('Erro Lexico - Identificador mal formado - linha: %d\n' %numero_linha)
+          elif caracter_atual != '\n':
+            arquivo_saida.write("Erro Lexico - Identificador com caracter invalido: "+caracter_atual+" - linha: %d\n" %numero_linha)
             algum_erro = True
             break
           i += 1 # Passando o arquivo ateh chegar ao final do identificador/palavra reservada
 
         if (algum_erro):
-          while (i+1 < tamanho_linha) and (not(ehDelimitador(caracter_atual) or caracter_atual == ' ')):
+          while (i+1 < tamanho_linha):
             i += 1
             caracter_atual = linha_programa[i]
-            if (ehDelimitador(caracter_atual)):
-              i -= 1
+            if ehDelimitador(caracter_atual) or caracter_atual == ' ' or caracter_atual == '\t' or caracter_atual == '\r' or caracter_atual == '/':
+              i -= 1 # Preciso voltar um elemento da linha para que o delimitador seja reconhecido no momento certo
+              break
         else: # Se nao houver erros basta verificar se o elemento eh palavra reservada tambem
           if (ehReservada(string_temp)):
             arquivo_saida.write('tok6 '+string_temp+'\n')
@@ -259,9 +268,15 @@ while linha_programa:
       
       # ===================================================================================
       # Verificando Erros Lexicos - Caracter Invalido
-      elif caracter_atual != '\n':
+      # Note que os caracteres especiais \n, \t, \r e espaco sao desconsiderados como caracteres invalidos
+      # por aparecerem constantemente no codigo em questao
+      elif caracter_atual != '\n' and caracter_atual != ' ' and caracter_atual != '\t' and caracter_atual != '\r':
         arquivo_saida.write('Erro Lexico - Caracter Invalido: ' + caracter_atual + ' - linha: %d\n' %numero_linha)
       # ===================================================================================
+
+      elif "/print" in linha_programa:
+        arquivo_saida.write("\n")
+
       
       i += 1 # Incrementando a leitura dos caracteres da linha lida no momento
 
