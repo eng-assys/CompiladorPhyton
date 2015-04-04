@@ -64,7 +64,6 @@
 #   tok619 - Palavra reservada falso
 
 # tok700 - Cadeia constante
-#  tok700 empty - Cadeia constante vazia
 # ========================== ERROS LEXICOS
 # Simbolo nao pertencente ao conjunto de simbolos terminais da linguagem
 # Identificador Mal formado
@@ -196,7 +195,6 @@ while linha_programa:
    while i < tamanho_linha: #Percorre os caracteres da linha
       caracter_atual = linha_programa[i] 
       caractere_seguinte = None
-
       # Soh posso pegar o caractere_seguinte se ele existe na linha
       if ((i+1) < tamanho_linha):
         caractere_seguinte = linha_programa[i+1] 
@@ -269,10 +267,7 @@ while linha_programa:
         if linha_programa[i+1] == '\n' or linha_programa[i+1] == ' ' or linha_programa[i+1] == '\t' or linha_programa[i+1] == '\r' or not(string.punctuation[1] in linha_programa[1:]):
           arquivo_saida.write('Erro Lexico - String nao fechada - Linha: %d\n' %numero_linha)
           break
-        elif linha_programa[i+1] == string.punctuation[1]:
-          i+=1
-          arquivo_saida.write('tok700 empty\n')
-          break
+        
         fim_cadeia = linha_programa[i+1:].find(string.punctuation[1])
         string_temp = linha_programa[i+1:fim_cadeia+1]
         

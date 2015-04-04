@@ -1,27 +1,3 @@
-// ==============================================================
-// CARACTERE CONSTANTE
-// CERTO
-'9'
-'h'
-' '
-'^'
-// COM ERRO
-'
-' 			// OK - CARACTERE NAO FECHADO
-'n 			// OK - CARACTERE NAO FECHADO
-n' 			// OK - IDENTIFICADOR MAL FORMADO
-'º'			
-'l" //OK
-'' // OK
-'uuu' // OK - Verificar se ele percorre todo o erro o erro ateh achar um separador
-'nnn // Tem que identificar o erro e ir ateh o final para achar algum separador
-nnn' //OK
-''' // Nao identifique a aspas simples como token (ele esta pegando os espacos e dizendo que eh caractere invalido)
-
-// VER ALGUM ERRO DE SIMBILO NAO PERTENCENTE A LINGUAGEM exceto \n, \r, espaço, “, ‘, delimitadores, operadores.
-
-
-
 // 					===========================
 // 					TESTES PASSANDO TOTALMENTE
 // 					===========================
@@ -48,7 +24,7 @@ nnn' //OK
 // ======
 "qualquercoisa" 				// OK
 "qualquer coisa * 8 7 & %"      // OK
-"";                  k            // OK
+""                              // OK
 // ========
 // COM ERRO - CADEIA CONSTANTE MAL FORMADA
 // ========
@@ -163,3 +139,27 @@ falso		//OK
 } //OK
 [ //OK
 ] //OK
+
+// ===========================
+// CARACTERE CONSTANTE
+// ======
+// CERTO
+// ======
+'9' 			//OK
+'h' 			//OK
+' ' 			//OK
+'^' 			//OK
+// ========
+// COM ERRO
+// ========
+'
+' 			// OK - CARACTERE NAO FECHADO
+'n 			// OK - CARACTERE NAO FECHADO
+n' 			// OK - IDENTIFICADOR MAL FORMADO
+'º'			// OK - TAMANHO OU SIMBOLO INVALIDO
+'l" 		// OK - CARACTERE NAO FECHADO
+'' 			// OK - CARACTERE NAO PODE SER VAZIO
+'uuu' 		// OK - TAMANHO OU SIMBOLO INVALIDO
+'nnn		// OK - CARACTERE NAO FECHADO
+nnn'		// OK - IDENTIFICADOR MAL FORMADO
+''' 		// OK - CARACTERE NAO PODE SER ASPAS SIMPLES

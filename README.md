@@ -15,3 +15,5 @@ Consertei os problemas com: identificadores(certos e com erros), operadores (cer
 Acabei de colocar os tipos de tokens especificos, por exemplo, operadores não é mais identificado genericamente como tok1, temos uma identificação para cada tipo de operador tok100 para operador ponto, tok101 para operador mais e assim por diante
 
 Finalizado sem a interface gráfica
+
+Atualização do programa de testes e erro de string vazia consertado... Agora só falta a interface gráfica mesmo... Espero :'(
