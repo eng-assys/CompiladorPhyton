@@ -102,7 +102,7 @@ class Janela:
   def __init__(self, instanciaDeTk, a_lexico):
     self.a_lex = a_lexico # Criando uma instancia da classe que vai analisar o arquivo inserido
     self.selArquivo = IntVar() # Variavel que ira guardar o valor atual da selecao do check button
-  
+    self.textCB = StringVar() # Variavel que ira guardar o valor atual da label do check button
     self.fr1 = Frame(instanciaDeTk) #fRAME bASE
     self.fr1.pack()
 
@@ -531,5 +531,6 @@ class AnalisadorLexico():
 
 analisador_lexico = AnalisadorLexico()
 raiz = Tk()
+raiz.title("COMPIADOR DO DATIVEIDER - VIVAS AO IMPERIO")
 Janela(raiz, analisador_lexico)
 raiz.mainloop()
