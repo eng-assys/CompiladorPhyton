@@ -103,7 +103,7 @@ class Janela:
     self.a_lex = a_lexico # Criando uma instancia da classe que vai analisar o arquivo inserido
     self.selArquivo = IntVar() # Variavel que ira guardar o valor atual da selecao do check button
   
-    self.fr1 = Frame(instanciaDeTk)
+    self.fr1 = Frame(instanciaDeTk) #fRAME bASE
     self.fr1.pack()
 
     self.fr2 = Frame(self.fr1)
@@ -171,6 +171,9 @@ class Janela:
     if entrada: # Soh mudo o estado do checkButton quando tenho o arquivo selecionado
       self.a_lex.mudaEntrada(entrada)
       self.selArquivo.set(1)
+      self.a_lex.analisa()
+      self.carregaTextoEntrada()
+      self.carregaTextoSaida()
 
   # Metodo que coloca o conteudo do arquivo de entrada na area de texto que representa entrada do usuario
   def carregaTextoEntrada(self):
@@ -206,6 +209,7 @@ class Janela:
       linha_programa = arquivo.readline()
     arquivo.close()
 
+  # Nesse metodo o programa eh extraido da entrada do usuario ao inves de arquivos
   def compilaDoText(self):
     entrada = "temporario.li"
     arquivo = open(entrada, 'w')
