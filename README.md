@@ -1,6 +1,6 @@
-Primeiro commit de testes
-//FASE DO ANALISADOR LÉXICO
+DOCUMENTO CONTENDO AS FASES DE CONSTRUÇÃO DO PROGRAMA - ASSIM COMO COMENTÁRIOS DE CADA UMA DELAS
 
+FASE DO ANALISADOR LÉXICO
 +++ // Eh para dizer que tem caractere demais, algo assim
 --- // Erro de mais um operador junto
 .+ // Mesmo erro anterior
