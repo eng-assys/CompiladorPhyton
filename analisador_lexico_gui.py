@@ -88,7 +88,8 @@ try:
     from Tkinter import *
 except ImportError:
     # Biblioteca grafica padrao para Python3
-    from tkinter import *
+    print ("Este programa incompativel com python3")
+    sys.exit()
 
 # Biblioteca para permitir janelas de mensagem ao usuario
 # from tkMessageBox import *
@@ -141,13 +142,13 @@ class Janela:
     self.labelEntrada = Label(self.fr4, text='Digite abaixo seu programa: ')
     self.labelEntrada.pack()
 
-    self.textoEntrada = Text(self.fr4, fg='blue', width=85, height=40)
+    self.textoEntrada = Text(self.fr4, fg='blue', width=80, height=40)
     self.textoEntrada.pack()
 
     self.labelSaida = Label(self.fr5, text='Resultado da Analise Lexica: ')
     self.labelSaida.pack()
 
-    self.textoSaida = Text(self.fr5, fg='green', width=85, height=40)
+    self.textoSaida = Text(self.fr5, fg='green', width=80, height=40)
     self.textoSaida.pack()
 
   # Executa o analisador lexico da chamada da interface grafica
@@ -412,11 +413,12 @@ class AnalisadorLexico():
         # string.punctuation[1] retorna o simbolo - " - que representa o inicio da cadeia constante
         elif (caracter_atual == string.punctuation[1]):
           ehValido = True
-          if linha_programa[i+1] == '\n' or linha_programa[i+1] == ' ' or linha_programa[i+1] == '\t' or linha_programa[i+1] == '\r' or not(string.punctuation[1] in linha_programa[1:]):
+          if linha_programa[i+1] == '\n' or linha_programa[i+1] == ' ' or linha_programa[i+1] == '\t' or linha_programa[i+1] == '\r' or not(string.punctuation[1] in linha_programa[i+1:]):
             arquivo_saida.write('Erro Lexico - String nao fechada - Linha: %d\n' %numero_linha)
             break
-            
-          fim_cadeia = linha_programa[i+1:].find(string.punctuation[1])
+          
+          fim_cadeia = i+linha_programa[i+1:].find(string.punctuation[1])
+          print fim_cadeia
           string_temp = linha_programa[i+1:fim_cadeia+1]
             
           i = fim_cadeia+1 # Indicando aonde na linha o programa principal deve continuar
@@ -471,17 +473,24 @@ class AnalisadorLexico():
           i += 1
           algum_erro = False
           while i < tamanho_linha:
+            caractere_seguinte = None
             caracter_atual = linha_programa[i]
+            if(i+1 < tamanho_linha):
+              caractere_seguinte = linha_programa[i+1]
             if (self.ehLetra(caracter_atual) or self.ehDigito(caracter_atual) or caracter_atual == '_'):
               string_temp += caracter_atual
             elif (self.ehDelimitador(caracter_atual) or caracter_atual == ' ' or caracter_atual == '\t' or caracter_atual == '\r'):
               i -= 1 # Preciso voltar um elemento da linha para que o delimitador seja reconhecido no momento certo
+              break
+            elif(caractere_seguinte != None and self.ehOperador(caracter_atual+caractere_seguinte)) or self.ehOperador(caracter_atual):
+              i-=1
               break
             elif caracter_atual != '\n':
               arquivo_saida.write("Erro Lexico - Identificador com caracter invalido: "+caracter_atual+" - linha: %d\n" %numero_linha)
               algum_erro = True
               break
             i += 1 # Passando o arquivo ateh chegar ao final do identificador/palavra reservada
+            
 
           if (algum_erro):
             while (i+1 < tamanho_linha):

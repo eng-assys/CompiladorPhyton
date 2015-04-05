@@ -19,3 +19,7 @@ Finalizado sem a interface gráfica
 Atualização do programa de testes e erro de string vazia consertado... Agora só falta a interface gráfica mesmo... Espero :'(
 
 Acabei a interface gráfica - agora só falta fazer um executável.
+
+Não precisa fazer o executável, p windows já vai de boa :)
+
+Consertei bugzinhos de strings e identificadores
