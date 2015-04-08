@@ -1,0 +1,7 @@
+//Erro de Identificadores Inválidos
+
+_Ana123
+Ana!123_
+123Ana_
+Ana¹123
+Ana-123

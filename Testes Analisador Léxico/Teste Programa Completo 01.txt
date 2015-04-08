@@ -1,0 +1,54 @@
+registro Contato {
+	cadeia nome;
+	inteiro idade;
+	}
+registro telefone {
+	inteiro numero;
+	}
+variaveis
+{
+	
+	inteiro vetor [20];
+	inteiro matriz [6][6];
+	inteiro a =  20;
+	cadeia mensagem = "Mensagem de Texto";
+	contato fabiana;
+}
+constantes
+{
+	inteiro VALOR_MAX = 10;
+	cadeia TEXTO = "mensagem";
+	char LETRA = 'a';
+	booleano CONDICAO = verdadeiro;
+}
+funcao vazio function1 (inteiro a, inteiro vector[], registro pessoa)
+{
+
+}
+
+funcao vazio teste (inteiro a)
+{
+	variaveis
+	{
+		inteiro a;
+		contato pessoa;
+	}
+	
+	para (i=0, i<10, i++)
+	{
+		escreva("texto");
+	}
+
+	enquanto (i>10)
+	{
+		leia
+	}
+	se(i==2)
+	{
+		escreva(i);
+	}
+	senao
+	{
+		escreva(charqualquer);
+	}
+}

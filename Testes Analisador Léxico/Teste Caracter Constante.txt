@@ -1,0 +1,8 @@
+//Erro de Caracter Constante
+'constante
+constante'
+'c
+c'
+''
+'¬'
+'c"

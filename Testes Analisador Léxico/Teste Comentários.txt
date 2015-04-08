@@ -1,0 +1,5 @@
+//Erro de comentário inválido
+/* Comentário inválido
+/ * Comentário inválido
+Comentário inválido */
+\\ Comentário inválido

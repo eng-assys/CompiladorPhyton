@@ -1,0 +1,10 @@
+// Erro de Operadores Inválidos
+
+&
+|
+=!
+=>
+=<
++++
+---
+===
