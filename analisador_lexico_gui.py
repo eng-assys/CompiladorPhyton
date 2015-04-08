@@ -416,24 +416,37 @@ class AnalisadorLexico():
         # Verificando se o elemento em questao eh cadeia constante - OK
         # string.punctuation[1] retorna o simbolo - " - que representa o inicio da cadeia constante
         elif (caracter_atual == string.punctuation[1]):
+          i+=1 # Para passar a primeira ocorrencia do caractere "
           ehValido = True
-          if linha_programa[i+1] == '\n' or linha_programa[i+1] == ' ' or linha_programa[i+1] == '\t' or linha_programa[i+1] == '\r' or not(string.punctuation[1] in linha_programa[i+1:]):
-            arquivo_saida.write('Erro Lexico - String nao fechada - Linha: %d\n' %numero_linha)
-            break
-          
-          fim_cadeia = i+linha_programa[i+1:].find(string.punctuation[1])
-          print fim_cadeia
-          string_temp = linha_programa[i+1:fim_cadeia+1]
-            
-          i = fim_cadeia+1 # Indicando aonde na linha o programa principal deve continuar
 
-          for x in string_temp:
-            if not self.ehSimbolo(x):
-              arquivo_saida.write('Erro Lexico - Caractere invalido na string: '+x+' - Linha: %d\n' %numero_linha)
-              ehValido = False
-              break
-          if ehValido:
-            arquivo_saida.write('tok700 '+string_temp+'\n')
+          # Se a linha soh contem uma ocorrencia de ", significa que a string nao foi fechada
+          if linha_programa[i] == '\n' or linha_programa[i] == ' ' or linha_programa[i] == '\t' or linha_programa[i] == '\r' or not(string.punctuation[1] in linha_programa[i:]):
+            arquivo_saida.write('Erro Lexico - String nao fechada - Linha: %d\n' %numero_linha)
+            i = tamanho_linha
+            break
+
+          fim_cadeia = i+linha_programa[i:].find(string.punctuation[1]) # Se a cadeia tiver corretamente formada o seu fim serah indicado por "
+                                                                          # ou seja, quando acho esse fim, acho a posicao do ultimo elemento da string
+          print fim_cadeia
+          # No codigo do while abaixo verifico se a string tem mais alguma ocorrencia de "
+          # se tiver eh necessario indicar erro de caractere invalido ".
+          j = fim_cadeia
+          while j+1 < tamanho_linha:
+            j += 1
+            if(linha_programa[j] == string.punctuation[1]):
+              arquivo_saida.write('Erro Lexico - String contem caractere invalido: '+string.punctuation[1]+"\n")
+              i = tamanho_linha
+          if i < tamanho_linha:
+            string_temp = linha_programa[i:fim_cadeia] # Pegando a string que sera o token de cadeia constante
+            i = fim_cadeia # Indicando aonde na linha o programa principal deve continuar
+
+            for x in string_temp:# Verificando se nao tenho nenhum caractere invalido dentro da string
+              if not self.ehSimbolo(x):
+                arquivo_saida.write('Erro Lexico - Caractere invalido na string: '+x+' - Linha: %d\n' %numero_linha)
+                ehValido = False
+                break
+            if ehValido:
+              arquivo_saida.write('tok700 '+string_temp+'\n')
         # ===================================================================================
         # Verificando se o elemento em questao eh um numero - OK
         elif (self.ehDigito(caracter_atual)):
@@ -531,6 +544,6 @@ class AnalisadorLexico():
 
 analisador_lexico = AnalisadorLexico()
 raiz = Tk()
-raiz.title("COMPIADOR DO DATIVEIDER - VIVAS AO IMPERIO")
+raiz.title("COMPILADOR DO DATIVEIDER - VIVAS AO IMPERIO")
 Janela(raiz, analisador_lexico)
 raiz.mainloop()
