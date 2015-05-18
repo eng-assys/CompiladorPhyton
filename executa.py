@@ -1,0 +1,1 @@
+# Todos os arquivos do compilador serao chamados por este unico
