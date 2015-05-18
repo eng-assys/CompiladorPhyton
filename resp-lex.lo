@@ -4,8 +4,8 @@ tok700
 Erro Lexico - String nao fechada - Linha: 31
 Erro Lexico - String nao fechada - Linha: 32
 Erro Lexico - Identificador com caracter invalido: " - linha: 33
-Erro Lexico - Caractere invalido na string: ย - Linha: 34
-Erro Lexico - Caractere invalido na string: ย - Linha: 35
+Erro Lexico - Caractere invalido na string: ยฌ - Linha: 34
+Erro Lexico - Caractere invalido na string: ยบ - Linha: 35
 Erro Lexico - String nao fechada - Linha: 36
 tok100 .
 tok101 +
@@ -41,7 +41,7 @@ tok300 123
 Erro Lexico - Caracter Invalido: _ - linha: 82
 tok500 ana
 Erro Lexico - Identificador com caracter invalido: $ - linha: 83
-Erro Lexico - Identificador com caracter invalido: ย - linha: 84
+Erro Lexico - Identificador com caracter invalido: ยฌ - linha: 84
 Erro Lexico - Caracter Invalido: & - linha: 85
 tok500 variavel
 tok600 algoritmo
