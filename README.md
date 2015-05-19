@@ -19,24 +19,22 @@ Requisitos detalhados de cada fase de desenvolvimento
 -----------------------------------------------------
 
 * Analisador Léxico
-  * Implementação de um analisador léxico para a linguagem definida pela tabela a seguir (maiores detalhes sobre a linguagem foram baseador la linguagem de progração C):
+  * Implementação de um analisador léxico para a linguagem definida pela tabela a seguir (maiores detalhes sobre a linguagem foram baseados na linguagem de progração C):
   
 | Palavra Token                        | Expressão regular correspondente     |
 |--------------------------------------|--------------------------------------|
-| Palavras reservadas                                  | *API*                                |
-| Identificadores                             | características                      |
-| Número                           | características                      |
-| Letra                          | ambiente                             |
-| Dígito                         | *just-in-time*                       |
-| Símbolo                    | *multiple dispatch*                  |
-| Cadeia Constante                          | desempenho                           |
-| Caractere Constante                          | experimentação                       |
-| Operadores                              | *wrapper*                            |
-| Delimitadores                               | *string*                             |
-| Comentários de Linha                               | tipagem                              |
-| Comentários de Bloco                                | enupla (ou tupla?)                   |
-|                             | loops for                            |
-|                            | tabela de espalhamento (ou manter hash table?)  |  
+| Palavras reservadas                  | algoritmo, variaveis, constantes, registro, funcao, retorno, vazio, se, senao, enquanto, para, leia, escreva, inteiro, real, booleano, char, cadeia, verdadeiro, falso |
+| Identificadores                      | Letra(Letra|Dígito|_)*               |
+| Número                               | características                      |
+| Letra                                | ambiente                             |
+| Dígito                               | *just-in-time*                       |
+| Símbolo                              | *multiple dispatch*                  |
+| Cadeia Constante                     | desempenho                           |
+| Caractere Constante                  | experimentação                       |
+| Operadores                           | *wrapper*                            |
+| Delimitadores                        | *string*                             |
+| Comentários de Linha                 | tipagem                              |
+| Comentários de Bloco                 | enupla (ou tupla?)                   |
 
 * Analisador Sintático
   * Construção de uma gramática livre de contexto fatorada à esquerda, na forma de Backus-Naur (BNF), de acordo com as especificações do anexo a seguir:
