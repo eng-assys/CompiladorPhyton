@@ -41,7 +41,8 @@ Requisitos detalhados de cada fase de desenvolvimento
 | Comentários de Bloco                 | ```// Isto é um comentário de linha```                |
 
 * Analisador Sintático
-  1. Construção de uma gramática livre de contexto fatorada à esquerda, sem recursão à esquerda, na forma de Backus-Naur (BNF), de acordo com as especificações do anexo A a seguir:
+  1. Construção de uma gramática livre de contexto fatorada à esquerda, sem recursão à esquerda, na forma de Backus-Naur (BNF), de acordo com as especificações do anexo A abaixo.
+  2. Implementação de um analisador sintático para a linguagem definida pela gramática construída.
  
   Anexo A - Características Gerais da Linguagem de Programação criada
   -------------------------------------------------------------------
@@ -105,7 +106,6 @@ Requisitos detalhados de cada fase de desenvolvimento
    
    Gramática Livre de Contexto da Linguagem
    ----------------------------------------
-
    * Constantes
    * Registro
    * Variáveis
@@ -114,12 +114,10 @@ Requisitos detalhados de cada fase de desenvolvimento
    * Expressões (lógicas, aritméticas e relacionais)
    * Precedência e associatividade de operadores
    * Comandos
-    * Se/Senão
-    * Para
-    * Enquanto
-    * escreva
-    * leia
-
-  1. Implementação de um analisador sintático para a linguagem definida pela gramática construída.
+     * Se/Senão
+     * Para
+     * Enquanto
+     * escreva
+     * leia
 
 * Analisador Semântico
