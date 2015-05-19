@@ -77,7 +77,29 @@ Requisitos detalhados de cada fase de desenvolvimento
    * As variáveis podem ser locais ou globais. Se forem globais devem vir devem vir declaradas após a declaração das constantes. Se forem locais, deve ser declaradas no início do bloco da função, sendo seu escopo, o corpo da função onde as variáveis forem declaradas.
    * Para acessar os campos de uma variáveil do tipo registro deve-se utilizar o nome da variável seguido deo operador ponto, seguido do nome do campo.
    * O corpo principal do programa é um bloco iniciado pela palavra reservada algoritmo. Quando um programa nessa linguagem é executado, é este bloco que é executado. Este bloco é a última parte de um programa nesta linguagem.
-   * 
+   * Um programa nesta linguagem pode possuir várias funções.
+   * As funções podem ter parâmetros dos tipos primitivos e do tipo registro e podem retornar valores (usando o comando retorno).
+   * Toda função deve iniciar com a palavra reservada funcao, seguida do tipo de retorno (dos tipos primitivos, do tipo registro ou vazio), seguida do identificador de nome da função, seguido pela lista de parâmetros formais e o corpo da função delimitado por { e }.
+   * Delimitadores { e } marcam início e fim de blocos (comandos, declarações, funções), respectivamente.
+   * São permitidas exṕressões relacionais, lógicas e aritméticas.
+   * O operadores desta linguagem têm a precedência e associatividade de operadores idênticas à da linguagem C.
+   * Comandos:
+    * Comando se..senão:
+     * Na condição do comando se só serão permitidas expressões relacionais ou lógica.
+     * A parte senão será opcional.
+    * Comando para:
+     * Comando semelhante ao for das linguagens C e Java, sendo obrigatórias as três partes do comando.
+    * Comando enquanto:
+     * Comando semelhante ao while das linguagens C e Java
+     * Na condição do comando enquanto só serão permitidas expressões relacionais ou lógicas.
+    * Comando escreva:
+     * O comando iniciará com a palavra escreva e o que deverá ser escrito entre parênteses, finalizando com ponto e vírgula.
+     * Múltiplas impressões no mesmo comando deverão ser separadas por vírgulas.
+     * O comando pode imprimir: constantes, cadeias contantes, variáveis, vetores, matrizes e expressões.
+    * comando leia:
+     * O comando iniciará com a palavra leia e o nome da variável, posição do vetor ou matriz entre parênteses, finalizando com ponto e vírgula.
+     * Múltiplas leituras no mesmo comando deverão ser separadas por vírgulas.
+   * Variáveis, vetores, matrizes e campos de registros podem ser usados em atribuições, expressões, retornos de funções e parâmetros em chamadas de funções.
   1. Implementação de um analisador sintático para a linguagem definida pela gramática construída.
 
 * Analisador Semântico
