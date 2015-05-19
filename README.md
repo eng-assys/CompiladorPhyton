@@ -28,17 +28,17 @@ Requisitos detalhados de cada fase de desenvolvimento
 | Palavra Token                        | Expressão regular correspondente     |
 |--------------------------------------|--------------------------------------|
 | Palavras reservadas                  | algoritmo, variaveis, constantes, registro, funcao, retorno, vazio, se, senao, enquanto, para, leia, escreva, inteiro, real, booleano, char, cadeia, verdadeiro, falso |
-| Identificadores                      | ```Letra(Letra|Dígito|_)*```               |
-| Número                               | características                      |
-| Letra                                | ambiente                             |
-| Dígito                               | *just-in-time*                       |
-| Símbolo                              | *multiple dispatch*                  |
-| Cadeia Constante                     | desempenho                           |
-| Caractere Constante                  | experimentação                       |
-| Operadores                           | *wrapper*                            |
-| Delimitadores                        | *string*                             |
-| Comentários de Linha                 | tipagem                              |
-| Comentários de Bloco                 | enupla (ou tupla?)                   |
+| Identificadores                      | ```Letra(Letra|Dígito|_)*```                          |
+| Número                               | ```Dígito+(.Dígito+)?```                              |
+| Letra                                | ```(a..z|A..Z)```                                     |
+| Dígito                               | ```0..9```                                            |
+| Símbolo                              | ```ASCII de 32 a 126```                               |
+| Cadeia Constante                     | ```"(Letra|Dígito|Símbolo (exceto 34))"```            |
+| Caractere Constante                  | ```'(Letra|Dígito|Símbolo (exceto 39))'```            |
+| Operadores                           | ```. + - * / ++ -- == != > >= < <= && || =```         |
+| Delimitadores                        | ```; , ( ) { } [ ]```                                 |
+| Comentários de Linha                 | ```/* Isto é um comentário de bloco */```             |
+| Comentários de Bloco                 | ```// Isto é um comentário de linha```                |
 
 * Analisador Sintático
   * Construção de uma gramática livre de contexto fatorada à esquerda, na forma de Backus-Naur (BNF), de acordo com as especificações do anexo a seguir:
