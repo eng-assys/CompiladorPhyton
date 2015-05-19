@@ -41,7 +41,8 @@ Requisitos detalhados de cada fase de desenvolvimento
 | Comentários de Bloco                 | ```// Isto é um comentário de linha```                |
 
 * Analisador Sintático
-  1. Construção de uma gramática livre de contexto fatorada à esquerda, na forma de Backus-Naur (BNF), de acordo com as especificações do anexo A a seguir:
+  1. Construção de uma gramática livre de contexto fatorada à esquerda, sem recursão à esquerda, na forma de Backus-Naur (BNF), de acordo com as especificações do anexo A a seguir:
+ 
   Anexo A - Características Gerais da Linguagem de Programação criada
   -------------------------------------------------------------------
 
@@ -75,7 +76,7 @@ Requisitos detalhados de cada fase de desenvolvimento
    * A declaração de vetores e matrizes deve ser feita no bloco de declaração de variáveis. A linguagem permite somente a declaração e manipulação de vetores e matrizes dos tipos primitivos.
    * É permitida a inicialização de variáveis na declaração, mas não de vetores e matrizes.
    * As variáveis podem ser locais ou globais. Se forem globais devem vir devem vir declaradas após a declaração das constantes. Se forem locais, deve ser declaradas no início do bloco da função, sendo seu escopo, o corpo da função onde as variáveis forem declaradas.
-   * Para acessar os campos de uma variáveil do tipo registro deve-se utilizar o nome da variável seguido deo operador ponto, seguido do nome do campo.
+   * Para acessar os campos de uma variável do tipo registro deve-se utilizar o nome da variável seguido deo operador ponto, seguido do nome do campo.
    * O corpo principal do programa é um bloco iniciado pela palavra reservada algoritmo. Quando um programa nessa linguagem é executado, é este bloco que é executado. Este bloco é a última parte de um programa nesta linguagem.
    * Um programa nesta linguagem pode possuir várias funções.
    * As funções podem ter parâmetros dos tipos primitivos e do tipo registro e podem retornar valores (usando o comando retorno).
@@ -100,6 +101,25 @@ Requisitos detalhados de cada fase de desenvolvimento
      * O comando iniciará com a palavra leia e o nome da variável, posição do vetor ou matriz entre parênteses, finalizando com ponto e vírgula.
      * Múltiplas leituras no mesmo comando deverão ser separadas por vírgulas.
    * Variáveis, vetores, matrizes e campos de registros podem ser usados em atribuições, expressões, retornos de funções e parâmetros em chamadas de funções.
+   
+   
+   Gramática Livre de Contexto da Linguagem
+   ----------------------------------------
+
+   * Constantes
+   * Registro
+   * Variáveis
+   * Função
+   * Algoritmo
+   * Expressões (lógicas, aritméticas e relacionais)
+   * Precedência e associatividade de operadores
+   * Comandos
+    * Se/Senão
+    * Para
+    * Enquanto
+    * escreva
+    * leia
+
   1. Implementação de um analisador sintático para a linguagem definida pela gramática construída.
 
 * Analisador Semântico
