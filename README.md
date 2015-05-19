@@ -4,7 +4,7 @@ DOCUMENTAÇÃO DO PROJETO
 Execução do código fonte
 ------------------------
 
-Para executar o compilador completo é necessário utilizar o comando:
+Para executar (em linux) o compilador completo é necessário utilizar o comando:
 
 ```bash
  python3 executa.py.
@@ -107,6 +107,14 @@ Requisitos detalhados de cada fase de desenvolvimento
    Gramática Livre de Contexto da Linguagem
    ----------------------------------------
    * Constantes
+    ```
+    <constantes_declaracao> ::= constantes
+    {<declaracao_const>}
+    <declaracao_const> ::= <declaracao>=<valor>; <declaracao_var> | <declaracao>=<valor>; | Ɛ
+    <declaracao>::=<tipo>token_identificador
+    <tipos> := cadeia | real | inteiro | char | booleano
+    <valor>::=token_cadeia | token_real | token_inteiro | token_char | token_booleano
+    ```
    * Registro
    * Variáveis
    * Função
