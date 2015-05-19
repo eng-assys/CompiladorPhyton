@@ -4,7 +4,11 @@ DOCUMENTAÇÃO DO PROJETO
 Execução do código fonte
 ------------------------
 
-Para executar o compilador completo é necessário utilizar o arquivo executa.py.
+Para executar o compilador completo é necessário utilizar o comando:
+
+```bash
+ python3 executa.py.
+```
 
 Fases de Desenvolvimento
 ------------------------
@@ -24,7 +28,7 @@ Requisitos detalhados de cada fase de desenvolvimento
 | Palavra Token                        | Expressão regular correspondente     |
 |--------------------------------------|--------------------------------------|
 | Palavras reservadas                  | algoritmo, variaveis, constantes, registro, funcao, retorno, vazio, se, senao, enquanto, para, leia, escreva, inteiro, real, booleano, char, cadeia, verdadeiro, falso |
-| Identificadores                      | Letra(Letra|Dígito|_)*               |
+| Identificadores                      | ```Letra(Letra|Dígito|_)*```               |
 | Número                               | características                      |
 | Letra                                | ambiente                             |
 | Dígito                               | *just-in-time*                       |
