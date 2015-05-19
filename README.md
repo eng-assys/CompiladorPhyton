@@ -116,11 +116,47 @@ Requisitos detalhados de cada fase de desenvolvimento
     <valor>::=token_cadeia | token_real | token_inteiro | token_char | token_booleano
     ```
    * Registro
+    ```
+    <registro_decl> start
+    Símbolos terminais registro, token_identificador, {, }, ;
+    Símbolos não terminais  <declaração_list_reg>, <declaração_reg>, <tipos>
+
+    Gramática:
+    <registro_decl> := registro token_identificador { <declaração_list_reg> }
+    <declaração_list_reg> := <declaração_reg>; | <declaração_reg>; <declaração_list_reg>
+    <declaração_reg> := <tipos> token_identificador
+    <tipos> := cadeia | real | inteiro | char | booleano
+    ```
    * Variáveis
+    ```
+    <variaveis_declaracao> ::= variaveis { <declaracao_var> }
+    <declaracao_var> ::= <declaracao>;<declaracao_var> | <declaracao>; | Ɛ
+    <declaracao> ::= <tipos>token_identificador
+    <tipos> := cadeia | real | inteiro | char | booleano
+    ```
    * Função
    * Algoritmo
+    ```
+    <MAIN> ::=  vazio algoritmo {<DERIVA_CONT_METH>}
+    <DEC_METH> ::= funcao <DERIVA_METH>
+    <DERIVA_METH> ::= <TIPO_RETURN> token_id <DERIVA_PARAM> {<DERIVA_CONT_METH>} <DERIVA_METH_FAT> | Ɛ
+    <DERIVA_PARAM>::= <TIPO> token_id <DERIVA_PARAM> |<TIPO> token_id |Ɛ
+    <DERIVA_METH_FAT> ::= <DERIVA_METH> | Ɛ
+    <DERIVA_CONT_METH> ::=<DEC_VAR><COMANDOS> retorno<DERIVA_RETURN>
+    <TIPO_RETURN>::= <TIPO>|vazio
+    <DERIVA_RETURN> ::= vazio; | token_id; | token_numero; | verdadeiro; | falso;
+    ```
    * Expressões (lógicas, aritméticas e relacionais)
    * Precedência e associatividade de operadores
+    ```
+    <exp_decl>   := <exp><op><exp>
+    <op>   	:= < | <= | > | >= | = | ==
+    <exp>  	:= <exp><soma><termo> | -<exp> | <termo>
+    <soma> 	:= + | -
+    <termo>	:= <termo><mult><fator> | <fator>
+    <mult> 	:= * | /
+    <fator>	:= numero | identificador | (<exp>)
+    ```
    * Comandos
      * Se/Senão
      * Para
