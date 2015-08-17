@@ -1,9 +1,0 @@
-//Erro de Cadeia mal formada
-"£"
-"ana¬"
-" tex
-" 
-"""
-"err'
-
-
