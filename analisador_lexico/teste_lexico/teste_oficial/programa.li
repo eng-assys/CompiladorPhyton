@@ -1,0 +1,165 @@
+// 					===========================
+// 					TESTES PASSANDO TOTALMENTE
+// 					===========================
+
+// ===========================
+// COMENTARIO DE LINHA
+// ===========================
+// EXEMPLO DE COMENTARIO DE LINHA
+
+// ===========================
+// COMENTARIO DE BLOCO
+// ===========================
+/*
+*
+* EXEMPLO DE COMENTARIO DE BLOCO
+*
+*/
+
+// ===========================
+// CADEIA CONSTANTE
+// ===========================
+// ======
+// CERTO
+// ======
+"qualquercoisa" 				// OK
+"qualquer coisa * 8 7 & %"      // OK
+""                              // OK
+// ========
+// COM ERRO - CADEIA CONSTANTE MAL FORMADA
+// ========
+"
+"askasjkajakjskas               // OK - CADEIA MAL FORMADA
+kkasljalkjskl" 					// OK - IDENTIFICADOR MAL FORMADO
+"¬jsksjksjhskjhs" 				// OK - SIMBOLO NAO PERTENCENTE AO ALFABETO PRESENTE NA CADEIA
+"jsksjksºjhskjhs" 				// OK - SIMBOLO NAO PERTENCENTE AO ALFABETO PRESENTE NA CADEIA
+"oioi' 							// OK - CADEIA MAL FORMADA
+
+// ==============================
+// OPERADORES
+// ======
+// CERTO
+// ======
+. 	//OK
++ 	//OK
+- 	//OK
+* 	//OK
+/ 	//OK
+++ 	//OK
+-- 	//OK
+!= 	//OK
+< 	//OK
+<= 	//OK
+> 	//OK
+>= 	//OK
+== 	//OK
+&& 	//OK
+|| 	//OK
+= 	//OK
+// ========
+// COM ERRO
+// ========
+&	//OK
+|	//OK
+!	//OK
++++ //OK - NAO EH ERRO LEXICO, POIS IDENTIFICA COMO OPERADOR '++' E OPERADOR '+' CORRETAMENTE. NAS PROXIMAS ETAPAS DE COMPILACAO SERAO IDENTIFICADOS COMO OUTRO TIPO ERRO
+.<	//OK - NAO EH ERRO LEXICO, POIS IDENTIFICA COMO OPERADOR '.' E OPERADOR '<' CORRETAMENTE
+
+// ==============================
+// IDENTIFICADORES
+// ======
+// CERTO
+// ======
+fabiana_bertoni 		// OK
+Andressa 				// OK
+Lucas_ 					// OK
+Lucas_2015 				// OK
+a 						// OK
+// ========
+// COM ERRO
+// ========
+_ana123 				// OK - IDENTIFICA O CARACTERE INVALIDO '_' E O IDENTIFICADOR ana123
+123_ana 				// OK - IDENTIFICA O NUMERO 123, O CARACTERE INVALIDO '_' E O IDENTIFICADOR ANA
+ana$dell 				// OK - INDICA IDENTIFICADOR INVALIDO
+ana¬invalido 			// OK - INDICA IDENTIFICADOR INVALIDO
+&variavel				// OK - INDICA CARACTERE VALIDO E O IDENTIFICADOR variavel
+
+// ==============================
+// PALAVRAS RESERVADAS
+// ======
+// CERTO
+// ======
+algoritmo	//OK
+variaveis	//OK
+constantes	//OK
+registro	//OK
+funcao		//OK
+retorno		//OK
+vazio		//OK
+se			//OK
+senao		//OK
+enquanto	//OK
+para		//OK
+leia		//OK
+escreva		//OK
+inteiro		//OK
+real		//OK
+booleano	//OK
+char		//OK
+cadeia		//OK
+verdadeiro	//OK
+falso		//OK
+
+// ==============================
+// NUMEROS
+// ======
+// CERTO
+// ======
+1 			// OK
+12345 		// OK
+123.2121 	// OK
+1.0 		// OK
+// ========
+// COM ERRO
+// ========
+.80 		// OK - IDENTIFICA O OPERADOR '.' E DEPOIS O 80 COMO NUMERO
+8. 			// OK - IDENTIFICA NUMERO INVALIDO POR NAO CONTER NENHUM DIGITO DEPOIS DO '.'
+78abc		//OK - IDENTIFICA O NUMERO 78 E DEPOIS O IDENTIFICADOR abc
+
+// ===========================
+// DELIMITADORES
+// ===========================
+// CERTO
+// ======
+; //OK
+, //OK
+( //OK
+) //OK
+{ //OK
+} //OK
+[ //OK
+] //OK
+
+// ===========================
+// CARACTERE CONSTANTE
+// ======
+// CERTO
+// ======
+'9' 			//OK
+'h' 			//OK
+' ' 			//OK
+'^' 			//OK
+// ========
+// COM ERRO
+// ========
+'
+' 			// OK - CARACTERE NAO FECHADO
+'n 			// OK - CARACTERE NAO FECHADO
+n' 			// OK - IDENTIFICADOR MAL FORMADO
+'º'			// OK - TAMANHO OU SIMBOLO INVALIDO
+'l" 		// OK - CARACTERE NAO FECHADO
+'' 			// OK - CARACTERE NAO PODE SER VAZIO
+'uuu' 		// OK - TAMANHO OU SIMBOLO INVALIDO
+'nnn		// OK - CARACTERE NAO FECHADO
+nnn'		// OK - IDENTIFICADOR MAL FORMADO
+''' 		// OK - CARACTERE NAO PODE SER ASPAS SIMPLES

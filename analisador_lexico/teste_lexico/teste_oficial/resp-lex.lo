@@ -1,0 +1,98 @@
+tok700 qualquercoisa
+tok700 qualquer coisa * 8 7 & %
+tok700 
+Erro Lexico - String nao fechada - Linha: 31
+Erro Lexico - String nao fechada - Linha: 32
+Erro Lexico - Identificador com caracter invalido: " - linha: 33
+Erro Lexico - Caractere invalido na string: ¬ - Linha: 34
+Erro Lexico - Caractere invalido na string: º - Linha: 35
+Erro Lexico - String nao fechada - Linha: 36
+tok100 .
+tok101 +
+tok102 -
+tok103 *
+tok104 /
+tok105 ++
+tok106 --
+tok108 !=
+tok111 <
+tok112 <=
+tok109 >
+tok110 >=
+tok107 ==
+tok113 &&
+tok114 ||
+tok115 =
+Erro Lexico - Caracter Invalido: & - linha: 62
+Erro Lexico - Caracter Invalido: | - linha: 63
+Erro Lexico - Caracter Invalido: ! - linha: 64
+tok105 ++
+tok101 +
+tok100 .
+tok111 <
+tok500 fabiana_bertoni
+tok500 Andressa
+tok500 Lucas_
+tok500 Lucas_2015
+tok500 a
+Erro Lexico - Caracter Invalido: _ - linha: 81
+tok500 ana123
+tok300 123
+Erro Lexico - Caracter Invalido: _ - linha: 82
+tok500 ana
+Erro Lexico - Identificador com caracter invalido: $ - linha: 83
+Erro Lexico - Identificador com caracter invalido: ¬ - linha: 84
+Erro Lexico - Caracter Invalido: & - linha: 85
+tok500 variavel
+tok600 algoritmo
+tok601 variaveis
+tok602 constantes
+tok603 registro
+tok604 funcao
+tok605 retorno
+tok606 vazio
+tok607 se
+tok608 senao
+tok609 enquanto
+tok610 para
+tok611 leia
+tok612 escreva
+tok613 inteiro
+tok614 real
+tok615 booleano
+tok616 char
+tok617 cadeia
+tok618 verdadeiro
+tok619 falso
+tok300 1
+tok300 12345
+tok300 123.2121
+tok300 1.0
+tok100 .
+tok300 80
+Erro Lexico - Numero mal formado - Linha: 126
+tok300 78
+tok500 abc
+tok200 ;
+tok201 ,
+tok202 (
+tok203 )
+tok204 {
+tok205 }
+tok206 [
+tok207 ]
+tok400 9
+tok400 h
+tok400  
+tok400 ^
+Erro Lexico - Caractere nao fechado - Linha: 155
+Erro Lexico - Caractere nao fechado - Linha: 156
+Erro Lexico - Caractere nao fechado - Linha: 157
+Erro Lexico - Identificador com caracter invalido: ' - linha: 158
+Erro Lexico - Tamanho ou simbolo do Caractere invalido - Linha: 159
+Erro Lexico - Caractere nao fechado - Linha: 160
+Erro Lexico - Caractere nao pode ser vazio - Linha: 161
+Erro Lexico - Tamanho ou simbolo do Caractere invalido - Linha: 162
+Erro Lexico - Caractere nao fechado - Linha: 163
+Erro Lexico - Identificador com caracter invalido: ' - linha: 164
+Erro Lexico - Caractere nao pode ser aspas simples - Linha: 165
