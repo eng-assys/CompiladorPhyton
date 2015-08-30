@@ -1,0 +1,2 @@
+--- Criando funções primeiro ---
+start@ := ¬registro_declaracao@ ¬constantes_declaracao@ ¬variaveis_declaracao@ ¬funcao_declaracao@ ¬algoritmo_declaracao@->registro_declaracao@ := registro token_identificador { ¬declaracao_reg@ } ¬registro_declaracao@ $ Ɛ->

@@ -89,18 +89,18 @@ class AnalisadorLexico():
   # ========================== DECLARACAO DE METODOS DA CLASSE
   # Metodo construtor da classe
   def __init__(self):
-    self.arquivo_entrada = "programa.li"
-    self.arquivo_saida = "resp-lex.lo"
+    self.arquivo_e = "programa.txt"
+    self.arquivo_s = "resp-lex.txt"
 
   # Metodo para mudar arquivo de entrada
   def mudaEntrada(self, string):
-    self.arquivo_entrada = string
+    self.arquivo_e = string
 
   def getEntrada(self):
-    return self.arquivo_entrada
+    return self.arquivo_e
 
   def getSaida(self):
-    return self.arquivo_saida
+    return self.arquivo_s
 
   # Metodo que verifica se a entrada eh um delimitador
   # O metodo find() retorna a posicao do caractere na string de 
@@ -190,14 +190,14 @@ class AnalisadorLexico():
   # Metodo que executa o analsador lexico
   def analisa(self):
     # Abre o arquivo de saida do programa
-    arquivo_saida = open('resp-lex.lo', 'w')
+    arquivo_saida = open(self.arquivo_s, 'w')
     # Verifica se o arquivo de entrada existe no diretorio em questao
-    if not os.path.exists(self.arquivo_entrada):
+    if not os.path.exists(self.arquivo_e):
       arquivo_saida.write("Arquivo de entrada inexistente")
       return
 
     # Abre o arquivo de entrada do programa
-    arquivo = open(self.arquivo_entrada, 'r')
+    arquivo = open(self.arquivo_e, 'r')
 
     # Le a primeira linha
     linha_programa = arquivo.readline()
