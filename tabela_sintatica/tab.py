@@ -230,13 +230,51 @@ class GeraTabelaSintatica():
 	'''
 	def cria_tabela_sintatica(self):
 		log = open(self.nome_log, 'a')
-
+		 # Para cada linha da gramatica
 		for linha in self.gramatica_lida:
+			# Tirando o \n do final da linha
+			linha = linha[:-1]
+			# Pegando o nao-terminal do inicio da linha
 			linha_inicio = linha[:linha.find('@')+1]
-			primeiro_l_inicio = self.funcoes_primeiros[linha_inicio]
+			# Pegando o resto da linha tirando o nao-terminal do inicio
+			linha_sem_inicio = linha[linha.find('=')+2:]
+			# Dividindo as producoes presentes na linha
+			lista_producoes = linha_sem_inicio.split('$')
+			# Para cada producao da linha
+			for producao in lista_producoes:
+				# Para cada simbolo da producao
+				parte_producao = producao.split(' ')
+				# Se o primeiro simbolo eh um terminal, ele jah eh o primeiro da producao
+				if(self.isTerminal(parte_producao[0])):
+					# Adiciono a chave (nao_treminal do inicio da linha + primeiro_da_producao) = recebendo a producao correspondente
+					self.tabela_sintatica[linha_inicio+parte_producao[0]] = linha[:linha.find('=')+2] + producao
+				# Se o primeiro simbolo eh um nao-terminal, preciso tirar o primeiro de toda a producao
+				elif(self.isNaoTerminal(parte_producao[0])):
+					primeiro_n_t = []
+					# Para cada parte da producao
+					for parte in parte_producao:
+						if( self.isTerminal(parte) ):
+							primeiro_n_t.append(parte)
+							break
+						primeiro_n_t += self.funcoes_primeiros[parte]
+						if('Ɛ' in primeiro_n_t):
+							primeiro_n_t.remove('Ɛ')
+						else:
+							break
+					# Para cada terminal p em primeiro_n_t inclua a sua producao corresponente na tabela sintatica de chave linha_inicio+p
+					for p in primeiro_n_t:
+						self.tabela_sintatica[linha_inicio+p] = linha[:linha.find('=')+2] + producao
+											
+				elif(producao == 'Ɛ'):
+					seguinte_n_t = self.funcoes_seguintes[linha_inicio]
+					if('$' in seguinte_n_t):
+						self.tabela_sintatica[linha_inicio+'$'] = linha[:linha.find('=')+2] + producao
+					for s in seguinte_n_t:
+						self.tabela_sintatica[linha_inicio+s] = linha[:linha.find('=')+2] + producao
 
-		
-		
+
+		log.write(str(self.tabela_sintatica))
+		print("tabela sintatica: ", self.tabela_sintatica)
 		log.close()
 
 	# Sub metodo usado por diversas etapas do algoritmo
@@ -244,13 +282,13 @@ class GeraTabelaSintatica():
 		Define se uma string de entrada eh ou nao um nao-terminal
 	'''
 	def isNaoTerminal(self, entrada):
-		return '¬' in entrada
+		return ('¬' in entrada)
 	# Sub metodo usado por diversas etapas do algoritmo
 	'''
 		Define se uma string de entrada eh um terminal
 	'''
 	def isTerminal(self, entrada):
-		return not self.isNaoTerminal(entrada)
+		return (entrada != 'Ɛ') and not self.isNaoTerminal(entrada)
 
 # Executa o codigo do programa, como na main() do c, por exemplo
 # Usando para testes na classe
