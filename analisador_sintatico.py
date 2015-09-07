@@ -1,4 +1,4 @@
-######           Analisador Sintatico    ######
+ff######           Analisador Sintatico    ######
 # Autor 1: Lucas Vinicius dos Santos Assis
 # Autora 1: Andressa Moura de Souza
 # EXA 869 - MI - Processadores de Linguagem de Programacao

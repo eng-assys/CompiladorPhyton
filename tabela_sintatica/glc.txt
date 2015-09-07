@@ -3,26 +3,26 @@
 ¬declaracao_reg@ := ¬declaracao@ ; ¬declaracao_reg@$Ɛ
 ¬declaracao@ := ¬tipo_primitivo@ token_identificador
 ¬tipo_primitivo@ := cadeia$real$inteiro$char$booleano
-¬constantes_declaracao@ := constantes { ¬declaracao_const@  }
-¬declaracao_const@ := ¬declaracao@ = ¬valor_primitivo@ ;  ¬declaracao_const@$Ɛ
+¬constantes_declaracao@ := constantes { ¬declaracao_const@ }
+¬declaracao_const@ := ¬declaracao@ = ¬valor_primitivo@ ; ¬declaracao_const@$Ɛ
 ¬valor_primitivo@ := token_cadeia$token_real$token_inteiro$token_char$verdadeiro$falso
 ¬variaveis_declaracao@ := variaveis { ¬declaracao_var@ }
 ¬declaracao_var@ := ¬declaracao@ ¬identificador_deriva@ ; ¬declaracao_var@$token_identificador token_identificador ; ¬declaracao_var@ $Ɛ
-¬identificador_deriva@ := [ token_inteiro ] ¬matriz@$¬inicializacao@$Ɛ 
+¬identificador_deriva@ := [ token_inteiro ] ¬matriz@$¬inicializacao@$Ɛ
 ¬matriz@ := [ token_inteiro ]$Ɛ
 ¬inicializacao@ := = ¬valor_primitivo@$Ɛ
-¬funcao_declaracao@ := funcao ¬tipo_return@ token_identificador ( ¬decl_param@ )  { ¬deriva_cont_funcao@  } ¬funcao_declaracao@$Ɛ
+¬funcao_declaracao@ := funcao ¬tipo_return@ token_identificador ( ¬decl_param@ ) { ¬deriva_cont_funcao@ } ¬funcao_declaracao@$Ɛ
 ¬decl_param@ := ¬declaracao@ ¬identificador_param_deriva@ ¬deriva_param@$registro token_identificador ¬deriva_param@
 ¬deriva_param@ := , ¬decl_param@$Ɛ
 ¬identificador_param_deriva@ := [ ] ¬matriz_param@$Ɛ
 ¬matriz_param@ := [ ]$Ɛ
 ¬deriva_cont_funcao@ := ¬variaveis_declaracao@ ¬decl_comandos@ retorno ¬return_deriva@ ;$¬decl_comandos@ retorno ¬return_deriva@ ;
 ¬decl_comandos@ := ¬comandos@ ¬decl_comandos@$Ɛ
-vtipo_return@ := ¬tipo_primitivo@$registro$vazio
+¬tipo_return@ := ¬tipo_primitivo@$registro$vazio
 ¬return_deriva@ := vazio$token_identificador ¬identificador_param_deriva@$¬valor_primitivo@
 ¬algoritmo_declaracao@ := algoritmo { ¬deriva_cont_principal@ }
 ¬deriva_cont_principal@ := ¬declaracao_var@ ¬decl_comandos@$¬decl_comandos@$Ɛ
-¬comandos@ := ¬se_declaracao@$¬enquanto_declaracao@$¬para_declaracao@$¬escreva_declaracao@$¬leia_declaracao@$Ɛ
+¬comandos@ := ¬se_declaracao@$¬enquanto_declaracao@$¬para_declaracao@$¬escreva_declaracao@$¬leia_declaracao@$¬exp_aritmetica@$Ɛ
 ¬se_declaracao@ := se ( ¬exp_rel_bol@ ) { ¬decl_comandos@ } ¬senao_decl@
 ¬senao_decl@ := senão { ¬decl_comandos@ }$Ɛ
 ¬enquanto_declaracao@ := enquanto ( ¬exp_rel_bol@ ) { ¬decl_comandos@ }
@@ -42,7 +42,7 @@ vtipo_return@ := ¬tipo_primitivo@$registro$vazio
 ¬op_rel_deriva@ := =$Ɛ
 ¬op_bolleano@ := &&$||
 ¬exp_aritmetica@ := token_identificador = ¬exp_simples@
-¬exp_simples@ := ¬op_ss@¬termo@ ¬termo_deriva@$¬termo@ ¬termo_deriva@
+¬exp_simples@ := ¬op_ss@ ¬termo@ ¬termo_deriva@$¬termo@ ¬termo_deriva@
 ¬termo_deriva@ := + ¬op_soma_deriva@$- ¬op_sub_deriva@$Ɛ
 ¬op_soma_deriva@ := ¬termo@ ¬termo_deriva@$+
 ¬op_sub_deriva@ := ¬termo@ ¬termo_deriva@$-
@@ -51,4 +51,4 @@ vtipo_return@ := ¬tipo_primitivo@$registro$vazio
 ¬termo@ := ¬fator@ ¬fator_deriva@
 ¬fator_deriva@ := ¬op_md@ ¬fator@ ¬fator_deriva@$Ɛ
 ¬op_md@ := *$/
-¬fator@ := token_identificador ¬identificador_imp_arm_deriva@$token_inteiro$( ¬exp_simples@ ) 
+¬fator@ := token_identificador ¬identificador_imp_arm_deriva@$token_inteiro$( ¬exp_simples@ )
