@@ -1,0 +1,172 @@
+P(1) 
+<start> := <registro_declaracao><constantes_declaracao><variaveis_declaracao><funcao_declaracao><algoritmo_declaracao>
+
+P(2) <registro_declaracao> := registro token_identificador { <declaracao_reg> } <registro_declaracao>
+P(3) 				     | ?
+
+P(4) <declaracao_reg> := <declaracao>; <declaracao_reg> 
+P(5)				| ?
+
+P(6) <declaracao> := <tipo_primitivo> token_identificador
+
+P(7) <tipo_primitivo> := cadeia 
+P(8)			| real 
+P(9)			| inteiro 
+P(10)			| char 
+P(11)			| booleano
+
+P(12) <constantes_declaracao> := constantes { <declaracao_const>  }
+
+P(13) <declaracao_const> := <declaracao> = <valor_primitivo>;  <declaracao_const> 
+P(14)				| ?
+
+P(15) <valor_primitivo> := token_cadeia 
+P(16)		| token_real 
+P(17)		| token_inteiro 
+P(18)		| token_char 
+P(19)		| verdadeiro 
+P(20)		| falso
+
+P(21) <variaveis_declaracao> := variaveis { <declaracao_var> }
+
+P(22) <declaracao_var> := <declaracao> <identificador_deriva>; <declaracao_var>
+P(23)				| token_identificador token_identificador; <declaracao_var> 
+P(24)				| ?
+
+P(25) <identificador_deriva> := [token_inteiro]<matriz>
+P(26)				| <inicializacao>
+P(27)				| ? 
+
+P(28) <matriz> := [token_inteiro]
+P(29)		      | ?
+
+P(30) <inicializacao> := = <valor_primitivo> 
+P(31)			      | ?
+
+P(32) <funcao_declaracao> := funcao <tipo_return> token_identificador (<decl_param>)  { <deriva_cont_funcao>  } <funcao_declaracao> 
+P(33)				      | ?
+
+P(34) <decl_param> := <declaracao> <identificador_param_deriva> <deriva_param>
+P(35)			| registro token_identificador <deriva_param>
+
+P(36) <deriva_param> := ,<decl_param>
+P(37)			| ?
+
+P(38) <identificador_param_deriva> := []<matriz_param>
+P(39)				| ?
+
+P(40) <matriz_param> := []
+P(41)			| ?
+
+P(42) <deriva_cont_funcao> := <variaveis_declaracao> <decl_comandos> retorno <return_deriva>;
+P(43)				      | <decl_comandos> retorno <return_deriva>;
+P(44) 			| ?
+
+P(45) <decl_comandos> := <comandos> <decl_comandos>
+P(46)				| ?
+
+P(47) <tipo_return> := <tipo_primitivo> 
+P(48)			| registro
+P(49)			| vazio
+
+P(50) <return_deriva> := vazio
+P(51)			| token_identificador <identificador_param_deriva>
+P(52)			| <valor_primitivo>
+
+P(53) <algoritmo_declaracao> :=  algoritmo {<deriva_cont_principal> }
+
+P(54) <deriva_cont_principal> := <declaracao_var> <decl_comandos>
+P(55)				| <decl_comandos>
+P(56)				| ?
+
+P(57) <comandos> := <se_declaracao> 
+P(58)			| <enquanto_declaracao> 
+P(59)			| <para_declaracao> 
+P(60)			| <escreva_declaracao> 
+P(61)			| <leia_declaracao> 
+P(62)			| ?
+
+P(63) <se_declaracao> := se (<exp_rel_bol>) {<decl_comandos>}<senao_decl>
+
+P(64) <senao_decl> := senão {<decl_comandos>} 
+P(65)			| ?
+	
+P(66) <enquanto_declaracao> := enquanto (<exp_rel_bol>) { <decl_comandos> }
+
+P(67) <para_declaracao> := para (token_identificador = token_inteiro; token_identificador <op_relacional> token_inteiro; token_identificador <op_cont>) {<decl_comandos>}
+
+P(68) <escreva_declaracao> := escreva (<exp_escreva>);
+
+P(69) <exp_escreva> := <exp_imprime><exp_escreva_deriva><exp_escreva> 
+P(70)			| ?
+
+P(71) <exp_escreva_deriva> := ,<exp_imprime> 
+P(72)				| ?
+
+P(73) <exp_imprime> := token_cadeia 
+P(74)			| token_char 
+P(75)			| token_identificador <identificador_imp_arm_deriva> 
+P(76)			| (<exp_simples>)
+
+P(77) <identificador_imp_arm_deriva> := .token_identificador
+P(78)						| [token_inteiro]<matriz>
+P(79)						| ?
+
+P(80) <leia_declaracao> := leia (<exp_leia>);
+
+P(81) <exp_leia> := <exp_armazena><exp_leia_deriva><exp_leia> 
+P(82)		| ?
+
+P(83) <exp_leia_deriva> := ,<exp_armazena> 
+P(84)			| ?
+
+P(85) <exp_armazena> := token_identificador <identificador_imp_arm_deriva>
+	
+P(86) <exp_rel_bol> := <exp_simples> <op_relacional> <exp_simples> <exp_rel_deriva>
+
+P(87) <exp_rel_deriva> := <op_bolleano> <exp_simples> <op_relacional> <exp_simples> <exp_rel_deriva> 
+P(88)			| ?
+
+P(89) <op_relacional> := <<op_rel_deriva> 
+P(90)			| > <op_rel_deriva>
+P(91)			| == 
+P(92)			| !=
+
+P(93) <op_rel_deriva> := = 
+P(94): 			| ?
+
+P(95) <op_bolleano> := && 
+P(96)			| ||
+	
+P(97) <exp_aritmetica> := token_identificador = <exp_simples>
+
+P(98) <exp_simples> := <op_ss><termo><termo_deriva> 
+P(99)			| <termo><termo_deriva>
+
+P(100) <termo_deriva> := +<op_soma_deriva>
+P(101)			| -<op_sub_deriva> 
+P(102)			| ?
+
+P(103) <op_soma_deriva> := <termo><termo_deriva> 
+P(104)			| +
+
+P(105) <op_sub_deriva> := <termo><termo_deriva> 
+P(106)			| -
+
+P(107) <op_ss> := + 
+P(108)		| -
+
+P(109) <op_cont> := ++ 
+P(110)		| --
+
+P(111) <termo> := <fator><fator_deriva>
+	
+P(112) <fator_deriva> := <op_md><fator><fator_deriva> 
+P(113)			| ?
+
+P(114) <op_md> := * 
+P(115)		| /
+
+P(116) <fator> := token_identificador <identificador_imp_arm_deriva> 
+P(117)		| token_inteiro 
+P(118)		| (<exp_simples>)
