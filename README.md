@@ -7,22 +7,32 @@ Execução do código fonte
 Para executar (em linux) o compilador completo é necessário utilizar o comando:
 
 ```bash
- python3 executa_compilador
+ python3 executa_compilador.py
 ```
 
 Arquivos de códigos-fonte presentes
 -----------------------------------
-programa.txt - arquivo que contém o programa a ser analisado
-analisador_lexico.py - contém o arquivo do analisador léxico
-resp.lex.txt - arquivo que irá receber o resultado da análise léxica
-tab.py - arquivo que gera a tabela sintática para a análise sintática
-glc.txt - contém a gramática livre de contexto para a análise sintática
-log.txt - arquivo de log para a geração da tabela sintática
-analisador_sintatico.py - contém o arquivo do analisador sintático
-pilha.py - arquivo que representa uma estrutura de dados de pilha
-resp-sint.txt - arquivo que receberá o resultado da análise sintática
-analisador_semantico.py - irá conter o arquivo do analisador semântico
-executa_compilador.py - executa o analisadores do compilador em sua ordem correta
+* programa.txt - arquivo que contém o programa a ser analisado
+
+* analisador_lexico.py - contém o arquivo do analisador léxico
+
+* resp.lex.txt - arquivo que irá receber o resultado da análise léxica
+
+* tab.py - arquivo que gera a tabela sintática para a análise sintática
+
+* glc.txt - contém a gramática livre de contexto para a análise sintática
+
+* log.txt - arquivo de log para a geração da tabela sintática
+
+* analisador_sintatico.py - contém o arquivo do analisador sintático
+
+* pilha.py - arquivo que representa uma estrutura de dados de pilha
+
+* resp-sint.txt - arquivo que receberá o resultado da análise sintática
+
+* analisador_semantico.py - irá conter o arquivo do analisador semântico
+
+* executa_compilador.py - executa o analisadores do compilador em sua ordem correta
 
 
 Fases de Desenvolvimento
