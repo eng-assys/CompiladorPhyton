@@ -1,0 +1,10 @@
+variaveis
+{
+	inteiro a;
+	inteiro b = 10;
+	cadeia mensagem;
+	cadeia mensage2 = "texto";
+	pessoa ana;
+	inteiro vetor [];
+	inteiro matriz [][];
+}

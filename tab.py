@@ -17,6 +17,9 @@ class GeraTabelaSintatica():
 		self.nome_log = 'log.txt'		# Nome do arquivo para gravar o log da execucao da classe
 		self.gramatica_lida = []		# Lista de strings que guadara a gramatica lida na memoria principal
 
+	def get_tabela(self):
+		return self.tabela_sintatica
+
 	# Funcoes principais do codigo. Cada uma chama seus submetodos que juntos ajudam a criar a tabela sintatica
 	'''
 		Abre o arquivo contendo a gramatica, coloca seu conteudo na memoria principal
@@ -274,7 +277,7 @@ class GeraTabelaSintatica():
 
 
 		log.write(str(self.tabela_sintatica))
-		print("tabela sintatica: ", self.tabela_sintatica)
+		#print("tabela sintatica: ", self.tabela_sintatica)
 		log.close()
 
 	# Sub metodo usado por diversas etapas do algoritmo
@@ -292,5 +295,5 @@ class GeraTabelaSintatica():
 
 # Executa o codigo do programa, como na main() do c, por exemplo
 # Usando para testes na classe
-tabela = GeraTabelaSintatica()
-tabela.gerar_tabela()
+# tabela = GeraTabelaSintatica()
+# tabela.gerar_tabela()

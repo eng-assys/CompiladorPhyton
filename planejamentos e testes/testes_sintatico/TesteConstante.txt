@@ -1,0 +1,8 @@
+constantes
+{
+	inteiro MAX = 10;
+	inteiro MAX2 = 50;
+	cadeia TEXTO = "mensagem";
+	char LETRA = 'a';
+	booleano CONDICAO = verdadeiro;
+}

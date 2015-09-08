@@ -1,0 +1,9 @@
+funcao vazio function1 (inteiro a, inteiro vector[], registro pessoa)
+{
+
+}
+
+funcao inteiro function2 (inteiro x)
+{
+
+}

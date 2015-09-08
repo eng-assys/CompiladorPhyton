@@ -1,6 +1,9 @@
 class Pilha(object):
     def __init__(self):
         self.dados = []
+
+    def get_pilha(self):
+    	return self.dados
  
     def empilha(self, elemento):
         self.dados.append(elemento)

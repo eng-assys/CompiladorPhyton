@@ -1,0 +1,20 @@
+// Testes de numeros
+
+variaveis
+{
+	inteiro a;
+	inteiro x;
+	real s;
+	real b;
+}
+
+algoritmo
+{
+
+	s = 1..3;
+	b = 1.2.3;
+	a = 1@;
+	x = 5$;
+	b = .9;
+	b = 1..2..3.4;
+}

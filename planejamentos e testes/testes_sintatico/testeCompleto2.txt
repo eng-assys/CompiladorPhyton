@@ -1,0 +1,74 @@
+registro Pessoa {
+	cadeia nome;
+	inteiro idade;
+	}
+registro cidade {
+	cadeia nome;
+	inteiro populacao;
+	}
+constantes
+{
+	inteiro MAX = 10;
+	inteiro MAX2 = 50;
+	cadeia TEXTO = "mensagem";
+	char LETRA = 'a';
+	booleano CONDICAO = verdadeiro;
+}
+variaveis
+{
+	inteiro a;
+	inteiro b = 10;
+	cadeia mensagem;
+	cadeia mensagem2 = "texto";
+	pessoa ana;
+	inteiro vetor [10];
+	inteiro matriz [12][12];
+}
+funcao inteiro faznada(vazio)
+{
+	variaveis
+	{
+		inteiro a = 10;
+	}
+	se(a==b){
+		escreva("sucesso");
+	}
+	senao{
+		escreva("sucesso");
+	};
+	escreva("sucesso");
+	retorno vazio;
+}
+funcao vazio function1 (inteiro a, inteiro vector[10], pessoa pessoa)
+{
+	variaveis
+	{
+		inteiro a = 10;
+	}
+	escreva("sucesso");
+	retorno vazio;
+}
+algoritmo
+{
+	variaveis
+	{
+		inteiro a = 10;
+	}
+
+	enquanto(x!=z){
+		leia(x);
+	};
+	
+	para(i=10;a<10;b++)
+	{
+		escreva("sucesso");
+		para(i=10;a<10;b++)
+		{
+			escreva("sucesso");
+		};
+	};
+	
+	se (a > 8) {
+	};
+	
+}	

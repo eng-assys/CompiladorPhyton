@@ -35,7 +35,9 @@
 #   tok206 - Delimitador ColcheteEsquerdo
 #   tok207 - Delimitador ColcheteDireito
 
-# tok300 - Numero
+# tok3 - Numero
+# tok300 - Numero Inteiro
+# tok301 - Numero Real
 
 # tok400 - Caractere Constante
 
@@ -138,7 +140,7 @@ class AnalisadorLexico():
   # Metodo que verifica se a entrada eh um simbolo asc_ii
   def ehSimbolo(self, caracter):
     # Strings com os simbolos da tabela ASCII (32 a 126)
-    simbolos = ''' !#$%&()'*+.-,/0123456789:;<=>?@ABCDEFGHJKLMNOPQRSTUVXWYZ[]"\^_`abcdefghijklmnopqrstuvxwyz{|}~'''
+    simbolos = ''' !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHJKLMNOPQRSTUVXWYZ[\]^_`abcdefghijklmnopqrstuvxwyz{|}~'''
     if(caracter in simbolos):
       return True
     return False
@@ -218,7 +220,7 @@ class AnalisadorLexico():
         # ===================================================================================
         # Verifica se o caracter eh um delimitador - OK
         if (self.ehDelimitador(caracter_atual)):
-          arquivo_saida.write(self.qualTokenDelimitador(caracter_atual)+' '+caracter_atual+'\n')
+          arquivo_saida.write(self.qualTokenDelimitador(caracter_atual)+'_'+caracter_atual+'\n')
         # ===================================================================================
         # Consumindo comentarios de linha - OK
         elif (caracter_atual == '/' and caractere_seguinte == '/'):
@@ -250,10 +252,10 @@ class AnalisadorLexico():
         # ===================================================================================
         # Verificando se o elemento eh um operador
         elif caractere_seguinte != None and self.ehOperador(caracter_atual+caractere_seguinte):
-          arquivo_saida.write(self.qualTokenOperador(caracter_atual+caractere_seguinte)+' '+caracter_atual+caractere_seguinte+'\n')
+          arquivo_saida.write(self.qualTokenOperador(caracter_atual+caractere_seguinte)+'_'+caracter_atual+caractere_seguinte+'\n')
           i += 1
         elif self.ehOperador(caracter_atual):
-          arquivo_saida.write(self.qualTokenOperador(caracter_atual)+' '+caracter_atual+'\n')
+          arquivo_saida.write(self.qualTokenOperador(caracter_atual)+'_'+caracter_atual+'\n')
 
         # ===================================================================================
         # Verificando se o elemento em questao eh caractere constante - OK
@@ -264,7 +266,7 @@ class AnalisadorLexico():
             arquivo_saida.write('Erro Lexico - Caractere nao fechado - Linha: %d\n' %numero_linha)
             i = tamanho_linha
           elif self.ehSimbolo(linha_programa[i+1]) and linha_programa[i+1] != string.punctuation[6] and linha_programa[i+2] == string.punctuation[6]:
-            arquivo_saida.write('tok400 '+linha_programa[i+1]+'\n')
+            arquivo_saida.write('tok400_'+linha_programa[i+1]+'\n')
             i+=2
           elif linha_programa[i+1] == string.punctuation[6] and linha_programa[i+2] == string.punctuation[6]:
             arquivo_saida.write('Erro Lexico - Caractere nao pode ser aspas simples - Linha: %d\n' %numero_linha)
@@ -284,32 +286,20 @@ class AnalisadorLexico():
           ehValido = True
 
           # Se a linha soh contem uma ocorrencia de ", significa que a string nao foi fechada
-          if linha_programa[i] == '\n' or linha_programa[i] == ' ' or linha_programa[i] == '\t' or linha_programa[i] == '\r' or not(string.punctuation[1] in linha_programa[i:]):
+          if (linha_programa[i:].find(string.punctuation[1]) == -1):
             arquivo_saida.write('Erro Lexico - String nao fechada - Linha: %d\n' %numero_linha)
             i = tamanho_linha
-            break
-
-          fim_cadeia = i+linha_programa[i:].find(string.punctuation[1]) # Se a cadeia tiver corretamente formada o seu fim serah indicado por "
-                                                                          # ou seja, quando acho esse fim, acho a posicao do ultimo elemento da string
-          # No codigo do while abaixo verifico se a string tem mais alguma ocorrencia de "
-          # se tiver eh necessario indicar erro de caractere invalido ".
-          j = fim_cadeia
-          while j+1 < tamanho_linha:
-            j += 1
-            if(linha_programa[j] == string.punctuation[1]):
-              arquivo_saida.write('Erro Lexico - String contem caractere invalido: '+string.punctuation[1]+"\n")
-              i = tamanho_linha
-          if i < tamanho_linha:
-            string_temp = linha_programa[i:fim_cadeia] # Pegando a string que sera o token de cadeia constante
-            i = fim_cadeia # Indicando aonde na linha o programa principal deve continuar
-
-            for x in string_temp:# Verificando se nao tenho nenhum caractere invalido dentro da string
-              if not self.ehSimbolo(x):
-                arquivo_saida.write('Erro Lexico - Caractere invalido na string: '+x+' - Linha: %d\n' %numero_linha)
+          else:
+            fim_cadeia = i+linha_programa[i:].find(string.punctuation[1])
+            nova_cadeia = linha_programa[i:fim_cadeia]
+            i = fim_cadeia
+            for x in nova_cadeia:
+              if(not self.ehSimbolo(x)):
                 ehValido = False
+                arquivo_saida.write('Erro Lexico - String com simbolo invalido (Nao ascii) - Linha: %d\n' %numero_linha)
                 break
-            if ehValido:
-              arquivo_saida.write('tok700 '+string_temp+'\n')
+            if(ehValido):
+              arquivo_saida.write('tok700_'+nova_cadeia+'\n')
         # ===================================================================================
         # Verificando se o elemento em questao eh um numero - OK
         elif (self.ehDigito(caracter_atual)):
@@ -332,18 +322,27 @@ class AnalisadorLexico():
                 string_temp += caracter_atual
                 i += 1
                 caracter_atual = linha_programa[i]
+
+              if(caracter_atual == '.'):
+                j = 0
+                # Tratamento de erro, modalidade do desespero
+                while (i+1 < tamanho_linha):
+                  i += 1
+                  caracter_atual = linha_programa[i]
+                  if self.ehDelimitador(caracter_atual) or caracter_atual == ' ':
+                    i -= 1 # Preciso voltar um elemento da linha para que o delimitador seja reconhecido no momento certo
+                    break
             else:
               arquivo_saida.write('Erro Lexico - Numero mal formado - Linha: %d\n' %numero_linha)
 
             if (j > 0):
-              arquivo_saida.write('tok300 '+string_temp+'\n')
-              break
+              arquivo_saida.write('tok301_'+string_temp+'\n')
             else: 
               arquivo_saida.write('Erro Lexico - Numero mal formado - Linha: %d\n' %numero_linha)
-              break
-                
-          arquivo_saida.write('tok300 '+string_temp+'\n')
-          i -= 1
+          else:
+            arquivo_saida.write('tok300_'+string_temp+'\n')
+            if(not self.ehDigito(caracter_atual)):
+              i -= 1
         # ===================================================================================
         # Verificando identificadores ou palavras reservadas - OK
         elif (self.ehLetra(caracter_atual)):
@@ -381,9 +380,9 @@ class AnalisadorLexico():
                 break
           else: # Se nao houver erros basta verificar se o elemento eh palavra reservada tambem
             if (self.ehReservada(string_temp)):
-              arquivo_saida.write(self.qualTokenReservada(string_temp)+' '+string_temp+'\n')
+              arquivo_saida.write(self.qualTokenReservada(string_temp)+'_'+string_temp+'\n')
             else:
-              arquivo_saida.write('tok500 '+string_temp+'\n')
+              arquivo_saida.write('tok500_'+string_temp+'\n')
           
         # ===================================================================================
         # Verificando Erros Lexicos - Caracter Invalido
@@ -397,6 +396,8 @@ class AnalisadorLexico():
       linha_programa = arquivo.readline() # Le a proxima linha
       numero_linha += 1
 
+    # Indicador de fim de  cadeia para analisador sintatico
+    arquivo_saida.write('$')
     # Fim do arquivo de entrada
     arquivo.close()
     # Fim do arquivo de entrada

@@ -1,0 +1,10 @@
+//Teste de cadeia constante
+variaveis
+{
+	cadeia nome = "ana lu'cia ";
+	cadeia palavra = "";
+	cadeia palavra2 = " ";
+	cadeia sobrenome = " Marreiros " Maia ";
+
+}
+			
