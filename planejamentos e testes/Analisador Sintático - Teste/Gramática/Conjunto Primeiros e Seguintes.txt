@@ -3,7 +3,7 @@ Conjunto Primeiro e Seguinte
 P(1): primeiros (<registro_declaracao><constantes_declaracao><variaveis_declaracao><funcao_declaracao><algoritmo_declaracao>) = {registros, constantes}
 
 P(2): primeiros (registro token_identificador { <declaracao_reg> } <registro_declaracao>) = {registro}
-P(3): seguintes (<registro_declaracao>) = {constantes}
+P(3): seguintes (<registro_declaracao>) = {token_identificador,constantes}
 
 P(4): primeiros (<declaracao>; <declaracao_reg> ) = {cadeia, real, inteiro, char, booleano}
 P(5): seguintes (<declaracao_reg>) = {}}
@@ -49,6 +49,7 @@ P(33): seguintes (<funcao_declaracao>) = {algoritmo}
 
 P(34): primeiros (<declaracao> <identificador_param_deriva><deriva_param>) = {cadeia, real, inteiro, char, booleano}
 P(35): primeiros (registro token_identificador <deriva_param>) = {registro}
+P(36): seguintes(<decl_param>) ={)}
 
 P(36): primeiros(,<decl_param>) = {,}
 P(37): seguintes (<deriva_param>) = {)}
@@ -60,10 +61,10 @@ P(40): primeiros([]) = {[}
 P(41): seguintes(<matriz_param>) = {,,)}
 
 P(42): primeiros(<variaveis_declaracao> <decl_comandos> retorno <return_deriva>) = {variaveis}
-P(43): primeiros (<decl_comandos> retorno <return_deriva>;) = {se, enquanto, para, escreva, leia}
+P(43): primeiros (<decl_comandos> retorno <return_deriva>;) = {se, enquanto, para, escreva, leia, token_identificador}
 P(44): seguintes (<deriva_cont_funcao>) = {}, retorno}
 
-P(45): primeiros (<comandos> <decl_comandos>) = {se, enquanto, para, escreva, leia}
+P(45): primeiros (<comandos> <decl_comandos>) = {se, enquanto, para, escreva, leia, token_identificador}
 P(46): seguintes (<decl_comandos>) = {}, retorno}
 
 P(47): primeiros (<tipo_primitivo>) = {cadeia, real, inteiro, char, booleano}
@@ -85,92 +86,93 @@ P(58): primeiros (<enquanto_declaracao> ) = {enquanto}
 P(59): primeiros (<para_declaracao> ) = {para}
 P(60): primeiros (<escreva_declaracao> ) = {escreva}
 P(61): primeiros (<leia_declaracao> ) = {leia}
-P(62): seguintes (<comandos>) = {retorno, }}
+P(62): primeiros (<exp_aritmetica>  ) = {token_identificador}
+P(63): seguintes (<comandos>) = {retorno, }}
 
-P(63): primeiros (se (<exp_rel_bol>) {<decl_comandos>}<senao_decl>) = {se}
+P(64): primeiros (se (<exp_rel_bol>) {<decl_comandos>}<senao_decl>) = {se}
 
-P(64): primeiros (senão {<decl_comandos>}) = {senao}
-P(65): seguintes (<senao_decl>) = {retorno, }}
+P(65): primeiros (senão {<decl_comandos>}) = {senao}
+P(66): seguintes (<senao_decl>) = {retorno, }}
 
-P(66): primeiros (enquanto (<exp_rel_bol>) { <decl_comandos> }) = {enquanto}
+P(67): primeiros (enquanto (<exp_rel_bol>) { <decl_comandos> }) = {enquanto}
 
-P(67): primeiros (para (token_identificador = token_inteiro; token_identificador <op_relacional> token_inteiro; token_identificador <op_cont>;) {<decl_comandos>}) = {para}
+P(68): primeiros (para (token_identificador = token_inteiro; token_identificador <op_relacional> token_inteiro; token_identificador <op_cont>) {<decl_comandos>}) = {para}
 
-P(68):  primeiros (escreva (<exp_escreva>);) = {escreva}
-P(69): primeiros (<exp_imprime><exp_escreva_deriva><exp_escreva>) = {token_cadeia, token_char, token_identificador, +, -, (}
-P(70): seguintes (<exp_escreva>) = {)}
+P(69):  primeiros (escreva (<exp_escreva>);) = {escreva}
 
-P(71): primeiros (,<exp_imprime>) = {,}
-P(72): seguintes (<exp_escreva_deriva>) = {token_real, token_cadeia, token_char, token_identificador, +, -, token_inteiro, (, )}
+P(70): primeiros (<exp_imprime><exp_escreva_deriva><exp_escreva>) = {token_cadeia, token_char, token_identificador, +, -, (}
+P(71): seguintes (<exp_escreva>) = {)}
 
-P(73): primeiros (token_cadeia) = {token_cadeia}
-P(74): primeiros (token_char) = {token_char}
-P(75): primeiros (token_identificador <identificador_imp_arm_deriva>) = {token_identificador}
-P(76): primeiros ((<exp_simples>)) = {(}
+P(72): primeiros (,<exp_imprime>) = {,}
+P(73): seguintes (<exp_escreva_deriva>) = {token_real, token_cadeia, token_char, token_identificador, +, -, token_inteiro, (, ), ;}
 
-P(77): primeiros (.token_identificador) = {.}
-P(78): primeiros ([token_inteiro]<matriz>) = {[}
-P(79): seguintes (<identificador_imp_arm_deriva>) = {,,), <, >, =, !}
+P(74): primeiros (token_cadeia) = {token_cadeia}
+P(75): primeiros (token_char) = {token_char}
+P(76): primeiros (token_identificador <identificador_imp_arm_deriva>) = {token_identificador}
+P(77): primeiros ((<exp_simples>)) = {(}
 
-P(80): primeiros (leia (<exp_leia>);) = {leia}
+P(78): primeiros (.token_identificador) = {.}
+P(79): primeiros ([token_inteiro]<matriz>) = {[}
+P(80): seguintes (<identificador_imp_arm_deriva>) = {,,), <, >, =, !, <=, >=, ||, &&, ==, !=, ++, --, ;}
 
-P(81): primeiros (<exp_armazena><exp_leia_deriva><exp_leia>) = {token_identificador}
-P(82): seguintes (<exp_leia>) = {)}
+P(81): primeiros (leia (<exp_leia>);) = {leia}
 
-P(83): primeiros (,<exp_armazena>) = {,}
-P(84): seguintes (<exp_leia_deriva>) = {token_identificador}
+P(82): primeiros (<exp_armazena><exp_leia_deriva><exp_leia>) = {token_identificador}
+P(83): seguintes (<exp_leia>) = {)}
 
-P(85): primeiros (token_identificador <identificador_imp_arm_deriva>) = {token_identificador}
-P(86): primeiros (<exp_simples> <op_relacional> <exp_simples> <exp_rel_deriva>) = {+, -, token_identificador, token_inteiro, (}
+P(84): primeiros (,<exp_armazena>) = {,}
+P(85): seguintes (<exp_leia_deriva>) = {token_identificador, )}
 
-P(87): primeiros (<op_bolleano> <exp_simples> <op_relacional> <exp_simples> <exp_rel_deriva>) = {&, |}
-P(88): seguintes (<exp_rel_deriva>) = {)}
+P(86): primeiros (token_identificador <identificador_imp_arm_deriva>) = {token_identificador}
 
-P(89): primeiros (<<op_rel_deriva>) = {<}
+P(87): primeiros (<exp_simples> <op_relacional> <exp_simples> <exp_rel_deriva>) = {+, -, token_identificador, token_inteiro, (}
 
-P(90): primeiros (><op_rel_deriva>) = {>}
+P(88): primeiros (<op_bolleano> <exp_simples> <op_relacional> <exp_simples> <exp_rel_deriva>) = {&, |, &&, ||}
+P(89): seguintes (<exp_rel_deriva>) = {), {}
 
-P(91): primeiros (==) = {=}
-P(92): primeiros (!=) = {!}
+P(90): primeiros (<<op_rel_deriva>) = {<}
+P(91): primeiros (><op_rel_deriva>) = {>}
+P(92): primeiros (==) = {=, ==}
+P(93): primeiros (!=) = {!, !=}
+P(93): primeiros (>=) = {>=}
+P(93): primeiros (<=) = {<=}
 
-P(93): primeiros (=) = {=}
-P(94): seguintes (<op_rel_deriva>) = {token_inteiro, +, -, token_identificador (}
+P(94): primeiros (=) = {=, >, <}
+P(94): primeiros(<op_booleano><exp_simples><op_relacional><exp_simples><exp_rel_deriva>) = {&&, ||}
+P(95): seguintes (<op_rel_deriva>) = {token_inteiro, +, -, token_identificador (}
 
-P(95): primeiros (&&) = {&}
-P(96): primeiros (||) = {|}
+P(96): primeiros (&&) = {&, &&}
+P(97): primeiros (||) = {|, ||}
 
-P(97): primeiros (token_identificador = <exp_simples>) = {token_identificador}
+P(98): primeiros (token_identificador = <exp_simples>;) = {token_identificador}
 
-P(98): primeiros (<op_ss><termo><termo_deriva>) = {+, -}
-P(99): primeiros (<termo><termo_deriva>) = {token_identificador, token_inteiro, (}
+P(99): primeiros (<op_ss><termo><termo_deriva>) = {+, -}
+P(100): primeiros (<termo><termo_deriva>) = {token_identificador, token_inteiro, (}
 
-P(100): primeiros (+<op_soma_deriva>) = {+}
-P(101): primeiros (-<op_sub_deriva>) = {-}
-P(102): seguintes (<termo_deriva>) = {<, >, =, !, &, |, {, )}
+P(101): primeiros (+<op_soma_deriva>) = {+}
+P(102): primeiros (-<op_sub_deriva>) = {-}
+P(103): seguintes (<termo_deriva>) = {<, >, =, !, &, |, {, ), ;, ==, !=, ++, --, &&, ||, >=, <=}
 
-P(103): primeiros (<termo><termo_deriva>) = {token_identificador, token_inteiro, (}
+P(104): primeiros (<termo><termo_deriva>) = {token_identificador, token_inteiro, (}
+P(105): primeiros (+) = {+}
 
-P(104): primeiros (+) = {+}
+P(106): primeiros (<termo><termo_deriva>) = {token_identificador, token_inteiro, (}
+P(107): primeiros (-) = {-}
 
-P(105): primeiros (<termo><termo_deriva>) = {token_identificador, token_inteiro, (}
+P(108): primeiros (+) = {+}
+P(109): primeiros (-) = {-}
 
-P(106): primeiros (-) = {-}
+P(110): primeiros (++) = {+, ++}
+P(111): primeiros (--) = {-, --}
 
-P(107): primeiros (+) = {+}
+P(112): primeiros (<fator><fator_deriva>) = {token_identificador, token_inteiro, (}
 
-P(108): primeiros (-) = {-}
+P(113): primeiros (<op_md><fator><fator_deriva>) = {*, /}
+P(114): seguintes (<fator_deriva>) = {+, -, <, >, =, !, &, |, {, ),==, !=, ++, &&, ||, >=, <=}
 
-P(109): primeiros (++) = {+}
-P(110): primeiros (--) = {-}
+P(115): primeiros (*) = {*}
+P(116): primeiros (/) = {/}
 
-P(111): primeiros (<fator><fator_deriva>) = {token_identificador, token_inteiro, (}
-
-P(112): primeiros (<op_md><fator><fator_deriva>) = {*, /}
-P(113): seguintes (<fator_deriva>) = {+, -, <, >, =, !, &, |, {, )}
-
-P(114): primeiros (*) = {*}
-P(115): primeiros (/) = {/}
-
-P(116): primeiros (token_identificador <identificador_imp_arm_deriva>) = {token_identificador}
-P(117): primeiros(token_inteiro) = {token_inteiro}
-P(118): primeiros ((<exp_simples>)) = {(}
+P(117): primeiros (token_identificador <identificador_imp_arm_deriva>) = {token_identificador}
+P(118): primeiros(token_inteiro) = {token_inteiro}
+P(119): primeiros ((<exp_simples>)) = {(}
