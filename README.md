@@ -22,7 +22,7 @@ Arquivos de códigos-fonte presentes
 
 * glc.txt - contém a gramática livre de contexto para a análise sintática
 
-* log.txt - arquivo de log para a geração da tabela sintática
+* log.txt - arquivo de log que guarda uma cópia da tabela gerada
 
 * analisador_sintatico.py - contém o arquivo do analisador sintático
 
@@ -129,180 +129,115 @@ Requisitos detalhados de cada fase de desenvolvimento
    * Variáveis, vetores, matrizes e campos de registros podem ser usados em atribuições, expressões, retornos de funções e parâmetros em chamadas de funções.
    
    
-   Gramática Livre de Contexto da Linguagem
-   ----------------------------------------
-	P(1) <start> := <registro_declaracao><constantes_declaracao><variaveis_declaracao><funcao_declaracao><algoritmo_declaracao>
+   Gramática Livre de Contexto da Linguagem - Forma BNF
+   ----------------------------------------------------
+   
+   * <start> := <registro_declaracao><constantes_declaracao><variaveis_declaracao><funcao_declaracao><algoritmo_declaracao> 
 
-P(2) <registro_declaracao> := registro token_identificador { <declaracao_reg> } <registro_declaracao>
-P(3)                      | Ɛ
+   * <registro_declaracao> := registro token_identificador { <declaracao_reg> } <registro_declaracao> | Ɛ                   
 
-P(4) <declaracao_reg> := <declaracao>; <declaracao_reg> 
-P(5)                | Ɛ
+   * <declaracao_reg> := <declaracao>; <declaracao_reg> | Ɛ                                                                 
 
-P(6) <declaracao> := <tipo_primitivo> token_identificador
+   * <declaracao> := <tipo_primitivo> token_identificador                                                                   
 
-P(7) <tipo_primitivo> := cadeia 
-P(8)            | real 
-P(9)            | inteiro 
-P(10)            | char 
-P(11)            | booleano
+   * <tipo_primitivo> := cadeia | real | inteiro | char | booleano                                                          
 
-P(12) <constantes_declaracao> := constantes { <declaracao_const>  }
+   * <constantes_declaracao> := constantes { <declaracao_const>  }                                                          
 
-P(13) <declaracao_const> := <declaracao> = <valor_primitivo>;  <declaracao_const> 
-P(14)                | Ɛ
+   * <declaracao_const> := <declaracao> = <valor_primitivo>;  <declaracao_const> | Ɛ                                        
 
-P(15) <valor_primitivo> := token_cadeia 
-P(16)        | token_real 
-P(17)        | token_inteiro 
-P(18)        | token_char 
-P(19)        | verdadeiro 
-P(20)        | falso
+   * <valor_primitivo> := token_cadeia | token_real | token_inteiro | token_char | verdadeiro | falso                       
 
-P(21) <variaveis_declaracao> := variaveis { <declaracao_var> }
+   * <variaveis_declaracao> := variaveis { <declaracao_var> }                                                               
 
-P(22) <declaracao_var> := <declaracao> <identificador_deriva>; <declaracao_var>
-P(23)                | token_identificador token_identificador; <declaracao_var> 
-P(24)                | Ɛ
+   * <declaracao_var> := <declaracao> <identificador_deriva>; <declaracao_var> | token_identificador token_identificador; <declaracao_var> | Ɛ
 
-P(25) <identificador_deriva> := [token_inteiro]<matriz>
-P(26)                | <inicializacao>
-P(27)                | Ɛ 
+   * <identificador_deriva> := [token_inteiro]<matriz> | <inicializacao> | Ɛ                                                
 
-P(28) <matriz> := [token_inteiro]
-P(29)              | Ɛ
+   * <matriz> := [token_inteiro] | Ɛ                                                                                        
 
-P(30) <inicializacao> := = <valor_primitivo> 
-P(31)                  | Ɛ
+   * <inicializacao> := = <valor_primitivo> | Ɛ                                                                             
 
-P(32) <funcao_declaracao> := funcao <tipo_return> token_identificador (<decl_param>)  { <deriva_cont_funcao>  } <funcao_declaracao> 
-P(33)                      | Ɛ
+   * <funcao_declaracao> := funcao <tipo_return> token_identificador (<decl_param>)  { <deriva_cont_funcao>  } <funcao_declaracao> | Ɛ 
 
-P(34) <decl_param> := <declaracao> <identificador_param_deriva> <deriva_param>
-P(35)            | registro token_identificador <deriva_param>
+   * <tipo_return> := <tipo_primitivo> | vazio | token_identificador // Para retorno de variaveis e de registros                       
 
-P(36) <deriva_param> := ,<decl_param>
-P(37)            | Ɛ
+   * <decl_param> := <declaracao> <identificador_param_deriva> <deriva_param> | token_identificador token_identificador <deriva_param> 
 
-P(38) <identificador_param_deriva> := []<matriz_param>
-P(39)                | Ɛ
+   * <identificador_param_deriva> := []<matriz_param> | Ɛ
 
-P(40) <matriz_param> := []
-P(41)            | Ɛ
+   * <matriz_param> := [] | Ɛ
 
-P(42) <deriva_cont_funcao> := <variaveis_declaracao> <decl_comandos> retorno <return_deriva>; 
-P(43)                      | <decl_comandos> retorno <return_deriva>;
+   * <deriva_param> := ,<decl_param> | Ɛ
 
+   * <deriva_cont_funcao> := <variaveis_declaracao> <decl_comandos> retorno <return_deriva>; | <decl_comandos> retorno <return_deriva>;
 
-P(44) <decl_comandos> := <comandos> <decl_comandos>
-P(45)                | Ɛ
+   * <return_deriva> := vazio | token_identificador<identificador_imp_arm_deriva> | <valor_primitivo>
 
-P(46) <tipo_return> := <tipo_primitivo> 
-P(47)            | registro
-P(48)            | vazio
+   * <decl_comandos> := <comandos> <decl_comandos> | Ɛ
 
-P(49) <return_deriva> := vazio
-P(50)            | token_identificador <identificador_param_deriva>
-P(51)            | <valor_primitivo>
+   * <comandos> := <se_declaracao> | <enquanto_declaracao> | <para_declaracao> | <escreva_declaracao> | <leia_declaracao> | <exp_aritmetica> | Ɛ
 
-P(52) <algoritmo_declaracao> :=  algoritmo {<deriva_cont_principal> }
+   * <se_declaracao> := se (<exp_rel_bol>) {<decl_comandos>}<senao_decl>
 
-P(53) <deriva_cont_principal> := <declaracao_var> <decl_comandos>
-P(54)                | <decl_comandos>
-P(55)                | Ɛ
+   * <senao_decl> := senao {<decl_comandos>} | Ɛ
 
-P(56) <comandos> := <se_declaracao> 
-P(57)            | <enquanto_declaracao> 
-P(58)            | <para_declaracao> 
-P(59)            | <escreva_declaracao> 
-P(60)            | <leia_declaracao> 
-P(61)            | <exp_aritmetica>
-P(61)            | Ɛ
+   * <enquanto_declaracao> := enquanto (<exp_rel_bol>) { <decl_comandos> }
 
-P(62) <se_declaracao> := se (<exp_rel_bol>) {<decl_comandos>}<senao_decl>
+   * <para_declaracao> := para (token_identificador = token_inteiro; token_identificador <op_relacional> token_inteiro; token_identificador <op_cont>) {<decl_comandos>}
 
-P(63) <senao_decl> := senão {<decl_comandos>} 
-P(64)            | Ɛ
-    
-P(65) <enquanto_declaracao> := enquanto (<exp_rel_bol>) { <decl_comandos> }
+   * <leia_declaracao> := leia (<exp_leia>);
 
-P(66) <para_declaracao> := para (token_identificador = token_inteiro; token_identificador <op_relacional> token_inteiro; token_identificador <op_cont>) {<decl_comandos>}
+   * <exp_leia> := <exp_armazena><exp_leia_deriva><exp_leia> | Ɛ
 
-P(67) <escreva_declaracao> := escreva (<exp_escreva>);
+   * <exp_leia_deriva> := ,<exp_armazena> | Ɛ
 
-P(68) <exp_escreva> := <exp_imprime><exp_escreva_deriva><exp_escreva> 
-P(69)            | Ɛ
+   * <exp_armazena> := token_identificador <identificador_imp_arm_deriva>
 
-P(70) <exp_escreva_deriva> := ,<exp_imprime> 
-P(71)                | Ɛ
+   * <escreva_declaracao> := escreva (<exp_escreva>);
 
-P(72) <exp_imprime> := token_cadeia 
-P(73)            | token_char 
-P(74)            | token_identificador <identificador_imp_arm_deriva> 
-P(75)            | (<exp_simples>)
+   * <exp_escreva> := <exp_imprime><exp_escreva_deriva><exp_escreva> | Ɛ
 
-P(76) <identificador_imp_arm_deriva> := .token_identificador
-P(77)                        | [token_inteiro]<matriz>
-P(78)                        | Ɛ
+   * <exp_escreva_deriva> := ,<exp_imprime> | Ɛ
 
-P(79) <leia_declaracao> := leia (<exp_leia>);
+   * <exp_imprime> := token_cadeia | token_char | token_identificador <identificador_imp_arm_deriva> | (<exp_simples>)
 
-P(80) <exp_leia> := <exp_armazena><exp_leia_deriva><exp_leia> 
-P(81)        | Ɛ
+   * <identificador_imp_arm_deriva> := .token_identificador | [token_inteiro]<matriz> | Ɛ    
 
-P(82) <exp_leia_deriva> := ,<exp_armazena> 
-P(83)            | Ɛ
+   * <exp_aritmetica> := token_identificador = <exp_simples>
 
-P(84) <exp_armazena> := token_identificador <identificador_imp_arm_deriva>
-    
-P(85) <exp_rel_bol> := <exp_simples> <op_relacional> <exp_simples> <exp_rel_deriva>
+   * <exp_rel_bol> := <exp_simples> <op_relacional> <exp_simples> <exp_rel_deriva>
 
-P(86) <exp_rel_deriva> := <op_bolleano> <exp_simples> <op_relacional> <exp_simples> <exp_rel_deriva> 
-P(87)            | Ɛ
+   * <exp_simples> := <op_ss><termo><termo_deriva> | <termo><termo_deriva>
 
-P(88) <op_relacional> := <<op_rel_deriva> 
-P(89)            | > <op_rel_deriva>
-P(90)            | == 
-P(91)            | !=
+   * <op_relacional> := < | > | == | != | <= | >=
 
-P(92) <op_rel_deriva> := = 
-P(93):             | Ɛ
+   * <exp_rel_deriva> := <op_bolleano> <exp_simples> <op_relacional> <exp_simples> <exp_rel_deriva> | Ɛ
 
-P(94) <op_bolleano> := && 
-P(95)            | ||
-    
-P(96) <exp_aritmetica> := token_identificador = <exp_simples>
+   * <op_ss> := + | -
 
-P(97) <exp_simples> := <op_ss><termo><termo_deriva> 
-P(98)            | <termo><termo_deriva>
+   * <termo> := <fator><fator_deriva>
 
-P(99) <termo_deriva> := +<op_soma_deriva>
-P(100)            | -<op_sub_deriva> 
-P(101)            | Ɛ
+   * <termo_deriva> := +<op_soma_deriva> | -<op_sub_deriva> | Ɛ
 
-P(102) <op_soma_deriva> := <termo><termo_deriva> 
-P(103)            | +
+   * <op_bolleano> := && | || | !
 
-P(104) <op_sub_deriva> := <termo><termo_deriva> 
-P(105)            | -
+   * <fator> := token_identificador <identificador_imp_arm_deriva> | token_inteiro | (<exp_simples>) 
 
-P(106) <op_ss> := + 
-P(107)        | -
+   * <fator_deriva> := <op_md><fator><fator_deriva> | Ɛ
 
-P(108) <op_cont> := ++ 
-P(109)        | --
+   * <op_soma_deriva> := <termo><termo_deriva> | +
 
-P(110) <termo> := <fator><fator_deriva>
-    
-P(111) <fator_deriva> := <op_md><fator><fator_deriva> 
-P(112)            | Ɛ
+   * <op_sub_deriva> := <termo><termo_deriva> | -
 
-P(113) <op_md> := * 
-P(114)        | /
+   * <op_md> := * | /
 
-P(115) <fator> := token_identificador <identificador_imp_arm_deriva> 
-P(116)        | token_inteiro 
-P(117)        | (<exp_simples>) 
+   * <op_cont> := ++ | --
+
+   * <algoritmo_declaracao> :=  algoritmo {<deriva_cont_principal> }
+
+   * <deriva_cont_principal> := <declaracao_var> <decl_comandos> | <decl_comandos> | Ɛ
+
 
 
 * Analisador Semântico
