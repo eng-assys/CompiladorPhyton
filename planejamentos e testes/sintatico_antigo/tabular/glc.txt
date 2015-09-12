@@ -1,5 +1,5 @@
 ¬start@ := ¬registro_declaracao@ ¬constantes_declaracao@ ¬variaveis_declaracao@ ¬funcao_declaracao@ ¬algoritmo_declaracao@
-¬registro_declaracao@ := tok603_registro tok_500 tok204_{ ¬declaracao_reg@ tok205_} ¬registro_declaracao@$Ɛ
+¬registro_declaracao@ := tok603_registro tok500_ tok204_{ ¬declaracao_reg@ tok205_} ¬registro_declaracao@$Ɛ
 ¬declaracao_reg@ := ¬declaracao@ tok200_; ¬declaracao_reg@$Ɛ
 ¬declaracao@ := ¬tipo_primitivo@ tok500_
 ¬tipo_primitivo@ := tok617_cadeia$tok614_real$tok613_inteiro$tok616_char$tok615_booleano
@@ -7,16 +7,16 @@
 ¬declaracao_const@ := ¬declaracao@ tok115_= ¬valor_primitivo@ tok200_; ¬declaracao_const@$Ɛ
 ¬valor_primitivo@ := tok700_$tok301_$tok300_$tok400_$tok618_verdadeiro$tok619_falso
 ¬variaveis_declaracao@ := tok601_variaveis tok204_{ ¬declaracao_var@ tok205_}
-¬declaracao_var@ := ¬declaracao@ ¬identificador_deriva@ tok200_; ¬declaracao_var@$Ɛ
+¬declaracao_var@ := ¬declaracao@ ¬identificador_deriva@ tok200_; ¬declaracao_var@$tok500_ tok500_ tok200_; ¬declaracao_var@$Ɛ
 ¬identificador_deriva@ := tok206_[ tok300_ tok207_] ¬matriz@$¬inicializacao@$Ɛ
 ¬matriz@ := tok206_[ tok300_ tok207_]$Ɛ
 ¬inicializacao@ := tok115_= ¬valor_primitivo@$Ɛ
 ¬funcao_declaracao@ := tok604_funcao ¬tipo_return@ tok500_ tok202_( ¬decl_param@ tok203_) tok204_{ ¬deriva_cont_funcao@ tok205_} ¬funcao_declaracao@$Ɛ
-¬decl_param@ := ¬declaracao@ ¬identificador_param_deriva@ ¬deriva_param@$tok603_registro tok500_ ¬deriva_param@
+¬decl_param@ := ¬declaracao@ ¬identificador_param_deriva@ ¬deriva_param@$tok603_registro tok500_ ¬deriva_param@$Ɛ
 ¬deriva_param@ := tok201_, ¬decl_param@$Ɛ
 ¬identificador_param_deriva@ := tok206_[ tok207_] ¬matriz_param@$Ɛ
 ¬matriz_param@ := tok206_[ tok207_]$Ɛ
-¬deriva_cont_funcao@ := ¬variaveis_declaracao@ ¬decl_comandos@ tok605_retorno ¬return_deriva@ tok200_;$¬decl_comandos@ tok605_retorno ¬return_deriva@ tok200_;
+¬deriva_cont_funcao@ := ¬variaveis_declaracao@ ¬decl_comandos@ tok605_retorno ¬return_deriva@ tok200_;$¬decl_comandos@ tok605_retorno ¬return_deriva@ tok200_;$Ɛ
 ¬decl_comandos@ := ¬comandos@ ¬decl_comandos@$Ɛ
 ¬tipo_return@ := ¬tipo_primitivo@$tok603_registro$tok606_vazio
 ¬return_deriva@ := tok606_vazio$tok500_ ¬identificador_param_deriva@$¬valor_primitivo@
@@ -26,7 +26,7 @@
 ¬se_declaracao@ := tok607_se tok202_( ¬exp_rel_bol@ tok203_) tok204_{ ¬decl_comandos@ tok205_} ¬senao_decl@
 ¬senao_decl@ := tok608_senao tok204_{ ¬decl_comandos@ tok205_}$Ɛ
 ¬enquanto_declaracao@ := tok609_enquanto tok202_( ¬exp_rel_bol@ tok203_) tok204_{ ¬decl_comandos@ tok205_}
-¬para_declaracao@ := tok610_para tok202_( tok500_ tok115_= tok300_ tok200_; tok500_ ¬op_relacional@ tok300_ tok200_; tok500_ ¬op_cont@ tok203_) tok204_{ ¬decl_comandos@ }
+¬para_declaracao@ := tok610_para tok202_( tok500_ tok115_= tok300_ tok200_; tok500_ ¬op_relacional@ tok300_ tok200_; tok500_ ¬op_cont@ tok203_) tok204_{ ¬decl_comandos@ tok205_}
 ¬escreva_declaracao@ := tok612_escreva tok202_( ¬exp_escreva@ tok203_) tok200_;
 ¬exp_escreva@ := ¬exp_imprime@ ¬exp_escreva_deriva@ ¬exp_escreva@$Ɛ
 ¬exp_escreva_deriva@ := tok201_, ¬exp_imprime@$Ɛ

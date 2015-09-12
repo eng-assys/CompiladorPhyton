@@ -11,4 +11,4 @@ lexico = AnalisadorLexico()
 lexico.analisa()
 # Realizando etapa de analise sintatica
 sintatico = AnalisadorSintatico()
-sintatico.start()
+sintatico.analisa()

@@ -14,7 +14,7 @@ class GeraTabelaSintatica():
 		self.funcoes_seguintes = {} # Dicionario que guardara as funcoes seguintes da gramatica
 		self.tabela_sintatica = {}  # Dicionario que guardara as a tabela sintatica da gramatica
 		self.nome_gramatica = 'glc.txt' # Nome do arquivo para pegar a gramatica
-		self.nome_log = 'log.txt'		# Nome do arquivo para gravar o log da execucao da classe
+		self.nome_log = 'log-tab.txt'		# Nome do arquivo para gravar o log da execucao da classe
 		self.gramatica_lida = []		# Lista de strings que guadara a gramatica lida na memoria principal
 
 	def get_tabela(self):
@@ -274,10 +274,16 @@ class GeraTabelaSintatica():
 						self.tabela_sintatica[linha_inicio+'$'] = linha[:linha.find('=')+2] + producao
 					for s in seguinte_n_t:
 						self.tabela_sintatica[linha_inicio+s] = linha[:linha.find('=')+2] + producao
-
-
-		log.write(str(self.tabela_sintatica))
-		#print("tabela sintatica: ", self.tabela_sintatica)
+		
+		# Imprimindo tabela sintatica para conferencias e testes
+		for key, value in self.tabela_sintatica.items():
+			print('Chave: ',key, 'valor: ', value)
+			log.write('Chave: ')
+			log.write(key)
+			log.write(' valor: ')
+			log.write(value)
+			log.write('\n')
+		print('---------')
 		log.close()
 
 	# Sub metodo usado por diversas etapas do algoritmo
@@ -295,5 +301,5 @@ class GeraTabelaSintatica():
 
 # Executa o codigo do programa, como na main() do c, por exemplo
 # Usando para testes na classe
-# tabela = GeraTabelaSintatica()
-# tabela.gerar_tabela()
+#tabela = GeraTabelaSintatica()
+#tabela.gerar_tabela()
