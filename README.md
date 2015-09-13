@@ -58,42 +58,42 @@ Requisitos detalhados de cada fase de desenvolvimento
 | Comentários de Linha                 | ```/* Isto é um comentário de bloco */```             |
 | Comentários de Bloco                 | ```// Isto é um comentário de linha```                |
 
- O analisador léxico resulta em uma cadeia de tokens (um por linha do arquivo de saída), contendo o código do símbolo identificado, o conteúdo do símbolo e a linha da ocorrência do símbolo. Os tokens possuem o seguinte formato: tok+código+_+conteúdo+->+númeroLinha. A seguir é dada a lista dos tokens possíveis nessa linguagem:
+* O analisador léxico resulta em uma cadeia de tokens (um por linha do arquivo de saída), contendo o código do símbolo identificado, o conteúdo do símbolo e a linha da ocorrência do símbolo. Os tokens possuem o seguinte formato: ```tok+código+_+conteúdo+->+númeroLinha```. A seguir é dada a lista dos tokens possíveis nessa linguagem:
  
  | tok1 - Operador |
- -------------------
- | tok100_. |
- | tok101_+ |
- | tok102_- |
- | tok103_* |
- | tok104_/ |
- | tok105_++ |
- | tok106_-- |
- | tok107_== |
- | tok108_!= |
- | tok109_> |
- | tok110_>= |
- | tok111_< |
- | tok112_<= |
- | tok113_&& |
- | tok114_|| |
- | tok115_= |
+ |-----------------|
+ | ```tok100_.``` |
+ | ```tok101_+``` |
+ | ```tok102_-``` |
+ | ```tok103_*``` |
+ | ```tok104_/``` |
+ | ```tok105_++``` |
+ | ```tok106_--``` |
+ | ```tok107_==``` |
+ | ```tok108_!=``` |
+ | ```tok109_>``` |
+ | ```tok110_>=``` |
+ | ```tok111_<``` |
+ | ```tok112_<=``` |
+ | ```tok113_&&``` |
+ | ```tok114_||``` |
+ | ```tok115_=``` |
 
  | tok2 - Delimitador |
  ----------------------
- | tok200_; |
- | tok201_, |
- | tok202_( |
- | tok203_) |
- | tok204_{ |
- | tok205_} |
- | tok206_[ |
- | tok207_] |
+ | ```tok200_;``` |
+ | ```tok201_,``` |
+ | ```tok202_(``` |
+ | ```tok203_)``` |
+ | ```tok204_{``` |
+ | ```tok205_}``` |
+ | ```tok206_[``` |
+ | ```tok207_]``` |
 
  | tok3_Numero |
  -----------------
- | tok300_Numero Inteiro |
- | tok301_Numero Real |
+ | ```tok300_Numero Inteiro``` |
+ | ```tok301_Numero Real``` |
 
  | tok400 - Caractere Constante |
  --------------------------------
@@ -101,30 +101,34 @@ Requisitos detalhados de cada fase de desenvolvimento
  --------------------------
  | tok6 - Palavra reservada |
  ----------------------------
- | tok600_algoritmo |
- | tok601_variaveis |
- | tok602_constantes |
- | tok603_registro |
- | tok604_funcao |
- | tok605_retorno |
- | tok606_vazio |
- | tok607_se |
- | tok608_senao |
- | tok609_enquanto |
- | tok610_para |
- | tok611_leia |
- | tok612_escreva |
- | tok613_inteiro |
- | tok614_real |
- | tok615_booleano |
- | tok616_char |
- | tok617_cadeia |
- | tok618_verdadeiro |
- | tok619_falso |
+ | ```tok600_algoritmo``` |
+ | ```tok601_variaveis``` |
+ | ```tok602_constantes``` |
+ | ```tok603_registro``` |
+ | ```tok604_funcao``` |
+ | ```tok605_retorno``` |
+ | ```tok606_vazio``` |
+ | ```tok607_se``` |
+ | ```tok608_senao``` |
+ | ```tok609_enquanto``` |
+ | ```tok610_para``` |
+ | ```tok611_leia``` |
+ | ```tok612_escreva``` |
+ | ```tok613_inteiro``` |
+ | ```tok614_real``` |
+ | ```tok615_booleano``` |
+ | ```tok616_char``` |
+ | ```tok617_cadeia``` |
+ | ```tok618_verdadeiro``` |
+ | ```tok619_falso``` |
  
  | tok700_Cadeia constante |
  -----------------------------
+ 
+* Alguns dos testes realizados no analisador léxico estão presentes na pasta: "planejamentos e testes/testes_lexico" 
+ 
 * Analisador Sintático
+----------------------
   1. Construção de uma gramática livre de contexto fatorada à esquerda, sem recursão à esquerda, na forma de Backus-Naur (BNF), de acordo com as especificações do anexo A abaixo
   2. Implementação de um analisador sintático para a linguagem definida pela gramática construída.
  
@@ -315,9 +319,15 @@ O analisador sintático construído foi do tipo Descendente Preditivo Recursivo.
    }
  }
 ```
- Alguns dos testes realizados no analisador sintático estão presentes na pasta: "planejamentos e testes/testes_sintatico"
+* Alguns dos testes realizados no analisador sintático estão presentes na pasta: "planejamentos e testes/testes_sintatico"
+* Quando um erro léxico é encontrado pelo analisador sintático, este o ignora e segue com a análise dos tokens seguintes
+* Quando um erro sintático é encontrado uma mensagem de erro é indicada no arquivo resp-sint.txt indicando a linha onde o erro foi encontrado e o token que causou o erro. Caso o usuário esteja utilizando um emulador de terminal (como o do Linux) os erros encontrados aparecerão por alí também.
+* Após indicar algum erro o analisador sintático pode encontrar erros em cascata devido ao erro inicial. Caso isso aconteça, é recomendado ao usuário tentar consertar os erros iniciais.
+* Uma mensagem de sucesso, tanto no arquivo resp-sint.txt quanto no emulador de terminal, se utilizado, indicará o reconhecimento sintático completo da cadeia de entrada.
 
 * Analisador Semântico
+----------------------
+
  1. Construir um analisador semântico para a linguagem de programação até então elaborada, de acordo com as especificações do anexo B.
 
  Anexo B - Características semânticas da linguagem
