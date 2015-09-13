@@ -10,37 +10,30 @@ Para executar (em linux) o compilador completo é necessário utilizar o comando
  python3 executa_compilador.py
 ```
 
+A execução no windows necessita da instalação do python em sua versão apropriada (3 ou superior)
+
 Arquivos de códigos-fonte presentes
 -----------------------------------
-* programa.txt - arquivo que contém o programa a ser analisado
+* programa.txt - arquivo que contém o programa a ser analisado. Novos códigos devem ser inseridos aqui
 
 * analisador_lexico.py - contém o arquivo do analisador léxico
 
-* resp.lex.txt - arquivo que irá receber o resultado da análise léxica
-
-* tab.py - arquivo que gera a tabela sintática para a análise sintática
-
-* glc.txt - contém a gramática livre de contexto para a análise sintática
-
-* log.txt - arquivo de log que guarda uma cópia da tabela gerada
+* resp.lex.txt - contém o resultado da análise léxica. É criado automaticamente após a execução do analisador léxico
 
 * analisador_sintatico.py - contém o arquivo do analisador sintático
 
-* pilha.py - arquivo que representa uma estrutura de dados de pilha
-
-* resp-sint.txt - arquivo que receberá o resultado da análise sintática
+* resp-sint.txt - arquivo que recebe o resultado da análise sintática
 
 * analisador_semantico.py - irá conter o arquivo do analisador semântico
 
-* executa_compilador.py - executa o analisadores do compilador em sua ordem correta
-
+* executa_compilador.py - executa todos os analisadores do compilador em sua ordem correta
 
 Fases de Desenvolvimento
 ------------------------
 
 * Fase 1 - Analisador Léxico (Finalizada);
 
-* Fase 2 - Analisador Sintático (em desenvolvimento);
+* Fase 2 - Analisador Sintático (Finalizada);
 
 * Fase 3 - Analisador Semântico (em planejamento).
 
@@ -65,6 +58,72 @@ Requisitos detalhados de cada fase de desenvolvimento
 | Comentários de Linha                 | ```/* Isto é um comentário de bloco */```             |
 | Comentários de Bloco                 | ```// Isto é um comentário de linha```                |
 
+ O analisador léxico resulta em uma cadeia de tokens (um por linha do arquivo de saída), contendo o código do símbolo identificado, o conteúdo do símbolo e a linha da ocorrência do símbolo. Os tokens possuem o seguinte formato: tok+código+_+conteúdo+->+númeroLinha. A seguir é dada a lista dos tokens possíveis nessa linguagem:
+ 
+ | tok1 - Operador |
+ -------------------
+ | tok100_. |
+ | tok101_+ |
+ | tok102_- |
+ | tok103_* |
+ | tok104_/ |
+ | tok105_++ |
+ | tok106_-- |
+ | tok107_== |
+ | tok108_!= |
+ | tok109_> |
+ | tok110_>= |
+ | tok111_< |
+ | tok112_<= |
+ | tok113_&& |
+ | tok114_|| |
+ | tok115_= |
+
+ | tok2 - Delimitador |
+ ----------------------
+ | tok200_; |
+ | tok201_, |
+ | tok202_( |
+ | tok203_) |
+ | tok204_{ |
+ | tok205_} |
+ | tok206_[ |
+ | tok207_] |
+
+ | tok3_Numero |
+ -----------------
+ | tok300_Numero Inteiro |
+ | tok301_Numero Real |
+
+ | tok400 - Caractere Constante |
+ --------------------------------
+ | tok500 - Identificador |
+ --------------------------
+ | tok6 - Palavra reservada |
+ ----------------------------
+ | tok600_algoritmo |
+ | tok601_variaveis |
+ | tok602_constantes |
+ | tok603_registro |
+ | tok604_funcao |
+ | tok605_retorno |
+ | tok606_vazio |
+ | tok607_se |
+ | tok608_senao |
+ | tok609_enquanto |
+ | tok610_para |
+ | tok611_leia |
+ | tok612_escreva |
+ | tok613_inteiro |
+ | tok614_real |
+ | tok615_booleano |
+ | tok616_char |
+ | tok617_cadeia |
+ | tok618_verdadeiro |
+ | tok619_falso |
+ 
+ | tok700_Cadeia constante |
+ -----------------------------
 * Analisador Sintático
   1. Construção de uma gramática livre de contexto fatorada à esquerda, sem recursão à esquerda, na forma de Backus-Naur (BNF), de acordo com as especificações do anexo A abaixo
   2. Implementação de um analisador sintático para a linguagem definida pela gramática construída.
@@ -238,10 +297,31 @@ Requisitos detalhados de cada fase de desenvolvimento
 
    * ```<deriva_cont_principal> := <declaracao_var> <decl_comandos> | <decl_comandos> | Ɛ```
 
-* Analisador Semântico
- 1. Construir um analisador semântico paraa  linguagem de programação até então elaborada, de acordo com as especificações do anexo B.
- Anexo B - Características semânticas da linguagem
+O analisador sintático construído foi do tipo Descendente Preditivo Recursivo. Para cada símbolo não-terminal da gramática, uma nova função foi construída. As produções da gramática foram representadas por chamadas sucessivas dessas funções. Segue o algorítmo utilizado como base, lembrando que 'A' no algorítmo representa um símbolo não-terminal:
 
+```cpp
+ void A(){
+   Escolha uma producao-A, A-> x1, x2, ... , xk 
+   for(i = 1 ateh k){
+     if(xi eh um nao terminal){
+       ativa procedimento xi();
+     }
+     else if(xi igual ao simbolo de entrada a){
+       avance a entrada ao proximo simbolo
+     }
+     else{
+       ocorreu um erro
+     }
+   }
+ }
+```
+ Alguns dos testes realizados no analisador sintático estão presentes na pasta: "planejamentos e testes/testes_sintatico"
+
+* Analisador Semântico
+ 1. Construir um analisador semântico para a linguagem de programação até então elaborada, de acordo com as especificações do anexo B.
+
+ Anexo B - Características semânticas da linguagem
+ -------------------------------------------------
 | Tipo |
 --------
 | Atribuição deve ser do mesmo tipo que foi declarado |
@@ -273,4 +353,4 @@ Requisitos detalhados de cada fase de desenvolvimento
 
 | Comandos |
 ------------
-| O comando escreva aceita caracteres constantes, cadeias constantes, variáveis, vetores, matrizes e expressões |
+| O comando 'escreva' aceita caracteres constantes, cadeias constantes, variáveis, vetores, matrizes e expressões |
