@@ -66,7 +66,7 @@ Requisitos detalhados de cada fase de desenvolvimento
 | Comentários de Bloco                 | ```// Isto é um comentário de linha```                |
 
 * Analisador Sintático
-  1. Construção de uma gramática livre de contexto fatorada à esquerda, sem recursão à esquerda, na forma de Backus-Naur (BNF), de acordo com as especificações do anexo A abaixo.
+  1. Construção de uma gramática livre de contexto fatorada à esquerda, sem recursão à esquerda, na forma de Backus-Naur (BNF), de acordo com as especificações do anexo A abaixo
   2. Implementação de um analisador sintático para a linguagem definida pela gramática construída.
  
   Anexo A - Características Gerais da Linguagem de Programação criada
@@ -132,112 +132,141 @@ Requisitos detalhados de cada fase de desenvolvimento
    Gramática Livre de Contexto da Linguagem - Forma BNF
    ----------------------------------------------------
    
-   * <start> := <registro_declaracao><constantes_declaracao><variaveis_declaracao><funcao_declaracao><algoritmo_declaracao> 
+   * ```<start> := <registro_declaracao><constantes_declaracao><variaveis_declaracao><funcao_declaracao><algoritmo_declaracao>```
 
-   * <registro_declaracao> := registro token_identificador { <declaracao_reg> } <registro_declaracao> | Ɛ                   
+   * ```<registro_declaracao> := registro token_identificador { <declaracao_reg> } <registro_declaracao> | Ɛ ```
 
-   * <declaracao_reg> := <declaracao>; <declaracao_reg> | Ɛ                                                                 
+   * ```<declaracao_reg> := <declaracao>; <declaracao_reg> | Ɛ ```
 
-   * <declaracao> := <tipo_primitivo> token_identificador                                                                   
+   * ```<declaracao> := <tipo_primitivo> token_identificador ```                                                      
 
-   * <tipo_primitivo> := cadeia | real | inteiro | char | booleano                                                          
+   * ```<tipo_primitivo> := cadeia | real | inteiro | char | booleano ```
 
-   * <constantes_declaracao> := constantes { <declaracao_const>  }                                                          
+   * ```<constantes_declaracao> := constantes { <declaracao_const>  }  ```
 
-   * <declaracao_const> := <declaracao> = <valor_primitivo>;  <declaracao_const> | Ɛ                                        
+   * ```<declaracao_const> := <declaracao> = <valor_primitivo>;  <declaracao_const> | Ɛ  ```                   
 
-   * <valor_primitivo> := token_cadeia | token_real | token_inteiro | token_char | verdadeiro | falso                       
+   * ```<valor_primitivo> := token_cadeia | token_real | token_inteiro | token_char | verdadeiro | falso ```          
 
-   * <variaveis_declaracao> := variaveis { <declaracao_var> }                                                               
+   * ```<variaveis_declaracao> := variaveis { <declaracao_var> } ```          
 
-   * <declaracao_var> := <declaracao> <identificador_deriva>; <declaracao_var> | token_identificador token_identificador; <declaracao_var> | Ɛ
+   * ```<declaracao_var> := <declaracao> <identificador_deriva>; <declaracao_var> | token_identificador token_identificador; <declaracao_var> | Ɛ```
 
-   * <identificador_deriva> := [token_inteiro]<matriz> | <inicializacao> | Ɛ                                                
+   * ```<identificador_deriva> := [token_inteiro]<matriz> | <inicializacao> | Ɛ ```
 
-   * <matriz> := [token_inteiro] | Ɛ                                                                                        
+   * ```<matriz> := [token_inteiro] | Ɛ ```
+   
+   * ```<inicializacao> := = <valor_primitivo> | Ɛ ```          
 
-   * <inicializacao> := = <valor_primitivo> | Ɛ                                                                             
+   * ```<funcao_declaracao> := funcao <tipo_return> token_identificador (<decl_param>)  { <deriva_cont_funcao>  } <funcao_declaracao> | Ɛ ```
 
-   * <funcao_declaracao> := funcao <tipo_return> token_identificador (<decl_param>)  { <deriva_cont_funcao>  } <funcao_declaracao> | Ɛ 
+   * ```<tipo_return> := <tipo_primitivo> | vazio | token_identificador // Para retorno de variaveis e de registros ```                     
 
-   * <tipo_return> := <tipo_primitivo> | vazio | token_identificador // Para retorno de variaveis e de registros                       
+   * ```<decl_param> := <declaracao> <identificador_param_deriva> <deriva_param> | token_identificador token_identificador <deriva_param> ```
 
-   * <decl_param> := <declaracao> <identificador_param_deriva> <deriva_param> | token_identificador token_identificador <deriva_param> 
+   * ```<identificador_param_deriva> := []<matriz_param> | Ɛ```
 
-   * <identificador_param_deriva> := []<matriz_param> | Ɛ
+   * ```<matriz_param> := [] | Ɛ```
 
-   * <matriz_param> := [] | Ɛ
+   * ```<deriva_param> := ,<decl_param> | Ɛ```
 
-   * <deriva_param> := ,<decl_param> | Ɛ
+   * ```<deriva_cont_funcao> := <variaveis_declaracao> <decl_comandos> retorno <return_deriva>; | <decl_comandos> retorno <return_deriva>;```
 
-   * <deriva_cont_funcao> := <variaveis_declaracao> <decl_comandos> retorno <return_deriva>; | <decl_comandos> retorno <return_deriva>;
+   * ```<return_deriva> := vazio | token_identificador<identificador_imp_arm_deriva> | <valor_primitivo>```
 
-   * <return_deriva> := vazio | token_identificador<identificador_imp_arm_deriva> | <valor_primitivo>
+   * ```<decl_comandos> := <comandos> <decl_comandos> | Ɛ```
 
-   * <decl_comandos> := <comandos> <decl_comandos> | Ɛ
+   * ```<comandos> := <se_declaracao> | <enquanto_declaracao> | <para_declaracao> | <escreva_declaracao> | <leia_declaracao> | <exp_aritmetica> | Ɛ```
 
-   * <comandos> := <se_declaracao> | <enquanto_declaracao> | <para_declaracao> | <escreva_declaracao> | <leia_declaracao> | <exp_aritmetica> | Ɛ
+   * ```<se_declaracao> := se (<exp_rel_bol>) {<decl_comandos>}<senao_decl>```
 
-   * <se_declaracao> := se (<exp_rel_bol>) {<decl_comandos>}<senao_decl>
+   * ```<senao_decl> := senao {<decl_comandos>} | Ɛ```
 
-   * <senao_decl> := senao {<decl_comandos>} | Ɛ
+   * ```<enquanto_declaracao> := enquanto (<exp_rel_bol>) { <decl_comandos> }```
 
-   * <enquanto_declaracao> := enquanto (<exp_rel_bol>) { <decl_comandos> }
+   * ```<para_declaracao> := para (token_identificador = token_inteiro; token_identificador <op_relacional> token_inteiro; token_identificador <op_cont>) {<decl_comandos>}```
 
-   * <para_declaracao> := para (token_identificador = token_inteiro; token_identificador <op_relacional> token_inteiro; token_identificador <op_cont>) {<decl_comandos>}
+   * ```<leia_declaracao> := leia (<exp_leia>);```
 
-   * <leia_declaracao> := leia (<exp_leia>);
+   * ```<exp_leia> := <exp_armazena><exp_leia_deriva><exp_leia> | Ɛ```
 
-   * <exp_leia> := <exp_armazena><exp_leia_deriva><exp_leia> | Ɛ
+   * ```<exp_leia_deriva> := ,<exp_armazena> | Ɛ```
 
-   * <exp_leia_deriva> := ,<exp_armazena> | Ɛ
+   * ```<exp_armazena> := token_identificador <identificador_imp_arm_deriva>```
 
-   * <exp_armazena> := token_identificador <identificador_imp_arm_deriva>
+   * ```<escreva_declaracao> := escreva (<exp_escreva>);```
 
-   * <escreva_declaracao> := escreva (<exp_escreva>);
+   * ```<exp_escreva> := <exp_imprime><exp_escreva_deriva><exp_escreva> | Ɛ```
 
-   * <exp_escreva> := <exp_imprime><exp_escreva_deriva><exp_escreva> | Ɛ
+   * ```<exp_escreva_deriva> := ,<exp_imprime> | Ɛ```
 
-   * <exp_escreva_deriva> := ,<exp_imprime> | Ɛ
+   * ```<exp_imprime> := token_cadeia | token_char | token_identificador <identificador_imp_arm_deriva> | (<exp_simples>)```
 
-   * <exp_imprime> := token_cadeia | token_char | token_identificador <identificador_imp_arm_deriva> | (<exp_simples>)
+   * ```<identificador_imp_arm_deriva> := .token_identificador | [token_inteiro]<matriz> | Ɛ ```
 
-   * <identificador_imp_arm_deriva> := .token_identificador | [token_inteiro]<matriz> | Ɛ    
+   * ```<exp_aritmetica> := token_identificador = <exp_simples>```
 
-   * <exp_aritmetica> := token_identificador = <exp_simples>
+   * ```<exp_rel_bol> := <exp_simples> <op_relacional> <exp_simples> <exp_rel_deriva>```
 
-   * <exp_rel_bol> := <exp_simples> <op_relacional> <exp_simples> <exp_rel_deriva>
+   * ```<exp_simples> := <op_ss><termo><termo_deriva> | <termo><termo_deriva>```
 
-   * <exp_simples> := <op_ss><termo><termo_deriva> | <termo><termo_deriva>
+   * ```<op_relacional> := < | > | == | != | <= | >=```
 
-   * <op_relacional> := < | > | == | != | <= | >=
+   * ```<exp_rel_deriva> := <op_bolleano> <exp_simples> <op_relacional> <exp_simples> <exp_rel_deriva> | Ɛ```
 
-   * <exp_rel_deriva> := <op_bolleano> <exp_simples> <op_relacional> <exp_simples> <exp_rel_deriva> | Ɛ
+   * ```<op_ss> := + | -```
 
-   * <op_ss> := + | -
+   * ```<termo> := <fator><fator_deriva>```
 
-   * <termo> := <fator><fator_deriva>
+   * ```<termo_deriva> := +<op_soma_deriva> | -<op_sub_deriva> | Ɛ```
 
-   * <termo_deriva> := +<op_soma_deriva> | -<op_sub_deriva> | Ɛ
+   * ```<op_bolleano> := && | || | !```
 
-   * <op_bolleano> := && | || | !
+   * ```<fator> := token_identificador <identificador_imp_arm_deriva> | token_inteiro | (<exp_simples>) ```
 
-   * <fator> := token_identificador <identificador_imp_arm_deriva> | token_inteiro | (<exp_simples>) 
+   * ```<fator_deriva> := <op_md><fator><fator_deriva> | Ɛ```
 
-   * <fator_deriva> := <op_md><fator><fator_deriva> | Ɛ
+   * ```<op_soma_deriva> := <termo><termo_deriva> | +```
 
-   * <op_soma_deriva> := <termo><termo_deriva> | +
+   * ```<op_sub_deriva> := <termo><termo_deriva> | -```
 
-   * <op_sub_deriva> := <termo><termo_deriva> | -
+   * ```<op_md> := * | /```
 
-   * <op_md> := * | /
+   * ```<op_cont> := ++ | --```
 
-   * <op_cont> := ++ | --
+   * ```<algoritmo_declaracao> :=  algoritmo {<deriva_cont_principal> }```
 
-   * <algoritmo_declaracao> :=  algoritmo {<deriva_cont_principal> }
-
-   * <deriva_cont_principal> := <declaracao_var> <decl_comandos> | <decl_comandos> | Ɛ
-
-
+   * ```<deriva_cont_principal> := <declaracao_var> <decl_comandos> | <decl_comandos> | Ɛ```
 
 * Analisador Semântico
+ 1. Construir um analisador semântico paraa  linguagem de programação até então elaborada, de acordo com as especificações do anexo B.
+ Anexo B - Características semânticas da linguagem
+
+| Tipo |
+--------
+| Atribuição deve ser do mesmo tipo que foi declarado |
+| Operações aritméticas, lógicas e relacionais devem ser feitas entre operadores de mesmos tipos |
+| Chamadas de funções devem ser feitas com o número e ordem de parâmetros corretos |
+| Retorno de funções deve ser do mesmo tipo declarado |
+| Operações + - / * são compatíveis apenas com operandos inteiro e real |
+| Operações && || só podem ser feita entre booleanos |
+| Operações ++ -- sucedem apenas tipos inteiros e reais |
+| Operações relacionais com operadores == != podem ser feitas com inteiro, real, char ou cadeia, desde que ambos operandos sejam do mesmo tipo |
+| Operações > < >= <= só podem ser feitas com operandos inteiro e real; e ambos os operandos devem ser do mesmo tipo |
+| Posição de vetores e matrizes devem ser do tipo inteiro |
+| Variáveis |
+-------------
+| As variáveis devem ser declaradas como locais ou globais |
+| Constantes |
+--------------
+| As constantes devem ser declaradas como globais |
+| Constantes não podem receber atribuições fora do bloco constantes{} |
+| Escopo |
+----------
+| Diferentes escopos para sub-programas |
+| Pode existir variável de mesmo nome global e local |
+| Não pode haver duplicidade de variáveis e constantes em um mesmo escopo |
+| Não pode haver duplicidade de funções |
+| Comandos |
+------------
+| O comando escreva aceita caracteres constantes, cadeias constantes, variáveis, vetores, matrizes e expressões |
