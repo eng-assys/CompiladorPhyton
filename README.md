@@ -64,7 +64,6 @@ Requisitos detalhados de cada fase de desenvolvimento
  
  | tok1 - Operador |
  -------------------
-
  | ```tok100_.``` |
  | ```tok101_+``` |
  | ```tok102_-``` |
@@ -84,7 +83,6 @@ Requisitos detalhados de cada fase de desenvolvimento
 
  | tok2 - Delimitador |
  ----------------------
-
  | ```tok200_;``` |
  | ```tok201_,``` |
  | ```tok202_(``` |
@@ -96,7 +94,6 @@ Requisitos detalhados de cada fase de desenvolvimento
 
  | tok3_Numero |
  ---------------
-
  | ```tok300_Numero Inteiro``` |
  | ```tok301_Numero Real``` |
 
