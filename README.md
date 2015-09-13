@@ -254,19 +254,23 @@ Requisitos detalhados de cada fase de desenvolvimento
 | Operações relacionais com operadores == != podem ser feitas com inteiro, real, char ou cadeia, desde que ambos operandos sejam do mesmo tipo |
 | Operações > < >= <= só podem ser feitas com operandos inteiro e real; e ambos os operandos devem ser do mesmo tipo |
 | Posição de vetores e matrizes devem ser do tipo inteiro |
+
 | Variáveis |
 -------------
 | As variáveis devem ser declaradas como locais ou globais |
+
 | Constantes |
 --------------
 | As constantes devem ser declaradas como globais |
 | Constantes não podem receber atribuições fora do bloco constantes{} |
+
 | Escopo |
 ----------
 | Diferentes escopos para sub-programas |
 | Pode existir variável de mesmo nome global e local |
 | Não pode haver duplicidade de variáveis e constantes em um mesmo escopo |
 | Não pode haver duplicidade de funções |
+
 | Comandos |
 ------------
 | O comando escreva aceita caracteres constantes, cadeias constantes, variáveis, vetores, matrizes e expressões |
