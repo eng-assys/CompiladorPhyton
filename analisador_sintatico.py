@@ -67,6 +67,8 @@ class AnalisadorSintatico():
 
   # <start> := <registro_declaracao><constantes_declaracao><variaveis_declaracao><funcao_declaracao><algoritmo_declaracao> 
   def start(self):
+    if("Erro Lexico" in self.tokens[self.i]):
+      self.i += 1
     self.registro_declaracao()
     self.constantes_declaracao()
     self.variaveis_declaracao()
@@ -84,7 +86,8 @@ class AnalisadorSintatico():
 
   # <registro_declaracao> := registro token_identificador { <declaracao_reg> } <registro_declaracao> | Ɛ                   
   def registro_declaracao(self):
-
+    if("Erro Lexico" in self.tokens[self.i]):
+      self.i += 1
     if( 'tok603_registro' in self.tokens[self.i] ):
       self.i += 1
       self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
@@ -120,6 +123,8 @@ class AnalisadorSintatico():
 
   # <declaracao_reg> := <declaracao>; <declaracao_reg> | Ɛ                                                                 
   def declaracao_reg(self):
+    if("Erro Lexico" in self.tokens[self.i]):
+      self.i += 1
     self.declaracao()
     if( 'tok200_;' in self.tokens[self.i]):
       self.i += 1
@@ -138,6 +143,8 @@ class AnalisadorSintatico():
 
   # <declaracao> := <tipo_primitivo> token_identificador                                                                  
   def declaracao(self):
+    if("Erro Lexico" in self.tokens[self.i]):
+      self.i += 1
     self.tipo_primitivo()
     if( 'tok500_' in self.tokens[self.i] ):
       self.i += 1
@@ -150,6 +157,8 @@ class AnalisadorSintatico():
       self.arquivo_saida.write('Token problemático: '+self.tokens[self.i])
   # <tipo_primitivo> := cadeia | real | inteiro | char | booleano                                                         
   def tipo_primitivo(self):
+    if("Erro Lexico" in self.tokens[self.i]):
+      self.i += 1
     if( 'cadeia' in self.tokens[self.i] or 
       'tok614_real' in self.tokens[self.i] or
       'tok613_inteiro' in self.tokens[self.i] or
@@ -165,6 +174,8 @@ class AnalisadorSintatico():
       self.arquivo_saida.write('token problemático: '+self.tokens[self.i])
   # <constantes_declaracao> := constantes { <declaracao_const>  }                                                          
   def constantes_declaracao(self):
+    if("Erro Lexico" in self.tokens[self.i]):
+      self.i += 1
     if( 'tok602_constantes' in self.tokens[self.i] ):
         self.i += 1
         self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
@@ -196,6 +207,8 @@ class AnalisadorSintatico():
       self.tem_erro_sintatico = True
   # <declaracao_const> := <declaracao> = <valor_primitivo>; <declaracao_const> | Ɛ                                        
   def declaracao_const(self):
+    if("Erro Lexico" in self.tokens[self.i]):
+      self.i += 1
     self.declaracao()
     if( 'tok115_=' in self.tokens[self.i] ):
       self.i += 1
@@ -221,6 +234,8 @@ class AnalisadorSintatico():
 
   # <valor_primitivo> := token_cadeia | token_real | token_inteiro | token_char | verdadeiro | falso                       
   def valor_primitivo(self):
+    if("Erro Lexico" in self.tokens[self.i]):
+      self.i += 1
     if( 'tok300_' in self.tokens[self.i] or 
       'tok301_' in self.tokens[self.i] or
       'tok700_' in self.tokens[self.i] or
@@ -237,6 +252,8 @@ class AnalisadorSintatico():
       self.tem_erro_sintatico = True
   # <variaveis_declaracao> := variaveis { <declaracao_var> }                                                               
   def variaveis_declaracao(self):
+    if("Erro Lexico" in self.tokens[self.i]):
+      self.i += 1
     if( 'tok601_variaveis' in self.tokens[self.i]):
       self.i += 1
       self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
@@ -269,6 +286,8 @@ class AnalisadorSintatico():
       self.tem_erro_sintatico = True
   # <declaracao_var> := <declaracao> <identificador_deriva>; <declaracao_var> | token_identificador token_identificador; <declaracao_var> | Ɛ 
   def declaracao_var(self):
+    if("Erro Lexico" in self.tokens[self.i]):
+      self.i += 1
     # No caso da declaração ser de um tipo registro, espero um identificador
     if( 'tok500_' in self.tokens[self.i] ):
       self.i += 1
@@ -310,6 +329,8 @@ class AnalisadorSintatico():
 
   # <identificador_deriva> := [token_inteiro]<matriz> | <inicializacao> | Ɛ                                                
   def identificador_deriva(self):
+    if("Erro Lexico" in self.tokens[self.i]):
+      self.i += 1
     if ( 'tok206_[' in self.tokens[self.i] ):
       self.i += 1
       self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
@@ -336,6 +357,8 @@ class AnalisadorSintatico():
       self.inicializacao()
   # <matriz> := [token_inteiro] | Ɛ                                                                                        
   def matriz(self):
+    if("Erro Lexico" in self.tokens[self.i]):
+      self.i += 1
     if ( 'tok206_[' in self.tokens[self.i] ):
       self.i += 1
       self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
@@ -360,12 +383,16 @@ class AnalisadorSintatico():
     
   # <inicializacao> := = <valor_primitivo> | Ɛ                                                                             
   def inicializacao(self):
+    if("Erro Lexico" in self.tokens[self.i]):
+      self.i += 1
     if('tok115_=' in self.tokens[self.i]):
       self.i += 1
       self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
       self.valor_primitivo()
   # <funcao_declaracao> := funcao <tipo_return> token_identificador (<decl_param>)  { <deriva_cont_funcao>  } <funcao_declaracao> | Ɛ 
   def funcao_declaracao(self):
+    if("Erro Lexico" in self.tokens[self.i]):
+      self.i += 1
     if('tok604_funcao' in self.tokens[self.i]):
       self.i += 1
       self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
@@ -423,6 +450,8 @@ class AnalisadorSintatico():
 
   # <tipo_return> := <tipo_primitivo> | vazio | token_identificador<identificador_param_deriva> 
   def tipo_return(self):
+    if("Erro Lexico" in self.tokens[self.i]):
+      self.i += 1
     if( 'tok606_vazio' in self.tokens[self.i] ):
       self.i += 1
       self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
@@ -435,6 +464,8 @@ class AnalisadorSintatico():
     
   # <decl_param> := <declaracao> <identificador_param_deriva> <deriva_param> | token_identificador token_identificador <deriva_param> 
   def decl_param(self):
+    if("Erro Lexico" in self.tokens[self.i]):
+      self.i += 1
     if ('tok500_' in self.tokens[self.i] ):
       self.i += 1
       self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
@@ -456,6 +487,8 @@ class AnalisadorSintatico():
 
   # <identificador_param_deriva> := []<matriz_param> | Ɛ
   def identificador_param_deriva(self):
+    if("Erro Lexico" in self.tokens[self.i]):
+      self.i += 1
     if('tok206_[' in self.tokens[self.i]):
       self.i += 1
       self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
@@ -472,6 +505,8 @@ class AnalisadorSintatico():
 
   # <matriz_param> := [] | Ɛ
   def matriz_param(self):
+    if("Erro Lexico" in self.tokens[self.i]):
+      self.i += 1
     if('tok206_[' in self.tokens[self.i]):
       self.i += 1
       self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
@@ -486,6 +521,8 @@ class AnalisadorSintatico():
         self.tem_erro_sintatico = True
   # <deriva_param> := ,<decl_param> | Ɛ
   def deriva_param(self):
+    if("Erro Lexico" in self.tokens[self.i]):
+      self.i += 1
     if('tok201_,' in self.tokens[self.i]):
       self.i += 1
       self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
@@ -493,6 +530,8 @@ class AnalisadorSintatico():
 
   # <deriva_cont_funcao> := <variaveis_declaracao> <decl_comandos> retorno <return_deriva>; | <decl_comandos> retorno <return_deriva>;
   def deriva_cont_funcao(self):
+    if("Erro Lexico" in self.tokens[self.i]):
+      self.i += 1
     if('tok601_variaveis' in self.tokens[self.i]):
       self.variaveis_declaracao()
       self.decl_comandos()
@@ -530,6 +569,8 @@ class AnalisadorSintatico():
 
   # <return_deriva> := vazio | token_identificador<identificador_imp_arm_deriva> | <valor_primitivo>
   def return_deriva(self):
+    if("Erro Lexico" in self.tokens[self.i]):
+      self.i += 1
     if( 'tok606_vazio' in self.tokens[self.i]):
       self.i += 1
       self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
@@ -541,6 +582,8 @@ class AnalisadorSintatico():
       self.valor_primitivo()
   # <decl_comandos> := <comandos> <decl_comandos> | Ɛ
   def decl_comandos(self):
+    if("Erro Lexico" in self.tokens[self.i]):
+      self.i += 1
     if( 'tok607_se' in self.tokens[self.i] or 'tok612_escreva' in self.tokens[self.i] or 'tok611_leia' in self.tokens[self.i] or 'tok609_enquanto' in self.tokens[self.i] or 'tok610_para' in self.tokens[self.i] or 'tok500_' in self.tokens[self.i]):
       self.comandos()
       self.decl_comandos()
@@ -548,6 +591,8 @@ class AnalisadorSintatico():
       return
   # <comandos> := <se_declaracao> | <enquanto_declaracao> | <para_declaracao> | <escreva_declaracao> | <leia_declaracao> | <exp_aritmetica> | Ɛ
   def comandos(self):
+    if("Erro Lexico" in self.tokens[self.i]):
+      self.i += 1
     if( 'tok607_se' in self.tokens[self.i] ):
       self.se_declaracao()
     elif( 'tok612_escreva' in self.tokens[self.i] ):
@@ -562,6 +607,8 @@ class AnalisadorSintatico():
       self.exp_aritmetica()
   # <se_declaracao> := se (<exp_rel_bol>) {<decl_comandos>}<senao_decl>
   def se_declaracao(self):
+    if("Erro Lexico" in self.tokens[self.i]):
+      self.i += 1
     if("tok607_se" in self.tokens[self.i]):
       self.i += 1
       if("tok202_(" in self.tokens[self.i]):
@@ -608,6 +655,8 @@ class AnalisadorSintatico():
 
   # <senao_decl> := senao {<decl_comandos>} | Ɛ
   def senao_decl(self):
+    if("Erro Lexico" in self.tokens[self.i]):
+      self.i += 1
     if("tok608_senao" in self.tokens[self.i]):
       self.i += 1
       if('tok204_{' in self.tokens[self.i]):
@@ -629,6 +678,8 @@ class AnalisadorSintatico():
         self.tem_erro_sintatico = True
   # <enquanto_declaracao> := enquanto (<exp_rel_bol>) { <decl_comandos> }
   def enquanto_declaracao(self):
+    if("Erro Lexico" in self.tokens[self.i]):
+      self.i += 1
     if("tok609_enquanto" in self.tokens[self.i]):
       self.i += 1
       if("tok202_(" in self.tokens[self.i]):
@@ -674,6 +725,8 @@ class AnalisadorSintatico():
 
   # <para_declaracao> := para (token_identificador = token_inteiro; token_identificador <op_relacional> token_inteiro; token_identificador <op_cont>) {<decl_comandos>}
   def para_declaracao(self):
+    if("Erro Lexico" in self.tokens[self.i]):
+      self.i += 1
     if("tok610_para" in self.tokens[self.i]):
       self.i += 1
       self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
@@ -797,6 +850,8 @@ class AnalisadorSintatico():
 
   # <leia_declaracao> := leia (<exp_leia>); 
   def leia_declaracao(self):
+    if("Erro Lexico" in self.tokens[self.i]):
+      self.i += 1
     if("tok611_leia" in self.tokens[self.i]):
       self.i += 1
       self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
@@ -836,18 +891,24 @@ class AnalisadorSintatico():
       self.tem_erro_sintatico = True
   # <exp_leia> := <exp_armazena><exp_leia_deriva><exp_leia> | Ɛ
   def exp_leia(self):
+    if("Erro Lexico" in self.tokens[self.i]):
+      self.i += 1
     if("tok500_" in self.tokens[self.i]):
       self.exp_armazena()
       self.exp_leia_deriva()
       self.exp_leia()
   # <exp_leia_deriva> := ,<exp_armazena> | Ɛ
   def exp_leia_deriva(self):
+    if("Erro Lexico" in self.tokens[self.i]):
+      self.i += 1
     if("tok201_," in self.tokens[self.i]):
       self.i += 1
       self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
       self.exp_armazena()
   # <exp_armazena> := token_identificador <identificador_imp_arm_deriva>
   def exp_armazena(self):
+    if("Erro Lexico" in self.tokens[self.i]):
+      self.i += 1
     if("tok500_" in self.tokens[self.i]):
       self.i += 1
       self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
@@ -860,6 +921,8 @@ class AnalisadorSintatico():
       self.tem_erro_sintatico = True
   # <escreva_declaracao> := escreva (<exp_escreva>);
   def escreva_declaracao(self):
+    if("Erro Lexico" in self.tokens[self.i]):
+      self.i += 1
     if("tok612_escreva" in self.tokens[self.i]):
       self.i += 1
       self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
@@ -899,18 +962,24 @@ class AnalisadorSintatico():
       self.tem_erro_sintatico = True
   # <exp_escreva> := <exp_imprime><exp_escreva_deriva><exp_escreva> | Ɛ
   def exp_escreva(self):
+    if("Erro Lexico" in self.tokens[self.i]):
+      self.i += 1
     if("tok700_" in self.tokens[self.i] or "tok400_" in self.tokens[self.i] or "tok500_" in self.tokens[self.i] or "(" in self.tokens[self.i]):
       self.exp_imprime()
       self.exp_escreva_deriva
       self.exp_escreva()
   # <exp_escreva_deriva> := ,<exp_imprime> | Ɛ
   def exp_escreva_deriva(self):
+    if("Erro Lexico" in self.tokens[self.i]):
+      self.i += 1
     if("tok201_," in self.tokens[self.i]):
       self.i += 1
       self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
       self.exp_imprime()
   # <exp_imprime> := token_cadeia | token_char | token_identificador <identificador_imp_arm_deriva> | (<exp_simples>)
   def exp_imprime(self):
+    if("Erro Lexico" in self.tokens[self.i]):
+      self.i += 1
     if("tok700_" in self.tokens[self.i]):
       self.i += 1
       self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
@@ -944,6 +1013,8 @@ class AnalisadorSintatico():
 
   # <identificador_imp_arm_deriva> := .token_identificador | [token_inteiro]<matriz> | Ɛ    
   def identificador_imp_arm_deriva(self):
+    if("Erro Lexico" in self.tokens[self.i]):
+      self.i += 1
     if("tok100_." in self.tokens[self.i]):
       self.i += 1
       self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
@@ -964,6 +1035,8 @@ class AnalisadorSintatico():
       return
   # <exp_aritmetica> := token_identificador = <exp_simples>
   def exp_aritmetica(self):
+    if("Erro Lexico" in self.tokens[self.i]):
+      self.i += 1
     if("tok500_" in self.tokens[self.i]):
       self.i += 1
       self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
@@ -985,6 +1058,8 @@ class AnalisadorSintatico():
       self.tem_erro_sintatico = True
   # <exp_rel_bol> := <exp_simples> <op_relacional> <exp_simples> <exp_rel_deriva>
   def exp_rel_bol(self):
+    if("Erro Lexico" in self.tokens[self.i]):
+      self.i += 1
     #import pdb; pdb.set_trace() # Break do debbug
     self.exp_simples()
     self.op_relacional()
@@ -992,6 +1067,8 @@ class AnalisadorSintatico():
     self.exp_rel_deriva()
   # <exp_simples> := <op_ss><termo><termo_deriva> | <termo><termo_deriva>
   def exp_simples(self):
+    if("Erro Lexico" in self.tokens[self.i]):
+      self.i += 1
     if("tok101_+" in self.tokens[self.i] or "tok102_-" in self.tokens[self.i]):
       self.op_ss()
       self.termo()
@@ -1001,6 +1078,8 @@ class AnalisadorSintatico():
       self.termo_deriva()
   # <op_relacional> := < | > | == | != | <= | >=
   def op_relacional(self):
+    if("Erro Lexico" in self.tokens[self.i]):
+      self.i += 1
     if("tok112_<=" in self.tokens[self.i] or "tok110_>=" in self.tokens[self.i] or "tok109_>" in self.tokens[self.i] or "tok111_<" in self.tokens[self.i] or "tok107_==" in self.tokens[self.i] or "tok108_!=" in self.tokens[self.i]):
       self.i += 1
       self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
@@ -1012,6 +1091,8 @@ class AnalisadorSintatico():
       self.tem_erro_sintatico = True
   # <exp_rel_deriva> := <op_bolleano> <exp_simples> <op_relacional> <exp_simples> <exp_rel_deriva> | Ɛ
   def exp_rel_deriva(self):
+    if("Erro Lexico" in self.tokens[self.i]):
+      self.i += 1
     if("tok113_&&" in self.tokens[self.i] or "tok114_||" in self.tokens[self.i]):
       self.op_bolleano()
       self.exp_simples()
@@ -1020,6 +1101,8 @@ class AnalisadorSintatico():
       self.exp_rel_deriva()
   # <op_ss> := + | -
   def op_ss(self):
+    if("Erro Lexico" in self.tokens[self.i]):
+      self.i += 1
     if("tok101_+" in self.tokens[self.i] or "tok102_-" in self.tokens[self.i]):
       self.i += 1
       self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
@@ -1031,6 +1114,8 @@ class AnalisadorSintatico():
       self.tem_erro_sintatico = True
   # <termo> := <fator><fator_deriva>
   def termo(self):
+    if("Erro Lexico" in self.tokens[self.i]):
+      self.i += 1
     if('tok500_' in self.tokens[self.i] or 'tok300_' in self.tokens[self.i] or 'tok202_(' in self.tokens[self.i]):
       self.fator()
       self.fator_deriva()
@@ -1043,6 +1128,8 @@ class AnalisadorSintatico():
 
   # <termo_deriva> := +<op_soma_deriva> | -<op_sub_deriva> | Ɛ
   def termo_deriva(self):
+    if("Erro Lexico" in self.tokens[self.i]):
+      self.i += 1
     if('tok101_+' in self.tokens[self.i]):
       self.i += 1
       self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
@@ -1055,6 +1142,8 @@ class AnalisadorSintatico():
       return
   # <op_bolleano> := && | || 
   def op_bolleano(self):
+    if("Erro Lexico" in self.tokens[self.i]):
+      self.i += 1
     if("tok113_&&" in self.tokens[self.i] or "tok114_||" in self.tokens[self.i]):
       self.i += 1
       self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
@@ -1066,6 +1155,8 @@ class AnalisadorSintatico():
       self.tem_erro_sintatico = True
   # <fator> := token_identificador <identificador_imp_arm_deriva> | token_inteiro | (<exp_simples>) 
   def fator(self):
+    if("Erro Lexico" in self.tokens[self.i]):
+      self.i += 1
     if('tok500_' in self.tokens[self.i]):
       self.i += 1
       self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
@@ -1094,12 +1185,16 @@ class AnalisadorSintatico():
       self.tem_erro_sintatico = True
   # <fator_deriva> := <op_md><fator><fator_deriva> | Ɛ
   def fator_deriva(self):
+    if("Erro Lexico" in self.tokens[self.i]):
+      self.i += 1
     if("tok103_*" in self.tokens[self.i] or "tok104_/" in self.tokens[self.i]):
       self.op_md()
       self.fator()
       self.fator_deriva()
   # <op_soma_deriva> := <termo><termo_deriva> | +
   def op_soma_deriva(self):
+    if("Erro Lexico" in self.tokens[self.i]):
+      self.i += 1
     if('tok101_+' in self.tokens[self.i]):
       self.i += 1
       self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
@@ -1108,6 +1203,8 @@ class AnalisadorSintatico():
       self.termo_deriva()
   # <op_sub_deriva> := <termo><termo_deriva> | -
   def op_sub_deriva(self):
+    if("Erro Lexico" in self.tokens[self.i]):
+      self.i += 1
     if('tok102_-' in self.tokens[self.i]):
       self.i += 1
       self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
@@ -1116,6 +1213,8 @@ class AnalisadorSintatico():
       self.termo_deriva()
   # <op_md> := * | /
   def op_md(self):
+    if("Erro Lexico" in self.tokens[self.i]):
+      self.i += 1
     if("tok103_*" in self.tokens[self.i] or "tok104_/" in self.tokens[self.i]):
       self.i += 1
       self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
@@ -1127,6 +1226,8 @@ class AnalisadorSintatico():
       self.tem_erro_sintatico = True
   # <op_cont> := ++ | --
   def op_cont(self):
+    if("Erro Lexico" in self.tokens[self.i]):
+      self.i += 1
     if("tok105_++" in self.tokens[self.i] or "tok106_--" in self.tokens[self.i]):
       self.i += 1
       self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
@@ -1138,6 +1239,8 @@ class AnalisadorSintatico():
       self.tem_erro_sintatico = True
   # <algoritmo_declaracao> :=  algoritmo {<deriva_cont_principal> }
   def algoritmo_declaracao(self):
+    if("Erro Lexico" in self.tokens[self.i]):
+      self.i += 1
     if ("tok600_algoritmo" in self.tokens[self.i]):
       self.i += 1
       self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
@@ -1156,6 +1259,8 @@ class AnalisadorSintatico():
       self.tem_erro_sintatico = True
   # <deriva_cont_principal> := <declaracao_var> <decl_comandos> | <decl_comandos> | Ɛ
   def deriva_cont_principal(self):
+    if("Erro Lexico" in self.tokens[self.i]):
+      self.i += 1
     if("tok601_variaveis" in self.tokens[self.i]):
       self.variaveis_declaracao()
       self.decl_comandos()
