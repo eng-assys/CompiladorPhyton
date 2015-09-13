@@ -41,6 +41,8 @@ Requisitos detalhados de cada fase de desenvolvimento
 -----------------------------------------------------
 
 * Analisador Léxico
+-------------------
+
   1. Implementação de um analisador léxico para a linguagem definida pela tabela a seguir (maiores detalhes sobre a linguagem foram baseados na linguagem de progração C):
   
 | Palavra Token                        | Expressão regular correspondente     |
@@ -61,7 +63,8 @@ Requisitos detalhados de cada fase de desenvolvimento
 * O analisador léxico resulta em uma cadeia de tokens (um por linha do arquivo de saída), contendo o código do símbolo identificado, o conteúdo do símbolo e a linha da ocorrência do símbolo. Os tokens possuem o seguinte formato: ```tok+código+_+conteúdo+->+númeroLinha```. A seguir é dada a lista dos tokens possíveis nessa linguagem:
  
  | tok1 - Operador |
- |-----------------|
+ -------------------
+
  | ```tok100_.``` |
  | ```tok101_+``` |
  | ```tok102_-``` |
@@ -81,6 +84,7 @@ Requisitos detalhados de cada fase de desenvolvimento
 
  | tok2 - Delimitador |
  ----------------------
+
  | ```tok200_;``` |
  | ```tok201_,``` |
  | ```tok202_(``` |
@@ -91,14 +95,17 @@ Requisitos detalhados de cada fase de desenvolvimento
  | ```tok207_]``` |
 
  | tok3_Numero |
- -----------------
+ ---------------
+
  | ```tok300_Numero Inteiro``` |
  | ```tok301_Numero Real``` |
 
  | tok400 - Caractere Constante |
  --------------------------------
+ 
  | tok500 - Identificador |
  --------------------------
+ 
  | tok6 - Palavra reservada |
  ----------------------------
  | ```tok600_algoritmo``` |
@@ -123,7 +130,7 @@ Requisitos detalhados de cada fase de desenvolvimento
  | ```tok619_falso``` |
  
  | tok700_Cadeia constante |
- -----------------------------
+ ---------------------------
  
 * Alguns dos testes realizados no analisador léxico estão presentes na pasta: "planejamentos e testes/testes_lexico" 
  
@@ -321,8 +328,8 @@ O analisador sintático construído foi do tipo Descendente Preditivo Recursivo.
 ```
 * Alguns dos testes realizados no analisador sintático estão presentes na pasta: "planejamentos e testes/testes_sintatico"
 * Quando um erro léxico é encontrado pelo analisador sintático, este o ignora e segue com a análise dos tokens seguintes
-* Quando um erro sintático é encontrado uma mensagem de erro é indicada no arquivo resp-sint.txt indicando a linha onde o erro foi encontrado e o token que causou o erro. Caso o usuário esteja utilizando um emulador de terminal (como o do Linux) os erros encontrados aparecerão por alí também.
-* Após indicar algum erro o analisador sintático pode encontrar erros em cascata devido ao erro inicial. Caso isso aconteça, é recomendado ao usuário tentar consertar os erros iniciais.
+* Quando um erro sintático é encontrado, uma mensagem de erro é indicada no arquivo resp-sint.txt informando a linha onde o erro foi encontrado e o token que causou o erro. Caso o usuário esteja utilizando um emulador de terminal (como o do Linux) os erros encontrados aparecerão por alí também.
+* Após indicar algum erro o analisador sintático pode encontrar erros em cascata devido ao erro inicial. Caso isso aconteça, é recomendado ao usuário tentar consertar os erros iniciais antes dos posteriores.
 * Uma mensagem de sucesso, tanto no arquivo resp-sint.txt quanto no emulador de terminal, se utilizado, indicará o reconhecimento sintático completo da cadeia de entrada.
 
 * Analisador Semântico
