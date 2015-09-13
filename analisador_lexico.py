@@ -220,7 +220,7 @@ class AnalisadorLexico():
         # ===================================================================================
         # Verifica se o caracter eh um delimitador - OK
         if (self.ehDelimitador(caracter_atual)):
-          arquivo_saida.write(self.qualTokenDelimitador(caracter_atual)+'_'+caracter_atual+'\n')
+          arquivo_saida.write(self.qualTokenDelimitador(caracter_atual)+'_'+caracter_atual+'->'+str(numero_linha)+'\n')
         # ===================================================================================
         # Consumindo comentarios de linha - OK
         elif (caracter_atual == '/' and caractere_seguinte == '/'):
@@ -252,10 +252,10 @@ class AnalisadorLexico():
         # ===================================================================================
         # Verificando se o elemento eh um operador
         elif caractere_seguinte != None and self.ehOperador(caracter_atual+caractere_seguinte):
-          arquivo_saida.write(self.qualTokenOperador(caracter_atual+caractere_seguinte)+'_'+caracter_atual+caractere_seguinte+'\n')
+          arquivo_saida.write(self.qualTokenOperador(caracter_atual+caractere_seguinte)+'_'+caracter_atual+caractere_seguinte+'->'+str(numero_linha)+'\n')
           i += 1
         elif self.ehOperador(caracter_atual):
-          arquivo_saida.write(self.qualTokenOperador(caracter_atual)+'_'+caracter_atual+'\n')
+          arquivo_saida.write(self.qualTokenOperador(caracter_atual)+'_'+caracter_atual+'->'+str(numero_linha)+'\n')
 
         # ===================================================================================
         # Verificando se o elemento em questao eh caractere constante - OK
@@ -266,7 +266,7 @@ class AnalisadorLexico():
             arquivo_saida.write('Erro Lexico - Caractere nao fechado - Linha: %d\n' %numero_linha)
             i = tamanho_linha
           elif self.ehSimbolo(linha_programa[i+1]) and linha_programa[i+1] != string.punctuation[6] and linha_programa[i+2] == string.punctuation[6]:
-            arquivo_saida.write('tok400_'+linha_programa[i+1]+'\n')
+            arquivo_saida.write('tok400_'+linha_programa[i+1]+'->'+str(numero_linha)+'\n')
             i+=2
           elif linha_programa[i+1] == string.punctuation[6] and linha_programa[i+2] == string.punctuation[6]:
             arquivo_saida.write('Erro Lexico - Caractere nao pode ser aspas simples - Linha: %d\n' %numero_linha)
@@ -299,7 +299,7 @@ class AnalisadorLexico():
                 arquivo_saida.write('Erro Lexico - String com simbolo invalido (Nao ascii) - Linha: %d\n' %numero_linha)
                 break
             if(ehValido):
-              arquivo_saida.write('tok700_'+nova_cadeia+'\n')
+              arquivo_saida.write('tok700_'+nova_cadeia+'->'+str(numero_linha)+'\n')
         # ===================================================================================
         # Verificando se o elemento em questao eh um numero - OK
         elif (self.ehDigito(caracter_atual)):
@@ -336,11 +336,11 @@ class AnalisadorLexico():
               arquivo_saida.write('Erro Lexico - Numero mal formado - Linha: %d\n' %numero_linha)
 
             if (j > 0):
-              arquivo_saida.write('tok301_'+string_temp+'\n')
+              arquivo_saida.write('tok301_'+string_temp+'->'+str(numero_linha)+'\n')
             else: 
               arquivo_saida.write('Erro Lexico - Numero mal formado - Linha: %d\n' %numero_linha)
           else:
-            arquivo_saida.write('tok300_'+string_temp+'\n')
+            arquivo_saida.write('tok300_'+string_temp+'->'+str(numero_linha)+'\n')
             if(not self.ehDigito(caracter_atual)):
               i -= 1
         # ===================================================================================
@@ -380,9 +380,9 @@ class AnalisadorLexico():
                 break
           else: # Se nao houver erros basta verificar se o elemento eh palavra reservada tambem
             if (self.ehReservada(string_temp)):
-              arquivo_saida.write(self.qualTokenReservada(string_temp)+'_'+string_temp+'\n')
+              arquivo_saida.write(self.qualTokenReservada(string_temp)+'_'+string_temp+'->'+str(numero_linha)+'\n')
             else:
-              arquivo_saida.write('tok500_'+string_temp+'\n')
+              arquivo_saida.write('tok500_'+string_temp+'->'+str(numero_linha)+'\n')
           
         # ===================================================================================
         # Verificando Erros Lexicos - Caracter Invalido

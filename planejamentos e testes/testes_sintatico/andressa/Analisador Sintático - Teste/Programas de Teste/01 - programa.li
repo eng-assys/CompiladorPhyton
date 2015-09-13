@@ -1,0 +1,68 @@
+registro Pessoa {
+	cadeia nome;
+	inteiro idade;
+	}
+registro cidade {
+	cadeia nome;
+	inteiro populacao;
+	}
+constantes
+{
+	inteiro MAX = 10;
+	inteiro MAX2 = 50;
+	cadeia TEXTO = "mensagem";
+	char LETRA = 'a';
+	booleano CONDICAO = verdadeiro;
+}
+variaveis
+{
+	inteiro a;
+	inteiro b = 10;
+	cadeia mensagem;
+	cadeia mensagem2 = "texto";
+	pessoa ana;
+	inteiro vetor [10];
+	inteiro matriz [12][12];
+}
+funcao vazio function1 (inteiro a, inteiro vector[], registro pessoa)
+{
+
+}
+
+funcao inteiro function2 (inteiro x)
+{
+
+}
+funcao vazio teste (inteiro a)
+{
+	variaveis
+	{
+		inteiro x;
+		pessoa z;
+		cadeia texto;
+	}
+	
+	para (i=0; i<100; i++)
+	{
+		escreva("texto");
+	}
+
+	enquanto (i>20)
+	{
+		leia
+	}
+	se(i==2)
+	{
+		escreva(i);
+	}
+	senao
+	{
+		escreva(charqualquer);
+	}
+	retorno vazio;
+}
+
+algoritmo
+{
+	escreva("sucesso");
+}
