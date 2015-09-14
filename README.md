@@ -271,7 +271,7 @@ Requisitos detalhados de cada fase de desenvolvimento
 
    * ```<identificador_imp_arm_deriva> := .token_identificador | [token_inteiro]<matriz> | Ɛ ```
 
-   * ```<exp_aritmetica> := token_identificador = <exp_simples>```
+   * ```<exp_aritmetica> := token_identificador = <exp_simples>;```
 
    * ```<exp_rel_bol> := <exp_simples> <op_relacional> <exp_simples> <exp_rel_deriva>```
 

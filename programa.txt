@@ -24,46 +24,55 @@ variaveis
 	inteiro vetor [10];
 	inteiro matriz [12][12];
 }
-funcao vazio function1 (inteiro a, inteiro vector[], pessoa ana)
-{
-
-}
-
-funcao inteiro function2 (inteiro x)
-{
-
-}
-funcao vazio teste (inteiro a)
+funcao inteiro faznada()
 {
 	variaveis
 	{
-		inteiro x;
-		pessoa z;
-		cadeia texto;
+		inteiro a = 10;
 	}
-	
-	para (i=0; i<100; i++)
-	{
-		escreva("texto");
+	//a = 25;
+	se(a==b){
+		escreva("sucesso");
 	}
-
-	enquanto (i>20)
-	{
-		leia(o);
+	senao{
+		escreva("sucesso");
 	}
-	se(i==2)
-	{
-		escreva(i);
-	}
-	senao
-	{
-		escreva(charqualquer);
-	}
-
+	escreva("sucesso");
 	retorno vazio;
 }
-
+funcao vazio function1 (inteiro a, inteiro vector[], pessoa pessoa)
+{
+	variaveis
+	{
+		inteiro a = 10;
+	}
+	escreva("sucesso");
+	a = 25;
+	retorno vazio;
+}
 algoritmo
 {
-	escreva("sucesso");
-}
+	variaveis
+	{
+		inteiro a = 10;
+	}
+
+	enquanto(x!=z){
+		leia(x);
+	}
+	
+	para(i=10;a<10;b++)
+	{
+		escreva("sucesso");
+		para(i=10;a<10;b++)
+		{
+			a = 25;
+			escreva("sucesso");
+		}
+	}
+	a = 25;
+	se (a > 8) {
+		a = 25;
+	}
+	
+}	
