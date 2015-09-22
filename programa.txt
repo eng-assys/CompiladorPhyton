@@ -30,7 +30,7 @@ funcao inteiro faznada()
 	{
 		inteiro a = 10;
 	}
-	//a = 25;
+	a = 25;
 	se(a==b){
 		escreva("sucesso");
 	}
@@ -56,7 +56,7 @@ algoritmo
 	{
 		inteiro a = 10;
 	}
-
+	a = function1(vetor[3][i], 3, a, pessoa.nome);
 	enquanto(x!=z){
 		leia(x);
 	}
@@ -71,7 +71,7 @@ algoritmo
 		}
 	}
 	a = 25;
-	se (a > 8) {
+	se (a > 8 && 3 < 8) {
 		a = 25;
 	}
 	
