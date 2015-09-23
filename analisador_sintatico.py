@@ -105,42 +105,65 @@ class AnalisadorSintatico():
             self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
             self.registro_declaracao()
           else:
-            print("Erro sintatico - Esperado símbolo '}' ao final do bloco de registro - linha: "+self.linha_atual+"\n")
-            self.arquivo_saida.write("Erro sintatico - Esperado símbolo '}' ao final do bloco de registro - linha: "+self.linha_atual+"\n")
+            print("Erro sintatico - Esperado '}'  - linha: "+self.linha_atual+"\n")
+            self.arquivo_saida.write("Erro sintatico  - Esperado '}' - linha: "+self.linha_atual+"\n")
             print('Token problemático: '+self.tokens[self.i])
             self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
             self.tem_erro_sintatico = True
+            while( not 'tok602_constantes' in self.tokens[self.i] or not 'tok603_registro' in self.tokens[self.i]):
+              self.i += 1
+              self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
         else:
-          print("Erro sintatico - Esperado símbolo '{' após o identificador nome do registro - linha: "+self.linha_atual+"\n")
-          self.arquivo_saida.write("Erro sintatico - Esperado símbolo '{' após o identificador nome do registro - linha: "+self.linha_atual+"\n")
+          print("Erro sintatico - Esperado '{' - linha: "+self.linha_atual+"\n")
+          self.arquivo_saida.write("Erro sintatico - Esperado '{'  - linha: "+self.linha_atual+"\n")
           print('Token problemático: '+self.tokens[self.i])
           self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
           self.tem_erro_sintatico = True
+          while( not 'tok602_constantes' in self.tokens[self.i] or not 'tok603_registro' in self.tokens[self.i]):
+            self.i += 1
+            self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
       else:
-        print("Erro sintatico - Esperado identificador após a declaração de registro - linha: "+self.linha_atual+"\n")
-        self.arquivo_saida.write("Erro sintatico - Esperado identificador após a declaração de registro - linha: "+self.linha_atual+"\n")
+        print("Erro sintatico - Esperado um 'identificador' - linha: "+self.linha_atual+"\n")
+        self.arquivo_saida.write("Erro sintatico  - Esperado um 'identificador' - linha: "+self.linha_atual+"\n")
         print('Token problemático: '+self.tokens[self.i])
         self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
         self.tem_erro_sintatico = True
-
+        while( not 'tok602_constantes' in self.tokens[self.i] or not 'tok603_registro' in self.tokens[self.i]):
+          self.i += 1
+          self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
+        return
+    elif ('tok602_constantes' in self.tokens[self.i]):
+      return
+    else:
+      print("Erro sintatico - Esperado a palavra reservada 'registro'  - linha: "+self.linha_atual+"\n")
+      self.arquivo_saida.write("Erro sintatico  - Esperado a palavra reservada 'registro'  - linha: "+self.linha_atual+"\n")
+      print('Token problemático: '+self.tokens[self.i])
+      self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
+      self.tem_erro_sintatico = True
+      while( not 'tok602_constantes' in self.tokens[self.i] or not 'tok603_registro' in self.tokens[self.i]):
+        self.i += 1
+        self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
+        
   # <declaracao_reg> := <declaracao>; <declaracao_reg> | Ɛ                                                                 
   def declaracao_reg(self):
     if("Erro Lexico" in self.tokens[self.i]):
       self.i += 1
+    if("tok205_}" in self.tokens[self.i]):
+      return
     self.declaracao()
     if( 'tok200_;' in self.tokens[self.i]):
       self.i += 1
       self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
-      # Indica que acabou a minha declaracao de registro
-      if( not "tok205_}" in self.tokens[self.i] ):
-        self.declaracao_reg()
+      self.declaracao_reg()
     else:
-      print("Erro sintatico - Esperado símbolo ';' após o identificador do registro - linha: "+self.linha_atual+"\n")
-      self.arquivo_saida.write("Erro sintatico - Esperado símbolo ';' após o identificador do registro - linha: "+self.linha_atual+"\n")
-
+      print("Erro sintatico - Esperado ';'  - linha: "+self.linha_atual+"\n")
+      self.arquivo_saida.write("Erro sintatico  - Esperado ';' - linha: "+self.linha_atual+"\n")
       print('Token problemático: '+self.tokens[self.i])
       self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
       self.tem_erro_sintatico = True
+      while( not "tok205_}" in self.tokens[self.i]):
+        self.i += 1
+        self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
 
 
   # <declaracao> := <tipo_primitivo> token_identificador                                                                  
@@ -152,11 +175,15 @@ class AnalisadorSintatico():
       self.i += 1
       self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
     else:
-      print("Erro sintatico - Esperado identificador após o tipo primitivo no registro - linha: "+self.linha_atual+"\n")
-      self.arquivo_saida.write("Erro sintatico - Esperado identificador após o tipo primitivo no registro - linha: "+self.linha_atual+"\n")
-      self.tem_erro_sintatico = True
+      print("Erro sintatico - Esperado um 'indentificador'  - linha: "+self.linha_atual+"\n")
+      self.arquivo_saida.write("Erro sintatico  - Esperado um 'identificador' - linha: "+self.linha_atual+"\n")
       print('Token problemático: '+self.tokens[self.i])
       self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
+      self.tem_erro_sintatico = True
+      while( not 'tok200_;' in self.tokens[self.i]):
+        self.i += 1
+        self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
+        
   # <tipo_primitivo> := cadeia | real | inteiro | char | booleano                                                         
   def tipo_primitivo(self):
     if("Erro Lexico" in self.tokens[self.i]):
@@ -169,11 +196,15 @@ class AnalisadorSintatico():
       self.i += 1
       self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
     else:
-      print("Erro sintatico - token não é uma palavra reservada do tipo primitivo (cadeia, real, inteiro, char, booleano):  - linha: "+self.linha_atual+"\n")
-      self.arquivo_saida.write("Erro sintatico - token não é uma palavra reservada do tipo primitivo (cadeia, real, inteiro, char, booleano):  - linha: "+self.linha_atual+"\n")
+      print("Erro sintatico - Esperado as palavras reservadas 'cadeia' ou 'real' ou 'inteiro' ou 'char' ou 'booleano' - linha: "+self.linha_atual+"\n")
+      self.arquivo_saida.write("Erro sintatico  - Esperado as palavras reservadas 'cadeia' ou 'real' ou 'inteiro' ou 'char' ou 'booleano' - linha: "+self.linha_atual+"\n")
+      print('Token problemático: '+self.tokens[self.i])
+      self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
       self.tem_erro_sintatico = True
-      print('token problemático: '+self.tokens[self.i])
-      self.arquivo_saida.write('token problemático: '+self.tokens[self.i]+'\n')
+      while( not 'tok500_' in self.tokens[self.i]):
+        self.i += 1
+        self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
+        
   # <constantes_declaracao> := constantes { <declaracao_const>  }                                                          
   def constantes_declaracao(self):
     if("Erro Lexico" in self.tokens[self.i]):
@@ -190,23 +221,32 @@ class AnalisadorSintatico():
             self.i += 1
             self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
           else:
-            print("Erro sintatico - Esperado símbolo '}' ao final do bloco de constantes - linha: "+self.linha_atual+"\n")
-            self.arquivo_saida.write("Erro sintatico - Esperado símbolo '}' ao final do bloco de constantes - linha: "+self.linha_atual+"\n")
+            print("Erro sintatico - Esperado '}' - linha: "+self.linha_atual+"\n")
+            self.arquivo_saida.write("Erro sintatico  - Esperado '}' - linha: "+self.linha_atual+"\n")
             print('Token problemático: '+self.tokens[self.i])
             self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
             self.tem_erro_sintatico = True
+            while( not 'tok601_variaveis' in self.tokens[self.i]):
+              self.i += 1
+              self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
         else:
-          print("Erro sintatico - Esperado símbolo '{' após a declaração de constantes - linha: "+self.linha_atual+"\n")
-          self.arquivo_saida.write("Erro sintatico - Esperado símbolo '{' após a declaração de constantes - linha: "+self.linha_atual+"\n")
+          print("Erro sintatico - Esperado '{' - linha: "+self.linha_atual+"\n")
+          self.arquivo_saida.write("Erro sintatico  - Esperado '{' - linha: "+self.linha_atual+"\n")
           print('Token problemático: '+self.tokens[self.i])
           self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
           self.tem_erro_sintatico = True
+          while( not 'tok601_variaveis' in self.tokens[self.i]):
+            self.i += 1
+            self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
     else:
-      self.arquivo_saida.write("Erro sintatico - A declaracao do bloco de constantes, mesmo que vazio, é obrigatória nessa linguagem - linha: "+self.linha_atual+"\n")
-      print("Erro sintatico - A declaracao do bloco de constantes, mesmo que vazio, é obrigatória nessa linguagem - linha: "+self.linha_atual+"\n")
-      self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
+      print("Erro sintatico - Esperado a palavras reservada 'constantes' - linha: "+self.linha_atual+"\n")
+      self.arquivo_saida.write("Erro sintatico  - Esperado as palavras reservadas 'constantes' - linha: "+self.linha_atual+"\n")
       print('Token problemático: '+self.tokens[self.i])
+      self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
       self.tem_erro_sintatico = True
+      while( not 'tok601_variaveis' in self.tokens[self.i]):
+        self.i += 1
+        self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
   # <declaracao_const> := <declaracao> = <valor_primitivo>; <declaracao_const> | Ɛ                                        
   def declaracao_const(self):
     if("Erro Lexico" in self.tokens[self.i]):
@@ -228,11 +268,19 @@ class AnalisadorSintatico():
         print('Token problemático: '+self.tokens[self.i])
         self.tem_erro_sintatico = True
     else:
-      self.arquivo_saida.write("Erro sintatico - Esperado símbolo '=' após a declaração de identificador da constante - linha: "+self.linha_atual+"\n")
-      print("Erro sintatico - Esperado símbolo '=' após a declaração de identificador da constante - linha: "+self.linha_atual+"\n")
-      self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
+      print("Erro sintatico - Esperado '=' - linha: "+self.linha_atual+"\n")
+      self.arquivo_saida.write("Erro sintatico  - Esperado '=' - linha: "+self.linha_atual+"\n")
       print('Token problemático: '+self.tokens[self.i])
+      self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
       self.tem_erro_sintatico = True
+      while( not 'tok300_' in self.tokens[self.i] or 
+       not 'tok301_' in self.tokens[self.i] or
+       not 'tok700_' in self.tokens[self.i] or
+       not 'tok400_' in self.tokens[self.i] or
+       not 'tok618_verdadeiro' in self.tokens[self.i] or
+       not 'tok619_falso' in self.tokens[self.i]):
+        self.i += 1
+        self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
 
   # <valor_primitivo> := token_cadeia | token_real | token_inteiro | token_char | verdadeiro | falso                       
   def valor_primitivo(self):

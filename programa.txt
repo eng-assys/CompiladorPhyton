@@ -4,10 +4,10 @@ registro Pessoa {
 	}
 registro cidade {
 	cadeia nome;
-	inteiro populacao;
+	inteiro numero;
 	}
 constantes
-{
+
 	inteiro MAX = 10;
 	inteiro MAX2 = 50;
 	cadeia TEXTO = "mensagem";

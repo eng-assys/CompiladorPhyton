@@ -1,1 +1,9 @@
-Cadeia de tokens reconhecida com sucesso
+﻿Erro sintatico  - Esperado as palavras reservadas 'cadeia' ou 'real' ou 'inteiro' ou 'char' ou 'booleano' - linha: 7
+Token problemático: tok200_;->7
+
+Erro sintatico  - Esperado ';' - linha: 12
+Token problemático: tok115_=->12
+
+Erro sintatico  - Esperado a palavra reservada 'registro'  - linha: 19
+Token problemático: tok604_funcao->19
+
