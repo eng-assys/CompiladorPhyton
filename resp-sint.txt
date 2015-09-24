@@ -1,4 +1,1 @@
-Erro sintatico - Esperado '[' ou '=' - linha: 22
-Token problemático: tok700_texto->22
-
-Verifique os erros sintaticos e tente compilar novamente
+Cadeia de tokens reconhecida com sucesso

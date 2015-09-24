@@ -662,7 +662,9 @@ class AnalisadorSintatico():
   def funcao_declaracao(self):
     if("Erro Lexico" in self.tokens[self.i]):
       self.i += 1
-    if('tok604_funcao' in self.tokens[self.i]):
+    if ("tok600_algoritmo" in self.tokens[self.i]):
+      return
+    elif('tok604_funcao' in self.tokens[self.i]):
       self.i += 1
       self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
       self.tipo_return()
@@ -692,31 +694,93 @@ class AnalisadorSintatico():
                 self.arquivo_saida.write("Erro sintatico - Esperado símbolo '}' ao final do bloco da função, chaves desbalanceadas - linha: "+self.linha_atual+"\n")
                 self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
                 self.tem_erro_sintatico = True
+                if("tok600_algoritmo" in self.tokens[self.i] or
+                   'tok604_funcao' in self.tokens[self.i]):
+                  self.i += 1
+                  self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
+                while(not "tok600_algoritmo" in self.tokens[self.i] or
+                  not 'tok604_funcao' in self.tokens[self.i]):
+                  self.i += 1
+                  self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
             else:
-              print("Erro sintatico - Esperado símbolo '}' após o fechamento de parêntesis da declaração de parâmetros da função - linha: "+self.linha_atual+"\n")
+              print("Erro sintatico - Esperado símbolo '{' após o fechamento de parêntesis da declaração de parâmetros da função - linha: "+self.linha_atual+"\n")
               print('Token problemático: '+self.tokens[self.i])
-              self.arquivo_saida.write("Erro sintatico - Esperado símbolo '}' após o fechamento de parêntesis da declaração de parâmetros da função - linha: "+self.linha_atual+"\n")
+              self.arquivo_saida.write("Erro sintatico - Esperado símbolo '{' após o fechamento de parêntesis da declaração de parâmetros da função - linha: "+self.linha_atual+"\n")
               self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
               self.tem_erro_sintatico = True
+              if("tok600_algoritmo" in self.tokens[self.i] or
+               'tok604_funcao' in self.tokens[self.i]):
+                self.i += 1
+                self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
+              while(not "tok600_algoritmo" in self.tokens[self.i] or
+              not 'tok604_funcao' in self.tokens[self.i]):
+                self.i += 1
+                self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
           else:
             print("Erro sintatico - Esperado símbolo ')' ao final da declaração de parâmetros da função, parêntesis desbalanceados - linha: "+self.linha_atual+"\n")
             print('Token problemático: '+self.tokens[self.i])
             self.arquivo_saida.write("Erro sintatico - Esperado símbolo ')' ao final da declaração de parâmetros da função, parêntesis desbalanceados - linha: "+self.linha_atual+"\n")
             self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
             self.tem_erro_sintatico = True
+            if("tok600_algoritmo" in self.tokens[self.i] or
+               'tok604_funcao' in self.tokens[self.i]):
+                self.i += 1
+                self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
+            while( not "tok600_algoritmo" in self.tokens[self.i] or
+            not 'tok604_funcao' in self.tokens[self.i]):
+              self.i += 1
+              self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
         else:
           print("Erro sintatico - Esperado símbolo '(' no início da declaração de parâmetros da função - linha: "+self.linha_atual+"\n")
           print('Token problemático: '+self.tokens[self.i])
           self.arquivo_saida.write("Erro sintatico - Esperado símbolo '(' no início da declaração de parâmetros da função - linha: "+self.linha_atual+"\n")
           self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
           self.tem_erro_sintatico = True
+          if("tok600_algoritmo" in self.tokens[self.i] or
+         'tok604_funcao' in self.tokens[self.i]):
+            self.i += 1
+            self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
+          while("tok600_algoritmo" in self.tokens[self.i] or
+            'tok604_funcao' in self.tokens[self.i]):
+            self.i += 1
+            self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
+          if("tok600_algoritmo" in self.tokens[self.i] or
+         'tok604_funcao' in self.tokens[self.i]):
+            self.i += 1
+            self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
+          while(not "tok600_algoritmo" in self.tokens[self.i] or
+            not 'tok604_funcao' in self.tokens[self.i]):
+            self.i += 1
+            self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
       else:
         print("Erro sintatico - Esperado identificador com o nome da função declarada - linha: "+self.linha_atual+"\n")
         print('Token problemático: '+self.tokens[self.i])
         self.arquivo_saida.write("Erro sintatico - Esperado identificador com o nome da função declarada - linha: "+self.linha_atual+"\n")
         self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
         self.tem_erro_sintatico = True
-
+        if("tok600_algoritmo" in self.tokens[self.i] or
+         'tok604_funcao' in self.tokens[self.i]):
+          self.i += 1
+          self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
+        while(not "tok600_algoritmo" in self.tokens[self.i] or
+            not 'tok604_funcao' in self.tokens[self.i]):
+          self.i += 1
+          self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
+    else:
+      print("Erro sintatico - Esperado palavra reservada funcao - linha: "+self.linha_atual+"\n")
+      print('Token problemático: '+self.tokens[self.i])
+      self.arquivo_saida.write("Erro sintatico - Esperado palavra reservada funcao - linha: "+self.linha_atual+"\n")
+      self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
+      self.tem_erro_sintatico = True
+      if("tok600_algoritmo" in self.tokens[self.i] or
+         'tok604_funcao' in self.tokens[self.i]):
+        self.i += 1
+        self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
+      while(not "tok600_algoritmo" in self.tokens[self.i] or
+             not 'tok604_funcao' in self.tokens[self.i]):
+        self.i += 1
+        self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
+        
   # <tipo_return> := <tipo_primitivo> | vazio | token_identificador<identificador_param_deriva> 
   def tipo_return(self):
     if("Erro Lexico" in self.tokens[self.i]):
@@ -728,8 +792,24 @@ class AnalisadorSintatico():
       self.i += 1
       self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
       self.identificador_param_deriva()
-    else:
+    elif('tok617_cadeia' in self.tokens[self.i] or 
+          'tok614_real' in self.tokens[self.i] or
+          'tok613_inteiro' in self.tokens[self.i] or
+          'tok616_char' in self.tokens[self.i] or
+          'tok615_booleano' in self.tokens[self.i]):
       self.tipo_primitivo()
+    else:
+      print("Erro sintatico - Esperado tipo de retorno da funcao - linha: "+self.linha_atual+"\n")
+      print('Token problemático: '+self.tokens[self.i])
+      self.arquivo_saida.write("Erro sintatico - Esperado tipo de retorno da funcao - linha: "+self.linha_atual+"\n")
+      self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
+      self.tem_erro_sintatico = True
+      if('tok500_' in self.tokens[self.i]):
+        self.i += 1
+        self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
+      while(not 'tok500_' in self.tokens[self.i]):
+        self.i += 1
+        self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
     
   # <decl_param> := <declaracao> <identificador_param_deriva> <deriva_param> | token_identificador token_identificador <deriva_param> 
   def decl_param(self):
@@ -748,17 +828,46 @@ class AnalisadorSintatico():
         self.arquivo_saida.write("Erro sintatico - Esperado identificador com o nome registro declarado como parâmetro - linha: "+self.linha_atual+"\n")
         self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
         self.tem_erro_sintatico = True
+        if('tok201_,' in self.tokens[self.i] or
+         'tok203_)' in self.tokens[self.i]):
+            self.i += 1
+            self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
+        while(not 'tok201_,' in self.tokens[self.i] or
+         not 'tok203_)' in self.tokens[self.i]):
+            self.i += 1
+            self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
+    elif('tok617_cadeia' in self.tokens[self.i] or 
+      'tok614_real' in self.tokens[self.i] or
+      'tok613_inteiro' in self.tokens[self.i] or
+      'tok616_char' in self.tokens[self.i] or
+      'tok615_booleano' in self.tokens[self.i]):
+        self.declaracao()
+        self.identificador_param_deriva()
+        self.deriva_param()
     else:
-      self.declaracao()
-      self.identificador_param_deriva()
-      self.deriva_param()
-
+      print("Erro sintatico - Esperado tipo primitivo ou um tipo registro na declaracao de parametros - linha: "+self.linha_atual+"\n")
+      print('Token problemático: '+self.tokens[self.i])
+      self.arquivo_saida.write("Erro sintatico - Esperado tipo primitivo ou um tipo registro na declaracao de parametros - linha: "+self.linha_atual+"\n")
+      self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
+      self.tem_erro_sintatico = True
+      if('tok201_,' in self.tokens[self.i] or
+         'tok203_)' in self.tokens[self.i]):
+        self.i += 1
+        self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
+      while(not 'tok201_,' in self.tokens[self.i] or
+         not 'tok203_)' in self.tokens[self.i]):
+        self.i += 1
+        self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
 
   # <identificador_param_deriva> := []<matriz_param> | Ɛ
   def identificador_param_deriva(self):
     if("Erro Lexico" in self.tokens[self.i]):
       self.i += 1
-    if('tok206_[' in self.tokens[self.i]):
+    if('tok201_,' in self.tokens[self.i] or
+        'tok203_)' in self.tokens[self.i] or
+        'tok500_' in self.tokens[self.i] ):
+      return
+    elif('tok206_[' in self.tokens[self.i]):
       self.i += 1
       self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
       if('tok207_]' in self.tokens[self.i]):
@@ -771,12 +880,42 @@ class AnalisadorSintatico():
         self.arquivo_saida.write("Erro sintatico - Esperado símbolo ']' na declaracao do parâmetro vetor ou matriz, colchetes desbalanceados - linha: "+self.linha_atual+"\n")
         self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
         self.tem_erro_sintatico = True
+        if('tok201_,' in self.tokens[self.i] or
+        'tok203_)' in self.tokens[self.i] or
+        'tok500_' in self.tokens[self.i] ):
+          self.i += 1
+          self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
+        while(not 'tok201_,' in self.tokens[self.i] or
+            not 'tok203_)' in self.tokens[self.i] or
+            not 'tok500_' in self.tokens[self.i]):
+          self.i += 1
+          self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
+    else:
+      print("Erro sintatico - Esperado símbolo '[' na declaracao do parâmetro vetor ou matriz, colchetes desbalanceados - linha: "+self.linha_atual+"\n")
+      print('Token problemático: '+self.tokens[self.i])
+      self.arquivo_saida.write("Erro sintatico - Esperado símbolo '[' na declaracao do parâmetro vetor ou matriz, colchetes desbalanceados - linha: "+self.linha_atual+"\n")
+      self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
+      self.tem_erro_sintatico = True
+      if('tok201_,' in self.tokens[self.i] or
+        'tok203_)' in self.tokens[self.i] or
+        'tok500_' in self.tokens[self.i] ):
+        self.i += 1
+        self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
+      while(not 'tok201_,' in self.tokens[self.i] or
+            not 'tok203_)' in self.tokens[self.i] or
+            not 'tok500_' in self.tokens[self.i]):
+        self.i += 1
+        self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
 
   # <matriz_param> := [] | Ɛ
   def matriz_param(self):
     if("Erro Lexico" in self.tokens[self.i]):
       self.i += 1
-    if('tok206_[' in self.tokens[self.i]):
+    if('tok201_,' in self.tokens[self.i] or
+        'tok203_)' in self.tokens[self.i] or
+        'tok500_' in self.tokens[self.i]):
+      return
+    elif('tok206_[' in self.tokens[self.i]):
       self.i += 1
       self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
       if('tok207_]' in self.tokens[self.i]):
@@ -788,15 +927,60 @@ class AnalisadorSintatico():
         self.arquivo_saida.write("Erro sintatico - Esperado símbolo ']' na declaracao do parâmetro vetor ou matriz, colchetes desbalanceados - linha: "+self.linha_atual+"\n")
         self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
         self.tem_erro_sintatico = True
+        if('tok201_,' in self.tokens[self.i] or
+        'tok203_)' in self.tokens[self.i] or
+        'tok500_' in self.tokens[self.i] ):
+          self.i += 1
+          self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
+        while(not 'tok201_,' in self.tokens[self.i] or
+            not 'tok203_)' in self.tokens[self.i] or
+            not 'tok500_' in self.tokens[self.i]):
+          self.i += 1
+          self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
+
+    else:
+      print("Erro sintatico - Esperado símbolo '[' na declaracao do parâmetro vetor ou matriz, colchetes desbalanceados - linha: "+self.linha_atual+"\n")
+      print('Token problemático: '+self.tokens[self.i])
+      self.arquivo_saida.write("Erro sintatico - Esperado símbolo '[' na declaracao do parâmetro vetor ou matriz, colchetes desbalanceados - linha: "+self.linha_atual+"\n")
+      self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
+      self.tem_erro_sintatico = True
+      if('tok201_,' in self.tokens[self.i] or
+        'tok203_)' in self.tokens[self.i] or
+        'tok500_' in self.tokens[self.i] ):
+          self.i += 1
+          self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
+      while(not 'tok201_,' in self.tokens[self.i] or
+            not 'tok203_)' in self.tokens[self.i] or
+            not 'tok500_' in self.tokens[self.i]):
+          self.i += 1
+          self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
+
   # <deriva_param> := ,<decl_param> | Ɛ
   def deriva_param(self):
     if("Erro Lexico" in self.tokens[self.i]):
       self.i += 1
-    if('tok201_,' in self.tokens[self.i]):
+    if('tok203_)' in self.tokens[self.i]):
+      return
+    elif('tok201_,' in self.tokens[self.i]):
       self.i += 1
       self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
       self.decl_param()
-
+    else:
+      print("Erro sintatico - Esperado símbolo ',' no parâmetro da funcao - linha: "+self.linha_atual+"\n")
+      print('Token problemático: '+self.tokens[self.i])
+      self.arquivo_saida.write("Erro sintatico - Esperado símbolo ',' no parâmetro da funcao - linha: "+self.linha_atual+"\n")
+      self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
+      self.tem_erro_sintatico = True
+      
+      if('tok201_,' in self.tokens[self.i] or
+         'tok203_)' in self.tokens[self.i]):
+            self.i += 1
+            self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
+      while(not 'tok201_,' in self.tokens[self.i] or
+           not 'tok203_)' in self.tokens[self.i]):
+            self.i += 1
+            self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
+            
   # <deriva_cont_funcao> := <variaveis_declaracao> <decl_comandos> retorno <return_deriva>; | <decl_comandos> retorno <return_deriva>;
   def deriva_cont_funcao(self):
     if("Erro Lexico" in self.tokens[self.i]):

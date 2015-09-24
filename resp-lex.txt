@@ -61,6 +61,7 @@ tok500_mensagem->21
 tok200_;->21
 tok617_cadeia->22
 tok500_mensagem2->22
+tok115_=->22
 tok700_texto->22
 tok200_;->22
 tok500_Pessoa->23
@@ -83,7 +84,7 @@ tok207_]->25
 tok200_;->25
 tok205_}->26
 tok604_funcao->27
-tok613_inteiro->27
+tok606_vazio->27
 tok500_faznada->27
 tok202_(->27
 tok203_)->27
@@ -144,6 +145,13 @@ tok207_]->43
 tok201_,->43
 tok500_pessoa->43
 tok500_pessoa->43
+tok201_,->43
+tok613_inteiro->43
+tok500_matriz->43
+tok206_[->43
+tok207_]->43
+tok206_[->43
+tok207_]->43
 tok203_)->43
 tok204_{->44
 tok601_variaveis->45

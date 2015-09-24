@@ -19,12 +19,12 @@ variaveis
 	inteiro a;
 	inteiro b = 10;
 	cadeia mensagem;
-	cadeia mensagem2  "texto";
+	cadeia mensagem2 = "texto";
 	Pessoa ana;
 	inteiro vetor [10];
 	inteiro matriz [12][12];
 }
-funcao inteiro faznada()
+funcao vazio faznada()
 {
 	variaveis
 	{
@@ -40,7 +40,7 @@ funcao inteiro faznada()
 	escreva("sucesso");
 	retorno vazio;
 }
-funcao vazio function1 (inteiro a, inteiro vector[], pessoa pessoa)
+funcao vazio function1 (inteiro a, inteiro vector[], pessoa pessoa, inteiro matriz[][])
 {
 	variaveis
 	{
