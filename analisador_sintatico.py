@@ -1001,25 +1001,60 @@ class AnalisadorSintatico():
           self.arquivo_saida.write("Erro sintatico - Esperado símbolo ';' ao final da declaração de retorno da função - linha: "+self.linha_atual+"\n")
           self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
           self.tem_erro_sintatico = True
+          if('tok205_}' in self.tokens[self.i]):
+            self.i += 1
+            self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
+          while(not 'tok205_}' in self.tokens[self.i]):
+            self.i += 1
+            self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
       else:
         print("Erro sintatico - Esperada palavra reservada retorno para indicar que a função acabou e está retornando algo ou vazio - linha: "+self.linha_atual+"\n")
         print('Token problemático: '+self.tokens[self.i])
         self.arquivo_saida.write("Erro sintatico - Esperada palavra reservada retorno para indicar que a função acabou e está retornando algo ou vazio - linha: "+self.linha_atual+"\n")
         self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
         self.tem_erro_sintatico = True
+        if('tok205_}' in self.tokens[self.i]):
+            self.i += 1
+            self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
+        while(not 'tok205_}' in self.tokens[self.i]):
+            self.i += 1
+            self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
+    elif( 'tok607_se' in self.tokens[self.i] or
+        'tok612_escreva' in self.tokens[self.i] or
+        'tok611_leia' in self.tokens[self.i] or
+        'tok609_enquanto' in self.tokens[self.i] or
+        'tok610_para' in self.tokens[self.i] or
+        'tok500_' in self.tokens[self.i]):
+          self.decl_comandos()
+          if('tok605_retorno' in self.tokens[self.i]):
+              self.i += 1
+              self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
+              self.return_deriva()
+          else:
+              print("Erro sintatico - Esperada palavra reservada retorno para indicar que a função acabou e está retornando algo ou vazio - linha: "+self.linha_atual+"\n")
+              print('Token problemático: '+self.tokens[self.i])
+              self.arquivo_saida.write("Erro sintatico - Esperada palavra reservada retorno para indicar que a função acabou e está retornando algo ou vazio - linha: "+self.linha_atual+"\n")
+              self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
+              self.tem_erro_sintatico = True
+              if('tok205_}' in self.tokens[self.i]):
+                  self.i += 1
+                  self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
+              while(not 'tok205_}' in self.tokens[self.i]):
+                  self.i += 1
+                  self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
     else:
-      self.decl_comandos()
-      if('tok605_retorno' in self.tokens[self.i]):
-        self.i += 1
-        self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
-        self.return_deriva()
-      else:
-        print("Erro sintatico - Esperada palavra reservada retorno para indicar que a função acabou e está retornando algo ou vazio - linha: "+self.linha_atual+"\n")
-        print('Token problemático: '+self.tokens[self.i])
-        self.arquivo_saida.write("Erro sintatico - Esperada palavra reservada retorno para indicar que a função acabou e está retornando algo ou vazio - linha: "+self.linha_atual+"\n")
-        self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
-        self.tem_erro_sintatico = True
-
+      print("Erro sintatico - Esperado declaracao de variveis ou declaracao de comandos - linha: "+self.linha_atual+"\n")
+      print('Token problemático: '+self.tokens[self.i])
+      self.arquivo_saida.write("Erro sintatico - Esperado declaracao de variveis ou declaracao de comandos - linha: "+self.linha_atual+"\n")
+      self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
+      self.tem_erro_sintatico = True
+      if('tok205_}' in self.tokens[self.i]):
+            self.i += 1
+            self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
+      while(not 'tok205_}' in self.tokens[self.i]):
+            self.i += 1
+            self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
+            
   # <return_deriva> := vazio | token_identificador<identificador_imp_arm_deriva> | <valor_primitivo>
   def return_deriva(self):
     if("Erro Lexico" in self.tokens[self.i]):
@@ -1031,8 +1066,24 @@ class AnalisadorSintatico():
       self.i += 1
       self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
       self.identificador_imp_arm_deriva()
+    elif('tok617_cadeia' in self.tokens[self.i] or 
+      'tok614_real' in self.tokens[self.i] or
+      'tok613_inteiro' in self.tokens[self.i] or
+      'tok616_char' in self.tokens[self.i] or
+      'tok615_booleano' in self.tokens[self.i]):
+        self.valor_primitivo()
     else:
-      self.valor_primitivo()
+      print("Erro sintatico - Esperado o retorno da funcao - linha: "+self.linha_atual+"\n")
+      print('Token problemático: '+self.tokens[self.i])
+      self.arquivo_saida.write("Erro sintatico - Esperado o retorno da funcao - linha: "+self.linha_atual+"\n")
+      self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
+      self.tem_erro_sintatico = True
+      if('tok200_;' in self.tokens[self.i]):
+            self.i += 1
+            self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
+      while(not 'tok200_;' in self.tokens[self.i]):
+            self.i += 1
+            self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
   # <decl_comandos> := <comandos> <decl_comandos> | Ɛ
   def decl_comandos(self):
     if("Erro Lexico" in self.tokens[self.i]):
