@@ -56,7 +56,8 @@ algoritmo
 	{
 		inteiro a = 10;
 	}
-	a = function1(vetor[3][i], 3, a, pessoa.nome);
+	a = function1(vetor[][], 2, a, pessoa.nome);
+	a = 2;
 	enquanto(x!=z){
 		leia(x);
 	}
