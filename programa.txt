@@ -1,13 +1,13 @@
 registro Pessoa {
 	cadeia nome;
 	inteiro idade;
-	}
+}
 registro cidade {
-	cadeia nome;
+	cadeia	nome;
 	inteiro numero;
 	}
 constantes
-
+{
 	inteiro MAX = 10;
 	inteiro MAX2 = 50;
 	cadeia TEXTO = "mensagem";
@@ -19,8 +19,8 @@ variaveis
 	inteiro a;
 	inteiro b = 10;
 	cadeia mensagem;
-	cadeia mensagem2 = "texto";
-	pessoa ana;
+	cadeia mensagem2  "texto";
+	Pessoa ana;
 	inteiro vetor [10];
 	inteiro matriz [12][12];
 }
