@@ -1319,36 +1319,93 @@ class AnalisadorSintatico():
               self.arquivo_saida.write("Erro sintatico - Esperada símbolo '}'  para finalizar bloco de comando do 'se' - linha: "+self.linha_atual+"\n")
               self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
               self.tem_erro_sintatico = True
+              while(not 'tok607_se' in self.tokens[self.i] or
+         not 'tok612_escreva' in self.tokens[self.i] or
+         not 'tok611_leia' in self.tokens[self.i] or
+         not 'tok609_enquanto' in self.tokens[self.i] or
+         not 'tok610_para' in self.tokens[self.i] or
+         not 'tok500_' in self.tokens[self.i] or
+         not 'tok605_retorno' in self.tokens[self.i]):
+                self.i += 1
+                self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
+        
           else:
             print("Erro sintatico - Esperada símbolo '{'  para iniciar o bloco de comando do 'se' - linha: "+self.linha_atual+"\n")
             print('Token problemático: '+self.tokens[self.i])
             self.arquivo_saida.write("Erro sintatico - Esperada símbolo '{'  para iniciar o bloco de comando do 'se' - linha: "+self.linha_atual+"\n")
             self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
             self.tem_erro_sintatico = True
+            while(not 'tok607_se' in self.tokens[self.i] or
+         not 'tok612_escreva' in self.tokens[self.i] or
+         not 'tok611_leia' in self.tokens[self.i] or
+         not 'tok609_enquanto' in self.tokens[self.i] or
+         not 'tok610_para' in self.tokens[self.i] or
+         not 'tok500_' in self.tokens[self.i] or
+         not 'tok605_retorno' in self.tokens[self.i]):
+                self.i += 1
+                self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
         else:
           print("Erro sintatico - Esperada símbolo ')'  para finalizar a expressão do comando 'se', parêtensis desbalaceados - linha: "+self.linha_atual+"\n")
           print('Token problemático: '+self.tokens[self.i])
           self.arquivo_saida.write("Erro sintatico - Esperada símbolo ')'  para finalizar a expressão do comando 'se', parêtensis desbalaceados - linha: "+self.linha_atual+"\n")
           self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
           self.tem_erro_sintatico = True
+          while(not 'tok607_se' in self.tokens[self.i] or
+         not 'tok612_escreva' in self.tokens[self.i] or
+         not 'tok611_leia' in self.tokens[self.i] or
+         not 'tok609_enquanto' in self.tokens[self.i] or
+         not 'tok610_para' in self.tokens[self.i] or
+         not 'tok500_' in self.tokens[self.i] or
+         not 'tok605_retorno' in self.tokens[self.i]):
+                self.i += 1
+                self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
       else:
         print("Erro sintatico - Esperada símbolo '(' após o comando se - linha: "+self.linha_atual+"\n")
         print('Token problemático: '+self.tokens[self.i])
         self.arquivo_saida.write("Erro sintatico - Esperada símbolo '(' após o comando se - linha: "+self.linha_atual+"\n")
         self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
         self.tem_erro_sintatico = True
+        while(not 'tok607_se' in self.tokens[self.i] or
+         not 'tok612_escreva' in self.tokens[self.i] or
+         not 'tok611_leia' in self.tokens[self.i] or
+         not 'tok609_enquanto' in self.tokens[self.i] or
+         not 'tok610_para' in self.tokens[self.i] or
+         not 'tok500_' in self.tokens[self.i] or
+         not 'tok605_retorno' in self.tokens[self.i]):
+            self.i += 1
+            self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
+        
     else:
       print("Erro sintatico - Esperada comando 'se' - linha: "+self.linha_atual+"\n")
       print('Token problemático: '+self.tokens[self.i])
       self.arquivo_saida.write("Erro sintatico - Esperada comando 'se' - linha: "+self.linha_atual+"\n")
       self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
       self.tem_erro_sintatico = True
+      while(not 'tok607_se' in self.tokens[self.i] or
+         not 'tok612_escreva' in self.tokens[self.i] or
+         not 'tok611_leia' in self.tokens[self.i] or
+         not 'tok609_enquanto' in self.tokens[self.i] or
+         not 'tok610_para' in self.tokens[self.i] or
+         not 'tok500_' in self.tokens[self.i] or
+         not 'tok605_retorno' in self.tokens[self.i]):
+            self.i += 1
+            self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
+        
 
   # <senao_decl> := senao {<decl_comandos>} | Ɛ
   def senao_decl(self):
     if("Erro Lexico" in self.tokens[self.i]):
       self.i += 1
-    if("tok608_senao" in self.tokens[self.i]):
+    if('tok607_se' in self.tokens[self.i] or
+        'tok612_escreva' in self.tokens[self.i] or
+        'tok611_leia' in self.tokens[self.i] or
+        'tok609_enquanto' in self.tokens[self.i] or
+        'tok610_para' in self.tokens[self.i] or
+        'tok500_' in self.tokens[self.i] or
+        'tok605_retorno' in self.tokens[self.i] or
+        'tok205_}' in self.tokens[self.i]):
+      return
+    elif("tok608_senao" in self.tokens[self.i]):
       self.i += 1
       if('tok204_{' in self.tokens[self.i]):
         self.i += 1
@@ -1361,12 +1418,46 @@ class AnalisadorSintatico():
           self.arquivo_saida.write("Erro sintatico - Esperada símbolo '}'  para finalizar para finalizar o bloco de comando do 'senao' - linha: "+self.linha_atual+"\n")
           self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
           self.tem_erro_sintatico = True
+          while(not 'tok607_se' in self.tokens[self.i] or
+         not 'tok612_escreva' in self.tokens[self.i] or
+         not 'tok611_leia' in self.tokens[self.i] or
+         not 'tok609_enquanto' in self.tokens[self.i] or
+         not 'tok610_para' in self.tokens[self.i] or
+         not 'tok500_' in self.tokens[self.i] or
+         not 'tok605_retorno' in self.tokens[self.i]):
+            self.i += 1
+            self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
       else:
         print("Erro sintatico - Esperada símbolo '{'  para iniciar o bloco de comando do 'senao' - linha: "+self.linha_atual+"\n")
         print('Token problemático: '+self.tokens[self.i])
         self.arquivo_saida.write("Erro sintatico - Esperada símbolo '{'  para iniciar o bloco de comando do 'senao' - linha: "+self.linha_atual+"\n")
         self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
         self.tem_erro_sintatico = True
+        while(not 'tok607_se' in self.tokens[self.i] or
+         not 'tok612_escreva' in self.tokens[self.i] or
+         not 'tok611_leia' in self.tokens[self.i] or
+         not 'tok609_enquanto' in self.tokens[self.i] or
+         not 'tok610_para' in self.tokens[self.i] or
+         not 'tok500_' in self.tokens[self.i] or
+         not 'tok605_retorno' in self.tokens[self.i]):
+            self.i += 1
+            self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
+    else:
+        print("Erro sintatico - Esperado o bloco de comando do 'senao' - linha: "+self.linha_atual+"\n")
+        print('Token problemático: '+self.tokens[self.i])
+        self.arquivo_saida.write("Erro sintatico - Esperado o bloco de comando do 'senao' - linha: "+self.linha_atual+"\n")
+        self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
+        self.tem_erro_sintatico = True
+        while(not 'tok607_se' in self.tokens[self.i] or
+         not 'tok612_escreva' in self.tokens[self.i] or
+         not 'tok611_leia' in self.tokens[self.i] or
+         not 'tok609_enquanto' in self.tokens[self.i] or
+         not 'tok610_para' in self.tokens[self.i] or
+         not 'tok500_' in self.tokens[self.i] or
+         not 'tok605_retorno' in self.tokens[self.i]):
+            self.i += 1
+            self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
+      
   # <enquanto_declaracao> := enquanto (<exp_rel_bol>) { <decl_comandos> }
   def enquanto_declaracao(self):
     if("Erro Lexico" in self.tokens[self.i]):
@@ -1389,30 +1480,76 @@ class AnalisadorSintatico():
               self.tem_erro_sintatico = True
               self.arquivo_saida.write("Erro sintatico - Esperada símbolo '}'  para finalizar bloco de comando do 'enquanto' - linha: "+self.linha_atual+"\n")
               self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
+              while(not 'tok607_se' in self.tokens[self.i] or
+         not 'tok612_escreva' in self.tokens[self.i] or
+         not 'tok611_leia' in self.tokens[self.i] or
+         not 'tok609_enquanto' in self.tokens[self.i] or
+         not 'tok610_para' in self.tokens[self.i] or
+         not 'tok500_' in self.tokens[self.i] or
+         not 'tok605_retorno' in self.tokens[self.i]):
+                self.i += 1
+                self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
           else:
             print("Erro sintatico - Esperada símbolo '{'  para iniciar o bloco de comando do 'enquanto' - linha: "+self.linha_atual+"\n")
             print('Token problemático: '+self.tokens[self.i])
             self.tem_erro_sintatico = True
             self.arquivo_saida.write("Erro sintatico - Esperada símbolo '{'  para iniciar o bloco de comando do 'enquanto' - linha: "+self.linha_atual+"\n")
             self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
+            while(not 'tok607_se' in self.tokens[self.i] or
+         not 'tok612_escreva' in self.tokens[self.i] or
+         not 'tok611_leia' in self.tokens[self.i] or
+         not 'tok609_enquanto' in self.tokens[self.i] or
+         not 'tok610_para' in self.tokens[self.i] or
+         not 'tok500_' in self.tokens[self.i] or
+         not 'tok605_retorno' in self.tokens[self.i]):
+                self.i += 1
+                self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
         else:
           print("Erro sintatico - Esperada símbolo ')'  para finalizar a expressão do comando 'enquanto', parêtensis desbalaceados - linha: "+self.linha_atual+"\n")
           print('Token problemático: '+self.tokens[self.i])
           self.tem_erro_sintatico = True
           self.arquivo_saida.write("Erro sintatico - Esperada símbolo ')'  para finalizar a expressão do comando 'enquanto', parêtensis desbalaceados - linha: "+self.linha_atual+"\n")
           self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
+          while(not 'tok607_se' in self.tokens[self.i] or
+         not 'tok612_escreva' in self.tokens[self.i] or
+         not 'tok611_leia' in self.tokens[self.i] or
+         not 'tok609_enquanto' in self.tokens[self.i] or
+         not 'tok610_para' in self.tokens[self.i] or
+         not 'tok500_' in self.tokens[self.i] or
+         not 'tok605_retorno' in self.tokens[self.i]):
+                self.i += 1
+                self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
       else:
         print("Erro sintatico - Esperada símbolo '(' após o comando enquanto - linha: "+self.linha_atual+"\n")
         print('Token problemático: '+self.tokens[self.i])
         self.tem_erro_sintatico = True
         self.arquivo_saida.write("Erro sintatico - Esperada símbolo '(' após o comando enquanto - linha: "+self.linha_atual+"\n")
         self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
+        while(not 'tok607_se' in self.tokens[self.i] or
+         not 'tok612_escreva' in self.tokens[self.i] or
+         not 'tok611_leia' in self.tokens[self.i] or
+         not 'tok609_enquanto' in self.tokens[self.i] or
+         not 'tok610_para' in self.tokens[self.i] or
+         not 'tok500_' in self.tokens[self.i] or
+         not 'tok605_retorno' in self.tokens[self.i]):
+                self.i += 1
+                self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
+        
     else:
       print("Erro sintatico - Esperada comando 'enquanto' - linha: "+self.linha_atual+"\n")
       print('Token problemático: '+self.tokens[self.i])
       self.arquivo_saida.write("Erro sintatico - Esperada comando 'enquanto' - linha: "+self.linha_atual+"\n")
       self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
       self.tem_erro_sintatico = True
+      while(not 'tok607_se' in self.tokens[self.i] or
+         not 'tok612_escreva' in self.tokens[self.i] or
+         not 'tok611_leia' in self.tokens[self.i] or
+         not 'tok609_enquanto' in self.tokens[self.i] or
+         not 'tok610_para' in self.tokens[self.i] or
+         not 'tok500_' in self.tokens[self.i] or
+         not 'tok605_retorno' in self.tokens[self.i]):
+                self.i += 1
+                self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
 
   # <para_declaracao> := para (token_identificador = token_inteiro; token_identificador <op_relacional> token_inteiro; token_identificador <op_cont>) {<decl_comandos>}
   def para_declaracao(self):
@@ -1465,78 +1602,187 @@ class AnalisadorSintatico():
                               self.tem_erro_sintatico = True
                               self.arquivo_saida.write("Erro sintatico - Esperada símbolo '}' para fechar bloco do comando 'para' - linha: "+self.linha_atual+"\n")
                               self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
+                              while(not 'tok607_se' in self.tokens[self.i] or
+         not 'tok612_escreva' in self.tokens[self.i] or
+         not 'tok611_leia' in self.tokens[self.i] or
+         not 'tok609_enquanto' in self.tokens[self.i] or
+         not 'tok610_para' in self.tokens[self.i] or
+         not 'tok500_' in self.tokens[self.i] or
+         not 'tok605_retorno' in self.tokens[self.i]):
+                                  self.i += 1
+                                  self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
                           else:
                               print("Erro sintatico - Esperada símbolo '{' para abrir bloco do comando 'para' - linha: "+self.linha_atual+"\n")
                               print('Token problemático: '+self.tokens[self.i])
                               self.tem_erro_sintatico = True
                               self.arquivo_saida.write("Erro sintatico - Esperada símbolo '{' para abrir bloco do comando 'para' - linha: "+self.linha_atual+"\n")
                               self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
+                              while(not 'tok607_se' in self.tokens[self.i] or
+         not 'tok612_escreva' in self.tokens[self.i] or
+         not 'tok611_leia' in self.tokens[self.i] or
+         not 'tok609_enquanto' in self.tokens[self.i] or
+         not 'tok610_para' in self.tokens[self.i] or
+         not 'tok500_' in self.tokens[self.i] or
+         not 'tok605_retorno' in self.tokens[self.i]):
+                                  self.i += 1
+                                  self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
                         else:
                           print("Erro sintatico - Espera-se símbolo ')' para fechar declarações do comando para - linha: "+self.linha_atual+"\n")
                           print('Token problemático: '+self.tokens[self.i])
                           self.tem_erro_sintatico = True
                           self.arquivo_saida.write("Erro sintatico - Espera-se símbolo ')' para fechar declarações do comando para - linha: "+self.linha_atual+"\n")
                           self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
+                          while(not 'tok607_se' in self.tokens[self.i] or
+         not 'tok612_escreva' in self.tokens[self.i] or
+         not 'tok611_leia' in self.tokens[self.i] or
+         not 'tok609_enquanto' in self.tokens[self.i] or
+         not 'tok610_para' in self.tokens[self.i] or
+         not 'tok500_' in self.tokens[self.i] or
+         not 'tok605_retorno' in self.tokens[self.i]):
+                                self.i += 1
+                                self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
                       else:
                         print("Erro sintatico - Espera-se identificador para incremento ou decremento ao final do comando para - linha: "+self.linha_atual+"\n")
                         print('Token problemático: '+self.tokens[self.i])
                         self.tem_erro_sintatico = True
                         self.arquivo_saida.write("Erro sintatico - Espera-se identificador para incremento ou decremento ao final do comando para - linha: "+self.linha_atual+"\n")
                         self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
+                        while(not 'tok607_se' in self.tokens[self.i] or
+         not 'tok612_escreva' in self.tokens[self.i] or
+         not 'tok611_leia' in self.tokens[self.i] or
+         not 'tok609_enquanto' in self.tokens[self.i] or
+         not 'tok610_para' in self.tokens[self.i] or
+         not 'tok605_retorno' in self.tokens[self.i]):
+                              self.i += 1
+                              self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
                     else:
                       print("Erro sintatico - Espera-se o símbolo ';' ao final da expressão relacional do meio do comando 'para' - linha: "+self.linha_atual+"\n")
                       print('Token problemático: '+self.tokens[self.i])
                       self.arquivo_saida.write("Erro sintatico - Espera-se o símbolo ';' ao final da expressão relacional do meio do comando 'para' - linha: "+self.linha_atual+"\n")
                       self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
                       self.tem_erro_sintatico = True
+                      while(not 'tok607_se' in self.tokens[self.i] or
+         not 'tok612_escreva' in self.tokens[self.i] or
+         not 'tok611_leia' in self.tokens[self.i] or
+         not 'tok609_enquanto' in self.tokens[self.i] or
+         not 'tok610_para' in self.tokens[self.i] or
+         not 'tok605_retorno' in self.tokens[self.i]):
+                            self.i += 1
+                            self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
                   else:
                     print("Erro sintatico - Espera-se número inteiro como parte da expressão relacional do meio do comando 'para' - linha: "+self.linha_atual+"\n")
                     print('Token problemático: '+self.tokens[self.i])
                     self.arquivo_saida.write("Erro sintatico - Espera-se número inteiro como parte da expressão relacional do meio do comando 'para' - linha: "+self.linha_atual+"\n")
                     self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
                     self.tem_erro_sintatico = True
+                    while(not 'tok607_se' in self.tokens[self.i] or
+         not 'tok612_escreva' in self.tokens[self.i] or
+         not 'tok611_leia' in self.tokens[self.i] or
+         not 'tok609_enquanto' in self.tokens[self.i] or
+         not 'tok610_para' in self.tokens[self.i] or
+         not 'tok605_retorno' in self.tokens[self.i]):
+                            self.i += 1
+                            self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
                 else:
                   print("Erro sintatico - Espera-se identificador para a expressão relacional do meio do comando 'para' - linha: "+self.linha_atual+"\n")
                   print('Token problemático: '+self.tokens[self.i])
                   self.arquivo_saida.write("Erro sintatico - Espera-se identificador para a expressão relacional do meio do comando 'para' - linha: "+self.linha_atual+"\n")
                   self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
                   self.tem_erro_sintatico = True
+                  while(not 'tok607_se' in self.tokens[self.i] or
+         not 'tok612_escreva' in self.tokens[self.i] or
+         not 'tok611_leia' in self.tokens[self.i] or
+         not 'tok609_enquanto' in self.tokens[self.i] or
+         not 'tok610_para' in self.tokens[self.i] or
+         not 'tok500_' in self.tokens[self.i] or
+         not 'tok605_retorno' in self.tokens[self.i]):
+                            self.i += 1
+                            self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
               else:
                 print("Erro sintatico - Espera-se o símbolo ';' após a inicialização do identificador contador do comando 'para' - linha: "+self.linha_atual+"\n")
                 print('Token problemático: '+self.tokens[self.i])
                 self.arquivo_saida.write("Erro sintatico - Espera-se o símbolo ';' após a inicialização do identificador contador do comando 'para' - linha: "+self.linha_atual+"\n")
                 self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
                 self.tem_erro_sintatico = True
+                while(not 'tok607_se' in self.tokens[self.i] or
+         not 'tok612_escreva' in self.tokens[self.i] or
+         not 'tok611_leia' in self.tokens[self.i] or
+         not 'tok609_enquanto' in self.tokens[self.i] or
+         not 'tok610_para' in self.tokens[self.i] or
+         not 'tok605_retorno' in self.tokens[self.i]):
+                      self.i += 1
+                      self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
             else:
               print("Erro sintatico - Espera-se o número inteiro com o valor da inicialização do identificador contador do comando 'para' - linha: "+self.linha_atual+"\n")
               print('Token problemático: '+self.tokens[self.i])
               self.arquivo_saida.write("Erro sintatico - Espera-se o número inteiro com o valor da inicialização do identificador contador do comando 'para' - linha: "+self.linha_atual+"\n")
               self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
               self.tem_erro_sintatico = True
+              while(not 'tok607_se' in self.tokens[self.i] or
+         not 'tok612_escreva' in self.tokens[self.i] or
+         not 'tok611_leia' in self.tokens[self.i] or
+         not 'tok609_enquanto' in self.tokens[self.i] or
+         not 'tok610_para' in self.tokens[self.i] or
+         not 'tok605_retorno' in self.tokens[self.i]):
+                      self.i += 1
+                      self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
           else:
             print("Erro sintatico - Espera-se símbolo '=' para indicar inicialização do identificador contador do 'para' - linha: "+self.linha_atual+"\n")
             print('Token problemático: '+self.tokens[self.i])
             self.arquivo_saida.write("Erro sintatico - Espera-se símbolo '=' para indicar inicialização do identificador contador do 'para' - linha: "+self.linha_atual+"\n")
             self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
             self.tem_erro_sintatico = True
+            while(not 'tok607_se' in self.tokens[self.i] or
+         not 'tok612_escreva' in self.tokens[self.i] or
+         not 'tok611_leia' in self.tokens[self.i] or
+         not 'tok609_enquanto' in self.tokens[self.i] or
+         not 'tok610_para' in self.tokens[self.i] or
+         not 'tok605_retorno' in self.tokens[self.i]):
+                    self.i += 1
+                    self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
         else:
           print("Erro sintatico - Espera-se identificador contador para ser inicializado - linha: "+self.linha_atual+"\n")
           print('Token problemático: '+self.tokens[self.i])
           self.arquivo_saida.write("Erro sintatico - Espera-se identificador contador para ser inicializado - linha: "+self.linha_atual+"\n")
           self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
           self.tem_erro_sintatico = True
+          while(not 'tok607_se' in self.tokens[self.i] or
+         not 'tok612_escreva' in self.tokens[self.i] or
+         not 'tok611_leia' in self.tokens[self.i] or
+         not 'tok609_enquanto' in self.tokens[self.i] or
+         not 'tok610_para' in self.tokens[self.i] or
+         not 'tok605_retorno' in self.tokens[self.i]):
+                self.i += 1
+                self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
       else:
         print("Erro sintatico - Espera-se símbolo '(' após o início do comando 'para' - linha: "+self.linha_atual+"\n")
         print('Token problemático: '+self.tokens[self.i])
         self.arquivo_saida.write("Erro sintatico - Espera-se símbolo '(' após o início do comando 'para' - linha: "+self.linha_atual+"\n")
         self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
         self.tem_erro_sintatico = True
+        while(not 'tok607_se' in self.tokens[self.i] or
+         not 'tok612_escreva' in self.tokens[self.i] or
+         not 'tok611_leia' in self.tokens[self.i] or
+         not 'tok609_enquanto' in self.tokens[self.i] or
+         not 'tok610_para' in self.tokens[self.i] or
+         not 'tok605_retorno' in self.tokens[self.i]):
+                self.i += 1
+                self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
     else:
       print("Erro sintatico - Espera-se palavra reservada 'para' quando se inicia o comando 'para' - linha: "+self.linha_atual+"\n")
       print('Token problemático: '+self.tokens[self.i])
       self.arquivo_saida.write("Erro sintatico - Espera-se palavra reservada 'para' quando se inicia o comando 'para' - linha: "+self.linha_atual+"\n")
       self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
       self.tem_erro_sintatico = True
+      while(not 'tok607_se' in self.tokens[self.i] or
+         not 'tok612_escreva' in self.tokens[self.i] or
+         not 'tok611_leia' in self.tokens[self.i] or
+         not 'tok609_enquanto' in self.tokens[self.i] or
+         not 'tok610_para' in self.tokens[self.i] or
+         not 'tok500_' in self.tokens[self.i] or
+         not 'tok605_retorno' in self.tokens[self.i]):
+                self.i += 1
+                self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
 
 
   # <leia_declaracao> := leia (<exp_leia>); 
@@ -1562,24 +1808,60 @@ class AnalisadorSintatico():
             self.arquivo_saida.write("Erro sintatico - Espera-se símbolo ';' ao final da chamada de funcao 'leia' - linha: "+self.linha_atual+"\n")
             self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
             self.tem_erro_sintatico = True
+            while(not 'tok607_se' in self.tokens[self.i] or
+         not 'tok612_escreva' in self.tokens[self.i] or
+         not 'tok611_leia' in self.tokens[self.i] or
+         not 'tok609_enquanto' in self.tokens[self.i] or
+         not 'tok610_para' in self.tokens[self.i] or
+         not 'tok500_' in self.tokens[self.i] or
+         not 'tok605_retorno' in self.tokens[self.i]):
+                self.i += 1
+                self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
         else:
           print("Erro sintatico - Espera-se símbolo ')' ao final da declaração de parâmetros da chamada de funcao 'leia' - linha: "+self.linha_atual+"\n")
           print('Token problemático: '+self.tokens[self.i])
           self.arquivo_saida.write("Erro sintatico - Espera-se símbolo ')' ao final da declaração de parâmetros da chamada de funcao 'leia' - linha: "+self.linha_atual+"\n")
           self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
           self.tem_erro_sintatico = True
+          while(not 'tok607_se' in self.tokens[self.i] or
+         not 'tok612_escreva' in self.tokens[self.i] or
+         not 'tok611_leia' in self.tokens[self.i] or
+         not 'tok609_enquanto' in self.tokens[self.i] or
+         not 'tok610_para' in self.tokens[self.i] or
+         not 'tok500_' in self.tokens[self.i] or
+         not 'tok605_retorno' in self.tokens[self.i]):
+                self.i += 1
+                self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
       else:
         print("Erro sintatico - Espera-se símbolo '(' ao início da declaração de parâmetros da chamada de funcao 'leia' - linha: "+self.linha_atual+"\n")
         print('Token problemático: '+self.tokens[self.i])
         self.arquivo_saida.write("Erro sintatico - Espera-se símbolo '(' ao início da declaração de parâmetros da chamada de funcao 'leia' - linha: "+self.linha_atual+"\n")
         self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
         self.tem_erro_sintatico = True
+        while(not 'tok607_se' in self.tokens[self.i] or
+         not 'tok612_escreva' in self.tokens[self.i] or
+         not 'tok611_leia' in self.tokens[self.i] or
+         not 'tok609_enquanto' in self.tokens[self.i] or
+         not 'tok610_para' in self.tokens[self.i] or
+         not 'tok500_' in self.tokens[self.i] or
+         not 'tok605_retorno' in self.tokens[self.i]):
+                self.i += 1
+                self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
     else:
       print("Erro sintatico - Espera-se palavra reservada escreva para chamada de funcao 'leia' - linha: "+self.linha_atual+"\n")
       print('Token problemático: '+self.tokens[self.i])
       self.arquivo_saida.write("Erro sintatico - Espera-se palavra reservada escreva para chamada de funcao 'leia' - linha: "+self.linha_atual+"\n")
       self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
       self.tem_erro_sintatico = True
+      while(not 'tok607_se' in self.tokens[self.i] or
+         not 'tok612_escreva' in self.tokens[self.i] or
+         not 'tok611_leia' in self.tokens[self.i] or
+         not 'tok609_enquanto' in self.tokens[self.i] or
+         not 'tok610_para' in self.tokens[self.i] or
+         not 'tok500_' in self.tokens[self.i] or
+         not 'tok605_retorno' in self.tokens[self.i]):
+                self.i += 1
+                self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
   # <exp_leia> := <exp_armazena><exp_leia_deriva><exp_leia> | Ɛ
   def exp_leia(self):
     if("Erro Lexico" in self.tokens[self.i]):
@@ -1633,24 +1915,60 @@ class AnalisadorSintatico():
             self.arquivo_saida.write("Erro sintatico - Espera-se símbolo ';' ao final da chamada de funcao 'escreva' - linha: "+self.linha_atual+"\n")
             self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
             self.tem_erro_sintatico = True
+            while(not 'tok607_se' in self.tokens[self.i] or
+         not 'tok612_escreva' in self.tokens[self.i] or
+         not 'tok611_leia' in self.tokens[self.i] or
+         not 'tok609_enquanto' in self.tokens[self.i] or
+         not 'tok610_para' in self.tokens[self.i] or
+         not 'tok500_' in self.tokens[self.i] or
+         not 'tok605_retorno' in self.tokens[self.i]):
+                self.i += 1
+                self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
         else:
           print("Erro sintatico - Espera-se símbolo ')' ao final da declaração de parâmetros da chamada de funcao 'escreva' - linha: "+self.linha_atual+"\n")
           print('Token problemático: '+self.tokens[self.i])
           self.arquivo_saida.write("Erro sintatico - Espera-se símbolo ')' ao final da declaração de parâmetros da chamada de funcao 'escreva' - linha: "+self.linha_atual+"\n")
           self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
           self.tem_erro_sintatico = True
+          while(not 'tok607_se' in self.tokens[self.i] or
+         not 'tok612_escreva' in self.tokens[self.i] or
+         not 'tok611_leia' in self.tokens[self.i] or
+         not 'tok609_enquanto' in self.tokens[self.i] or
+         not 'tok610_para' in self.tokens[self.i] or
+         not 'tok500_' in self.tokens[self.i] or
+         not 'tok605_retorno' in self.tokens[self.i]):
+                self.i += 1
+                self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
       else:
         print("Erro sintatico - Espera-se símbolo '(' ao início da declaração de parâmetros da chamada de funcao 'escreva' - linha: "+self.linha_atual+"\n")
         print('Token problemático: '+self.tokens[self.i])
         self.arquivo_saida.write("Erro sintatico - Espera-se símbolo '(' ao início da declaração de parâmetros da chamada de funcao 'escreva' - linha: "+self.linha_atual+"\n")
         self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
         self.tem_erro_sintatico = True
+        while(not 'tok607_se' in self.tokens[self.i] or
+         not 'tok612_escreva' in self.tokens[self.i] or
+         not 'tok611_leia' in self.tokens[self.i] or
+         not 'tok609_enquanto' in self.tokens[self.i] or
+         not 'tok610_para' in self.tokens[self.i] or
+         not 'tok500_' in self.tokens[self.i] or
+         not 'tok605_retorno' in self.tokens[self.i]):
+                self.i += 1
+                self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
     else:
       print("Erro sintatico - Espera-se palavra reservada escreva para chamada de funcao 'escreva' - linha: "+self.linha_atual+"\n")
       print('Token problemático: '+self.tokens[self.i])
       self.arquivo_saida.write("Erro sintatico - Espera-se palavra reservada escreva para chamada de funcao 'escreva' - linha: "+self.linha_atual+"\n")
       self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
       self.tem_erro_sintatico = True
+      while(not 'tok607_se' in self.tokens[self.i] or
+         not 'tok612_escreva' in self.tokens[self.i] or
+         not 'tok611_leia' in self.tokens[self.i] or
+         not 'tok609_enquanto' in self.tokens[self.i] or
+         not 'tok610_para' in self.tokens[self.i] or
+         not 'tok500_' in self.tokens[self.i] or
+         not 'tok605_retorno' in self.tokens[self.i]):
+                self.i += 1
+                self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
   # <exp_escreva> := <exp_imprime><exp_escreva_deriva><exp_escreva> | Ɛ
   def exp_escreva(self):
     if("Erro Lexico" in self.tokens[self.i]):
