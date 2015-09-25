@@ -31,7 +31,7 @@ funcao vazio faznada()
 		inteiro a = 10;
 	}
 	leia (a);
-	a = 25;
+	a = +25;
 	se(a==b){
 		escreva("sucesso");
 	}
@@ -59,11 +59,12 @@ algoritmo
 	}
 	a = function1(vetor[][], 2, a, pessoa.nome);
 	a = 2;
-	se (a > 8 && 3 < 8){
+	se (a < 8 && 3 < 8){
 		a = 25;
 	}
+	a = 2+4;
 	enquanto (x!=z){
-		leia(x);
+		leia(x, z);
 	}
 	
 	para(i=10;a<10 ; b++)
