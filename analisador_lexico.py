@@ -395,7 +395,8 @@ class AnalisadorLexico():
 
       linha_programa = arquivo.readline() # Le a proxima linha
       numero_linha += 1
-
+    # Fim do programa
+    arquivo_saida.write('$')
     # Fim do arquivo de entrada
     arquivo.close()
     # Fim do arquivo de entrada

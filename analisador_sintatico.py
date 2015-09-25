@@ -76,12 +76,17 @@ class AnalisadorSintatico():
     self.variaveis_declaracao()
     self.funcao_declaracao()
     self.algoritmo_declaracao()
+    
     if(self.tem_erro_sintatico):
       print("Verifique os erros sintaticos e tente compilar novamente")
       self.arquivo_saida.write("Verifique os erros sintaticos e tente compilar novamente\n")
     else:
-      print("Cadeia de tokens reconhecida com sucesso")
-      self.arquivo_saida.write("Cadeia de tokens reconhecida com sucesso\n")
+      if("$" in self.tokens[self.i]):
+        print("Cadeia de tokens reconhecida com sucesso")
+        self.arquivo_saida.write("Cadeia de tokens reconhecida com sucesso\n")
+      else:
+        print("Fim de Programa Nao Encontrado!")
+        self.arquivo_saida.write("Fim de Programa Nao Encontrado!")
 
     # Fechando arquivo de saida
     self.arquivo_saida.close()
@@ -2535,20 +2540,53 @@ class AnalisadorSintatico():
         self.deriva_cont_principal()
         if("tok205_}" in self.tokens[self.i]):
           self.i += 1
-          #self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
+          self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
+        else:
+          print("Erro sintatico - Esperado '}' na declaracao de algoritmo - linha: "+self.linha_atual+"\n")
+          print('Token problemático: '+self.tokens[self.i])
+          self.arquivo_saida.write("Erro sintatico - Esperado '}' na declaracao de algoritmo - linha: "+self.linha_atual+"\n")
+          self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
+          self.tem_erro_sintatico = True
+          while(not "$" in self.tokens[self.i]):
+            self.i += 1
+            self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
+      else:
+        print("Erro sintatico - Esperado '{' na declaracao de algoritmo - linha: "+self.linha_atual+"\n")
+        print('Token problemático: '+self.tokens[self.i])
+        self.arquivo_saida.write("Erro sintatico - Esperado '{' na declaracao de algoritmo - linha: "+self.linha_atual+"\n")
+        self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
+        self.tem_erro_sintatico = True
+        while(not "$" in self.tokens[self.i]):
+          self.i += 1
+          self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
     else:
       print("Erro sintatico - Declaração do bloco 'algoritmo' é obrigatória nessa linguagem - linha: "+self.linha_atual+"\n")
       print('Token problemático: '+self.tokens[self.i])
       self.arquivo_saida.write("Erro sintatico - Declaração do bloco 'algoritmo' é obrigatória nessa linguagem - linha: "+self.linha_atual+"\n")
       self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
       self.tem_erro_sintatico = True
+      while(not "$" in self.tokens[self.i]):
+        self.i += 1
+        self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
   # <deriva_cont_principal> := <variaveis_declaracao> <decl_comandos> | <decl_comandos> | Ɛ
   def deriva_cont_principal(self):
     if("Erro Lexico" in self.tokens[self.i]):
       self.i += 1
-    if("tok601_variaveis" in self.tokens[self.i]):
+    if('tok205_}' in self.tokens[self.i]):
+      return
+    elif("tok601_variaveis" in self.tokens[self.i]):
       self.variaveis_declaracao()
       self.decl_comandos()
-    elif():
-      self.decl_comandos() #DEVENDO CONSERTAR ISSO AKI
+    elif('tok607_se' in self.tokens[self.i] or
+         'tok612_escreva' in self.tokens[self.i] or
+         'tok611_leia' in self.tokens[self.i] or
+         'tok609_enquanto' in self.tokens[self.i] or
+         'tok610_para' in self.tokens[self.i] or
+         'tok500_' in self.tokens[self.i] or
+         'tok605_retorno' in self.tokens[self.i]):
+          self.decl_comandos()
+    else:
+      while('}' in self.tokens[self.i]):
+          self.i += 1
+          self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
     # ========================== FIM DO ANALISADOR SINTATICO

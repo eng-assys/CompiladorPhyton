@@ -59,6 +59,7 @@ algoritmo
 	}
 	a = function1(vetor[][], 2, a, pessoa.nome);
 	a = 2;
+	
 	se (a < 8 && 3 < 8){
 		a = 25;
 	}
@@ -78,5 +79,4 @@ algoritmo
 	}
 	a = 25;
 	
-	
-}	
+}
