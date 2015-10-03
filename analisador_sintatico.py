@@ -18,6 +18,7 @@ class AnalisadorSintatico():
   # ========================== DECLARACAO DE METODOS DA CLASSE
   # Metodo construtor da classe
   def __init__(self):
+    
     self.arquivo_entrada = "resp-lex.txt"
     self.arquivo_saida = "resp-sint.txt"
 
@@ -35,8 +36,10 @@ class AnalisadorSintatico():
     self.tokens = self.arquivo.readlines()
     self.arquivo.close()
     self.i = 0
+    self.j = 0
     self.linha_atual = ""
 
+    
   # Metodo para mudar arquivo de entrada
   def mudaEntrada(self, string):
     self.arquivo_entrada = string
@@ -69,6 +72,8 @@ class AnalisadorSintatico():
 
   # <start> := <registro_declaracao><constantes_declaracao><variaveis_declaracao><funcao_declaracao><algoritmo_declaracao> 
   def start(self):
+    
+    
     if("Erro Lexico" in self.tokens[self.i]):
       self.i += 1
     self.registro_declaracao()
@@ -179,7 +184,7 @@ class AnalisadorSintatico():
     if("Erro Lexico" in self.tokens[self.i]):
       self.i += 1
     self.tipo_primitivo()
-    if( 'tok500_' in self.tokens[self.i] ):
+    if( 'tok500_' in self.tokens[self.i] ):    
       self.i += 1
       self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
     else:
@@ -212,6 +217,7 @@ class AnalisadorSintatico():
       'tok613_inteiro' in self.tokens[self.i] or
       'tok616_char' in self.tokens[self.i] or
       'tok615_booleano' in self.tokens[self.i]):
+
       self.i += 1
       self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
     else:
@@ -235,6 +241,8 @@ class AnalisadorSintatico():
         
   # <constantes_declaracao> := constantes { <declaracao_const>  }                                                          
   def constantes_declaracao(self):
+    
+        
     if("Erro Lexico" in self.tokens[self.i]):
       self.i += 1
     if( 'tok602_constantes' in self.tokens[self.i] ):

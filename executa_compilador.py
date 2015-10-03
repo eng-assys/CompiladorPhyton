@@ -5,6 +5,7 @@
 # Importando arquivos contendo analisadores
 from analisador_lexico import AnalisadorLexico
 from analisador_sintatico import AnalisadorSintatico
+from analisador_semantico import AnalisadorSemantico
 
 # Realizando etapa de analise lexica
 lexico = AnalisadorLexico()
