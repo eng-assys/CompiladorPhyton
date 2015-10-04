@@ -115,8 +115,8 @@ class AnalisadorSemantico ():
                       
                       if(not self.registro_tab.get(lexema_nomeReg).has_key(lexema_nomeCamp)):
                         #Armazenando chave nome da variavel e valores tipo da variavel e categoria: 'campo_reg'
-                        campos = [lexema_nomeTipo, "campo_reg"]
-                        campos_registro_tab[lexema_nomeCamp] = campos
+                        campos_registro = [lexema_nomeTipo, "campo_reg"]
+                        campos_registro_tab[lexema_nomeCamp] = campos_registro
                         
                       else:
                         print ("Erro Semantico: "+ lexema_nomeCamp + " ja foi declarado em " + lexema_nomeReg + "\n")
@@ -124,37 +124,73 @@ class AnalisadorSemantico ():
                         self.tem_erro_semantico = True
                       
               self.i += 1
-        
+              
+  #Metodo que preenche o dicionario constantes_tab
   def preencheConstantesTab(self):
-      if("Erro Lexico" in self.tokens[self.i]):
-          self.i += 1
+
+      while(not "}" in self.tokens[self.i]):
+
+              if("cadeia" in self.tokens[self.i] or
+                 "inteiro" in self.tokens[self.i] or
+                 "char" in self.tokens[self.i] or
+                 "real" in self.tokens[self.i] or
+                 "booleano" in self.tokens[self.i]):
+
+                  #Busca o lexema do tipo primitivo
+                  lexema_nomeTipo = self.tokens[self.i][self.tokens[self.i].find('_')+1: self.tokens[self.i].find('->')]
+                  self.i += 1
+
+                  if("tok500_" in self.tokens[self.i]):
+
+                      #Busca o lexema nome da variavel
+                      
+                      lexema_nomeCamp = self.tokens[self.i][self.tokens[self.i].find('_')+1: self.tokens[self.i].find('->')]
+                      
+                      if(not self.constantes_tab.has_key(lexema_nomeCamp)):
+                        #Armazenando chave nome da variavel e valores tipo da variavel, categoria: 'campo_reg', escopo = 'global'
+                        campos_const = [lexema_nomeTipo, "campo_const", "global"]
+                        self.constantes_tab[lexema_nomeCamp] = campos_const
+                        
+                      else:
+                        print ("Erro Semantico: "+ lexema_nomeCamp + " ja foi declarado em Constantes \n")
+                        self.arquivo_saida.write("Erro Semantico: "+ lexema_nomeCamp + " ja foi declarado em Constantes \n")
+                        self.tem_erro_semantico = True
+                      
+              self.i += 1
 
   def preencheVariaveisGlogaisTab(self):
-      if("Erro Lexico" in self.tokens[self.i]):
-          self.i += 1
+      self.i += 1
 
   def preencheFuncaoTab(self):
-      if("Erro Lexico" in self.tokens[self.i]):
-          self.i += 1
+      self.i += 1
 
   def preencheAlgoritmoTab(self):
-      if("Erro Lexico" in self.tokens[self.i]):
-          self.i += 1
+      self.i += 1
 
   def analisa(self):
 
     while(not "$" in self.tokens[self.i]):
             
-      #Caso seja encontrado um registro preenche registro_tab
+      #Verifica qual tabela sera preenchida
       if("registro" in self.tokens[self.i]):
           self.i += 1
           self.preencheRegistroTab()
+      elif("constantes" in self.tokens[self.i]):
+        self.i += 1
+        self.preencheConstantesTab()
+      elif("variaveis" in self.tokens[self.i]):
+        self.i += 1
+        self.preencheVariaveisGlogaisTab()
+      elif("funcao" in self.tokens[self.i]):
+        self.i += 1
+        self.preencheFuncaoTab()
+      elif("algoritmo" in self.tokens[self.i]):
+        self.i += 1
+        self.preencheAlgoritmoTab()
       else:
           self.i += 1
     
-    
-    
-    
+    # Analise Semantica ja foi realizada, agora indica se foi compilado com sucesso
     if(self.tem_erro_semantico):
       print("Verifique os erros semanticos e tente compilar novamente")
       self.arquivo_saida.write("Verifique os erros semanticos e tente compilar novamente\n")
@@ -168,14 +204,7 @@ class AnalisadorSemantico ():
     self.arquivo_saida.close()
     
     '''        
-      elif("constantes" in self.tokens[self.i]):
-          
-      elif("variaveis" in self.tokens[self.i]):
-          print
-      elif("funcao" in self.tokens[self.i]):
-          print
-      elif("algoritmo" in self.tokens[self.i]):
-          print
+      
     '''
       
     
