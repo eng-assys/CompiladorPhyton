@@ -13,7 +13,7 @@ import os.path
 # Bliblioteca padrao de string
 import string
 
-import pilha
+
 
 # Declarando Classe do Analisador Semantica
 class AnalisadorSemantico ():
@@ -40,7 +40,7 @@ class AnalisadorSemantico ():
     self.i = 0
     self.linha_atual = ""
 
-    self.p = pilha.Pilha()
+    
     
     #Tabelas Semanticas
     self.tabela_semantica = {}
@@ -88,14 +88,11 @@ class AnalisadorSemantico ():
       if("tok500_" in self.tokens[self.i]):
           
           #Busca o lexema nome do registro
-          lexema = self.tokens[self.i].split("_")
-          lexema = lexema[1]
-          lexema = lexema.split("-")
-          lexema = lexema[0]
+          lexema_nomeReg = self.tokens[self.i][self.tokens[self.i].find('_')+1: self.tokens[self.i].find('->')]
           #Cria um dicionario de campos do registro para cada registro
           campos_registro_tab ={}
           
-          self.registro_tab[lexema] = campos_registro_tab
+          self.registro_tab[lexema_nomeReg] = campos_registro_tab
           self.i += 1
           
           while(not "}" in self.tokens[self.i]):
@@ -105,27 +102,27 @@ class AnalisadorSemantico ():
                  "char" in self.tokens[self.i] or
                  "real" in self.tokens[self.i] or
                  "booleano" in self.tokens[self.i]):
+
                   #Busca o lexema do tipo primitivo
-                  lexema = self.tokens[self.i].split("_")
-                  lexema = lexema[1]
-                  lexema = lexema.split("-")
-                  lexema = lexema[0]
-                  self.p.empilha(lexema)
+                  lexema_nomeTipo = self.tokens[self.i][self.tokens[self.i].find('_')+1: self.tokens[self.i].find('->')]
                   self.i += 1
 
                   if("tok500_" in self.tokens[self.i]):
+
                       #Busca o lexema nome da variavel
-                      lexema = self.tokens[self.i].split("_")
-                      lexema = lexema[1]
-                      lexema = lexema.split("-")
-                      lexema = lexema[0]
                       
-                      campo = self.p.desempilha()           
-                      campos_registro_tab[lexema] = campo
+                      lexema_nomeCamp = self.tokens[self.i][self.tokens[self.i].find('_')+1: self.tokens[self.i].find('->')]
                       
+                      if(not self.registro_tab.get(lexema_nomeReg).has_key(lexema_nomeCamp)):
+
+                        campos_registro_tab[lexema_nomeCamp] = lexema_nomeTipo
+                      else:
+                        print ("Erro Semantico: "+ lexema_nomeCamp + " ja foi declarado em " + lexema_nomeReg + "\n")
+                        self.arquivo_saida.write("Erro Semantico: "+ lexema_nomeCamp + " ja foi declarado em " + lexema_nomeReg + "\n")
+                        self.tem_erro_semantico = True
                       
               self.i += 1
-      
+        
   def preencheConstantesTab(self):
       if("Erro Lexico" in self.tokens[self.i]):
           self.i += 1
@@ -145,15 +142,29 @@ class AnalisadorSemantico ():
   def analisa(self):
 
     while(not "$" in self.tokens[self.i]):
-        
+            
       #Caso seja encontrado um registro preenche registro_tab
       if("registro" in self.tokens[self.i]):
           self.i += 1
           self.preencheRegistroTab()
       else:
           self.i += 1
-          
+    
+    
+    
+    
+    if(self.tem_erro_semantico):
+      print("Verifique os erros semanticos e tente compilar novamente")
+      self.arquivo_saida.write("Verifique os erros semanticos e tente compilar novamente\n")
+    else:
+      print("Cadeia de tokens na analise semantica reconhecida com sucesso")
+      self.arquivo_saida.write("Cadeia de tokens reconhecida com sucesso\n")
+
     print self.tabela_semantica
+
+    # Fechando arquivo de saida
+    self.arquivo_saida.close()
+    
     '''        
       elif("constantes" in self.tokens[self.i]):
           

@@ -1,0 +1,2 @@
+Erro Semantico: nome ja foi declarado em Pessoa
+Verifique os erros semanticos e tente compilar novamente

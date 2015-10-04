@@ -87,7 +87,7 @@ class AnalisadorSintatico():
       self.arquivo_saida.write("Verifique os erros sintaticos e tente compilar novamente\n")
     else:
       if("$" in self.tokens[self.i]):
-        print("Cadeia de tokens reconhecida com sucesso")
+        print("Cadeia de tokens na analise sintatica reconhecida com sucesso")
         self.arquivo_saida.write("Cadeia de tokens reconhecida com sucesso\n")
       else:
         print("Fim de Programa Nao Encontrado!")
