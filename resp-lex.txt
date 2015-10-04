@@ -52,7 +52,7 @@ tok613_inteiro->19
 tok500_numero->19
 tok200_;->19
 tok613_inteiro->20
-tok500_b->20
+tok500_num->20
 tok115_=->20
 tok300_10->20
 tok200_;->20

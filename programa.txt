@@ -17,7 +17,7 @@ constantes
 variaveis
 {
 	inteiro numero;
-	inteiro b = 10;
+	inteiro num = 10;
 	cadeia mensagem;
 	cadeia mensagem2 = "texto";
 	Pessoa ana;

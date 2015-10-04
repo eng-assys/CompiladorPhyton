@@ -82,7 +82,10 @@ class AnalisadorSemantico ():
   def getSaida(self):
     return self.arquivo_saida
 
-  #Metodo que preenche o dicionario registro_tab
+  '''
+    Preenche a tabela registro_tab com um dicionario
+    de campos do registros para cada registro.
+  '''
   def preencheRegistroTab(self):
       
       if("tok500_" in self.tokens[self.i]):
@@ -126,7 +129,11 @@ class AnalisadorSemantico ():
                       
               self.i += 1
               self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
-  #Metodo que preenche o dicionario constantes_tab
+  '''
+    Preenche a tabela variaveisGlobais_tab e
+    emite erros semanticos caso sejam encontrados duplicidade de nomes de variaveis
+    ou atrbuicoes erradas.
+  '''
   def preencheConstantesTab(self):
 
       while(not "}" in self.tokens[self.i]):
@@ -172,7 +179,11 @@ class AnalisadorSemantico ():
 
               self.i += 1
               self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
-
+  '''
+    Preenche a tabela constantes_tab e
+    emite erros semanticos caso sejam encontrados duplicidade de nomes de variaveis
+    ou atrbuicoes erradas.
+  '''
   def preencheVariaveisGlogaisTab(self):
       categoria = ""
       while(not "}" in self.tokens[self.i]):
@@ -239,7 +250,7 @@ class AnalisadorSemantico ():
                              (lexema_nomeTipo == "cadeia" and "tok700" in self.tokens[self.i]) or
                              ((lexema_nomeTipo == "booleano" and "tok618" in self.tokens[self.i]) or (lexema_nomeTipo == "booleano" and "tok619" in self.tokens[self.i]))):
 
-                            #Armazenando chave nome da variavel e valores tipo da variavel, categoria: 'var_global', escopo = 'global'
+                            #Armazenando chave nome da variavel e valores tipo da variavel, categoria: 'var_global' ou 'var_registro' ou 'var_vetor' ou 'var_matriz', escopo = 'global'
                             campos_var_global = [lexema_nomeTipo, categoria, "global"]
                             self.variaveisGlobais_tab[lexema_nomeCamp] = campos_var_global
                           else:
@@ -284,16 +295,10 @@ class AnalisadorSemantico ():
       elif("funcao" in self.tokens[self.i]):
         self.i += 1
         self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
-        if("variaveis" in self.tokens[self.i]):
-          self.i += 1
-          self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
         self.preencheFuncaoTab()
       elif("algoritmo" in self.tokens[self.i]):
         self.i += 1
         self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
-        if("variaveis" in self.tokens[self.i]):
-          self.i += 1
-          self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
         self.preencheAlgoritmoTab()
       else:
           self.i += 1
