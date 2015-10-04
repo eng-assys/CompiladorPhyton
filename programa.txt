@@ -1,6 +1,5 @@
 registro Pessoa {
 	cadeia nome;
-	cadeia nome;
 	inteiro idade;
 }
 registro cidade {
