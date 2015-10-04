@@ -114,8 +114,10 @@ class AnalisadorSemantico ():
                       lexema_nomeCamp = self.tokens[self.i][self.tokens[self.i].find('_')+1: self.tokens[self.i].find('->')]
                       
                       if(not self.registro_tab.get(lexema_nomeReg).has_key(lexema_nomeCamp)):
-
-                        campos_registro_tab[lexema_nomeCamp] = lexema_nomeTipo
+                        #Armazenando chave nome da variavel e valores tipo da variavel e categoria: 'campo_reg'
+                        campos = [lexema_nomeTipo, "campo_reg"]
+                        campos_registro_tab[lexema_nomeCamp] = campos
+                        
                       else:
                         print ("Erro Semantico: "+ lexema_nomeCamp + " ja foi declarado em " + lexema_nomeReg + "\n")
                         self.arquivo_saida.write("Erro Semantico: "+ lexema_nomeCamp + " ja foi declarado em " + lexema_nomeReg + "\n")
