@@ -49,7 +49,7 @@ tok205_}->16
 tok601_variaveis->17
 tok204_{->18
 tok613_inteiro->19
-tok500_a->19
+tok500_numero->19
 tok200_;->19
 tok613_inteiro->20
 tok500_b->20
@@ -163,7 +163,7 @@ tok204_{->45
 tok601_variaveis->46
 tok204_{->47
 tok613_inteiro->48
-tok500_a->48
+tok500_an->48
 tok115_=->48
 tok300_10->48
 tok200_;->48
@@ -186,7 +186,7 @@ tok204_{->55
 tok601_variaveis->56
 tok204_{->57
 tok613_inteiro->58
-tok500_a->58
+tok500_aana->58
 tok115_=->58
 tok300_10->58
 tok200_;->58

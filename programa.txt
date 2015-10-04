@@ -16,7 +16,7 @@ constantes
 }
 variaveis
 {
-	inteiro a;
+	inteiro numero;
 	inteiro b = 10;
 	cadeia mensagem;
 	cadeia mensagem2 = "texto";
@@ -45,7 +45,7 @@ funcao vazio function1 (inteiro a, inteiro vector[], pessoa pessoa, inteiro matr
 {
 	variaveis
 	{
-		inteiro a = 10;
+		inteiro an = 10;
 	}
 	escreva("sucesso");
 	a = 25;
@@ -55,7 +55,7 @@ algoritmo
 {
 	variaveis
 	{
-		inteiro a = 10;
+		inteiro aana = 10;
 	}
 	a = function1(vetor[][], 2, a, pessoa.nome);
 	a = 2;
