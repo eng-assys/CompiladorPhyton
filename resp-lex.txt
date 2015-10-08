@@ -149,7 +149,7 @@ tok500_vector->44
 tok206_[->44
 tok207_]->44
 tok201_,->44
-tok500_pessoa->44
+tok500_Pessoa->44
 tok500_pessoa->44
 tok201_,->44
 tok613_inteiro->44

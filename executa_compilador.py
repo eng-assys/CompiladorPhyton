@@ -14,5 +14,5 @@ lexico.analisa()
 sintatico = AnalisadorSintatico()
 sintatico.start()
 # Realizando etapa de analise semantica
-semantico = AnalisadorSemantico()
-semantico.analisa()
+# semantico = AnalisadorSemantico()
+# semantico.analisa()
