@@ -2018,7 +2018,7 @@ class AnalisadorSintatico():
       return
     elif("tok700_" in self.tokens[self.i] or "tok400_" in self.tokens[self.i] or "tok500_" in self.tokens[self.i] or "(" in self.tokens[self.i]):
       self.exp_imprime()
-      self.exp_escreva_deriva
+      self.exp_escreva_deriva()
       self.exp_escreva()
     else:
       print("Erro sintatico - Espera-se uma variavel ou uma cadeia ou char ou um numero - linha: "+self.linha_atual+"\n")
@@ -2089,41 +2089,6 @@ class AnalisadorSintatico():
                 self.i += 1
                 self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
 
-
-
-  # <exp_aritmetica> := token_identificador = <exp_simples>;
-  #ELIMINADA
-  def exp_aritmetica(self):
-    if("Erro Lexico" in self.tokens[self.i]):
-      self.i += 1
-    if("tok500_" in self.tokens[self.i]):
-      self.i += 1
-      self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
-      if("tok115_=" in self.tokens[self.i]):
-        self.i += 1
-        self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
-        self.exp_simples()
-        if("tok200_;" in self.tokens[self.i]):
-          self.i += 1
-        else:
-          print("Erro sintatico - Esperado símbolo (;) ao final do expressão aritmética - linha: "+self.linha_atual+"\n")
-          print('Token problemático: '+self.tokens[self.i])
-          self.arquivo_saida.write("Erro sintatico - Esperado símbolo (;) ao final do expressão aritmética - linha: "+self.linha_atual+"\n")
-          self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
-          self.tem_erro_sintatico = True  
-      else:  
-        print("Erro sintatico - Esperado símbolo '=' para atribuição de valores à variáveis - linha: "+self.linha_atual+"\n")
-        print('Token problemático: '+self.tokens[self.i])
-        self.arquivo_saida.write("Erro sintatico - Esperado símbolo '=' para atribuição de valores à variáveis - linha: "+self.linha_atual+"\n")
-        self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
-        self.tem_erro_sintatico = True
-    else:
-      print("Erro sintatico - Esperado um identificador representante da varíavel que receberá a atribuição - linha: "+self.linha_atual+"\n")
-      print('Token problemático: '+self.tokens[self.i])
-      self.arquivo_saida.write("Erro sintatico - Esperado um identificador representante da varíavel que receberá a atribuição - linha: "+self.linha_atual+"\n")
-      self.arquivo_saida.write('Token problemático: '+self.tokens[self.i]+'\n')
-      self.tem_erro_sintatico = True
-      
   # <exp_rel_bol> := <exp_boll> <op_relacional> <exp_boll> <exp_rel_deriva>
   def exp_rel_bol(self):
     if("Erro Lexico" in self.tokens[self.i]):
