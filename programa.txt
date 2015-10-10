@@ -41,7 +41,7 @@ funcao vazio faznada()
 	escreva("sucesso");
 	retorno vazio;
 }
-funcao vazio function1 (inteiro a, inteiro vector[], pessoa pessoa, inteiro matriz[][])
+funcao vazio function1 (inteiro a, inteiro vector[], Pessoa pessoa, inteiro matriz[][])
 {
 	variaveis
 	{
