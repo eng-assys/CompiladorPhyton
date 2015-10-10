@@ -82,22 +82,30 @@ class AnalisadorSemantico ():
   def getSaida(self):
     return self.arquivo_saida
 
+   # Faz o cabecote de leitura apontar para o proximo token da lista
+  def next_token(self):
+    self.i += 1
+    self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
+
+  def conteudo_token(self):
+    return self.tokens[self.i][ : self.tokens[self.i].find('->')]
+
   '''
     Preenche a tabela registro_tab com um dicionario
     de campos do registros para cada registro.
   '''
-  def preencheRegistroTab(self):
-      
-      if("tok500_" in self.tokens[self.i]):
-          
-          #Busca o lexema nome do registro
-          lexema_nomeReg = self.tokens[self.i][self.tokens[self.i].find('_')+1: self.tokens[self.i].find('->')]
+  def preencheRegistroTab(self):  
+    if("tok500_" in self.tokens[self.i]):
+        #Busca o lexema nome do registro
+        lexema_nomeReg = self.conteudo_token()
+        # Verifico se ja possuo um registro com esse mesmo nome
+        # indico erro caso o mesmo jah tenha sido declarado anteriormente
+        if( not lexema_nomeReg in self.registro_tab.keys() ):
           #Cria um dicionario de campos do registro para cada registro
           campos_registro_tab ={}
           
           self.registro_tab[lexema_nomeReg] = campos_registro_tab
-          self.i += 1
-          self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
+          self.next_token()
           while(not "}" in self.tokens[self.i]):
 
               if("cadeia" in self.tokens[self.i] or
@@ -107,17 +115,16 @@ class AnalisadorSemantico ():
                  "booleano" in self.tokens[self.i]):
 
                   #Busca o lexema do tipo primitivo
-                  lexema_nomeTipo = self.tokens[self.i][self.tokens[self.i].find('_')+1: self.tokens[self.i].find('->')]
-                  self.i += 1
-                  self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
+                  lexema_nomeTipo = self.conteudo_token()
+                  self.next_token()
 
                   if("tok500_" in self.tokens[self.i]):
 
                       #Busca o lexema nome da variavel
                       
-                      lexema_nomeCamp = self.tokens[self.i][self.tokens[self.i].find('_')+1: self.tokens[self.i].find('->')]
+                      lexema_nomeCamp = self.conteudo_token()
                       
-                      if(not self.registro_tab.get(lexema_nomeReg).has_key(lexema_nomeCamp)):
+                      if( not lexema_nomeCamp in self.registro_tab.get(lexema_nomeReg).keys() ):
                         #Armazenando chave nome da variavel e valores tipo da variavel e categoria: 'campo_reg'
                         campos_registro = [lexema_nomeTipo, "campo_reg"]
                         campos_registro_tab[lexema_nomeCamp] = campos_registro
@@ -127,153 +134,182 @@ class AnalisadorSemantico ():
                         self.arquivo_saida.write("Erro Semantico: "+ lexema_nomeCamp + " ja foi declarado em " + lexema_nomeReg + "- linha: "+self.linha_atual+"\n")
                         self.tem_erro_semantico = True
                       
-              self.i += 1
-              self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
+              self.next_token()
+        else: 
+          print ("Erro Semantico: "+ lexema_nomeReg + " ja foi declarado como identificador de um registro " + " - linha: "+self.linha_atual+"\n")
+          self.arquivo_saida.write("Erro Semantico: "+ lexema_nomeReg + " ja foi declarado como identificador de um registro " + " - linha: "+self.linha_atual+"\n")
+          self.tem_erro_semantico = True
   '''
     Preenche a tabela variaveisGlobais_tab e
     emite erros semanticos caso sejam encontrados duplicidade de nomes de variaveis
     ou atrbuicoes erradas.
   '''
   def preencheConstantesTab(self):
+    # Caso nao existam constantes o dicionario sera vazio   
+    while(not "}" in self.tokens[self.i]):
 
-      while(not "}" in self.tokens[self.i]):
+      if("cadeia" in self.tokens[self.i] or
+         "inteiro" in self.tokens[self.i] or
+         "char" in self.tokens[self.i] or
+         "real" in self.tokens[self.i] or
+         "booleano" in self.tokens[self.i]):
 
-              if("cadeia" in self.tokens[self.i] or
-                 "inteiro" in self.tokens[self.i] or
-                 "char" in self.tokens[self.i] or
-                 "real" in self.tokens[self.i] or
-                 "booleano" in self.tokens[self.i]):
+          #Busca o lexema do tipo primitivo
+          lexema_nomeTipo = self.conteudo_token()
+          self.next_token()
+          
+          if("tok500_" in self.tokens[self.i]):
 
-                  #Busca o lexema do tipo primitivo
-                  lexema_nomeTipo = self.tokens[self.i][self.tokens[self.i].find('_')+1: self.tokens[self.i].find('->')]
-                  self.i += 1
-                  self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
-                  
-                  if("tok500_" in self.tokens[self.i]):
+              #Busca o lexema nome da variavel
+              lexema_nomeCamp = self.conteudo_token()
+              self.next_token()
 
-                      #Busca o lexema nome da variavel
-                      lexema_nomeCamp = self.tokens[self.i][self.tokens[self.i].find('_')+1: self.tokens[self.i].find('->')]
-                      self.i += 1
-                      self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
-                      if(not self.constantes_tab.has_key(lexema_nomeCamp)):
-                        if( 'tok115_=' in self.tokens[self.i] ):
-                          self.i += 1
-                          self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
-                          if((lexema_nomeTipo == "inteiro" and "tok300" in self.tokens[self.i]) or
-                             (lexema_nomeTipo == "real" and "tok301" in self.tokens[self.i])or
-                             (lexema_nomeTipo == "char" and "tok400" in self.tokens[self.i]) or
-                             (lexema_nomeTipo == "cadeia" and "tok700" in self.tokens[self.i]) or
-                             ((lexema_nomeTipo == "booleano" and "tok618" in self.tokens[self.i]) or (lexema_nomeTipo == "booleano" and "tok619" in self.tokens[self.i]))):
+              if(not lexema_nomeCamp in self.constantes_tab.keys() ):
 
-                            #Armazenando chave nome da variavel e valores tipo da variavel, categoria: 'campo_const', escopo = 'global'
-                            campos_const = [lexema_nomeTipo, "campo_const", "global"]
-                            self.constantes_tab[lexema_nomeCamp] = campos_const
-                          else:
-                            print ("Erro Semantico: Atribuicao de tipos nao esta correta para variavel " + lexema_nomeCamp + "- linha: "+self.linha_atual+"\n")
-                            self.arquivo_saida.write("Erro Semantico: Atribuicao de tipos nao esta correta para variavel " + lexema_nomeCamp + "- linha: "+self.linha_atual+"\n")
-                            self.tem_erro_semantico = True
-                      else:
-                        print ("Erro Semantico: "+ lexema_nomeCamp + " ja foi declarado em Constantes - linha: "+self.linha_atual+"\n")
-                        self.arquivo_saida.write("Erro Semantico: "+ lexema_nomeCamp + " ja foi declarado em Constantes - linha: "+self.linha_atual+"\n")
-                        self.tem_erro_semantico = True
+                if( not lexema_nomeCamp in self.registro_tab.keys() ):
+                  # capturo o token de atribuicao (=)
+                  self.next_token()
+                  valor_constante = self.conteudo_token()
+                  # tipo declarado para constante deve ser igual ao valor que a mesma recebeu
+                  if(("inteiro" in lexema_nomeTipo  and "tok300" in valor_constante) or
+                     ("real" in lexema_nomeTipo and "tok301" in valor_constante)or
+                     ("char" in lexema_nomeTipo and "tok400" in valor_constante) or
+                     ("cadeia" in lexema_nomeTipo and "tok700" in valor_constante) or
+                     (("booleano" in lexema_nomeTipo and "tok618" in valor_constante) or ("booleano" in lexema_nomeTipo and "tok619" in valor_constante))):
 
-              self.i += 1
-              self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
+                    #Armazenando chave nome da variavel e valores tipo da variavel, categoria: 'campo_const', escopo = 'global'
+                    campos_const = [lexema_nomeTipo, "campo_const_global", valor_constante]
+                    self.constantes_tab[lexema_nomeCamp] = campos_const
+                  else:
+                    print ()
+                    print ("Erro Semantico: Atribuicao de tipos nao esta correta para variavel: " + lexema_nomeCamp + " e o valor: "+ valor_constante +" - linha: "+self.linha_atual+"\n")
+                    self.arquivo_saida.write("Erro Semantico: Atribuicao de tipos nao esta correta para variavel: " + lexema_nomeCamp + " e o valor: "+ valor_constante +" - linha: "+self.linha_atual+"\n")
+                    self.tem_erro_semantico = True
+                else: 
+                  print ("Erro Semantico: "+ lexema_nomeCamp + " ja foi declarado como nome de registro - linha: "+self.linha_atual+"\n")
+                  self.arquivo_saida.write("Erro Semantico: "+ lexema_nomeCamp + " ja foi declarado como nome de registro - linha: "+self.linha_atual+"\n")
+                  self.tem_erro_semantico = True
+              else:
+                print ("Erro Semantico: "+ lexema_nomeCamp + " ja foi declarado em Constantes - linha: "+self.linha_atual+"\n")
+                self.arquivo_saida.write("Erro Semantico: "+ lexema_nomeCamp + " ja foi declarado em Constantes - linha: "+self.linha_atual+"\n")
+                self.tem_erro_semantico = True
+
+      self.next_token()
   '''
     Preenche a tabela constantes_tab e
     emite erros semanticos caso sejam encontrados duplicidade de nomes de variaveis
     ou atrbuicoes erradas.
   '''
   def preencheVariaveisGlogaisTab(self):
-      categoria = ""
-      while(not "}" in self.tokens[self.i]):
+    categoria = ""
+    linha = ""
+    coluna = ""
+    while(not "}" in self.tokens[self.i]):
+      if("cadeia" in self.tokens[self.i] or
+         "inteiro" in self.tokens[self.i] or
+         "char" in self.tokens[self.i] or
+         "real" in self.tokens[self.i] or
+         "booleano" in self.tokens[self.i] or
+         "tok500_" in self.tokens[self.i]):
 
-              if("cadeia" in self.tokens[self.i] or
-                 "inteiro" in self.tokens[self.i] or
-                 "char" in self.tokens[self.i] or
-                 "real" in self.tokens[self.i] or
-                 "booleano" in self.tokens[self.i] or
-                 "tok500_" in self.tokens[self.i]):
+          #Verificando se e um registro ou variavel global
+          if("tok500_" in self.tokens[self.i]):
+            categoria = "var_registro_global"
+          else:
+            categoria = "var_simples_global"
+          
+          #Busca o lexema do tipo primitivo
+          lexema_nomeTipo = self.conteudo_token()
+          self.next_token()
+          # Pegando o nome da variavel analisada no momento
+          lexema_nomeCamp = self.conteudo_token()
+          #Busca o lexema nome da variavel
+          self.next_token()
+          # Verifico se jah nao declarei uma variavel global com o nome em questao
+          if(not lexema_nomeCamp in self.variaveisGlobais_tab.keys() ):
+            # Verifico se jah nao declarei uma constante com o nome em questao
+            if(not lexema_nomeCamp in self.constantes_tab.keys() ):
+              # Verifico se jah nao declarei um registro com o nome em questao
+              if( not lexema_nomeCamp in self.registro_tab.keys() ):
 
-                  #Verificando se e um registro ou variavel global
-                  if("tok500_" in self.tokens[self.i]):
-                    categoria = "var_registro"
+                #Verificando se e um vetor ou uma matriz
+                if ( 'tok206_[' in self.tokens[self.i] ):
+                  self.next_token()
+                  categoria = "var_vetor_global"
+                  if ( 'tok300_' in self.tokens[self.i] ):
+                    linha = self.conteudo_token()
+                    self.next_token()
+                    if ( 'tok207_]' in self.tokens[self.i] ):
+                      self.next_token()
+                      if ( 'tok206_[' in self.tokens[self.i] ):
+                        self.next_token()
+                        categoria = "var_matriz_global"
+                        if ( 'tok300_' in self.tokens[self.i] ):
+                          coluna = self.conteudo_token()
+                          self.next_token()
+                        if ( 'tok207_]' in self.tokens[self.i] ):
+                            self.next_token()
+                      
+                if('tok200_;' in self.tokens[self.i]):
+                  #Armazenando chave nome da variavel e valores tipo da variavel, categoria: 'var_global' ou 'var_registro' ou 'var_vetor' ou 'var_matriz', escopo = 'global'
+                  # Caso seja um vetor preciso guardar apenas o indicador do tamanho de linhas
+                  if(categoria == "var_vetor_global"):
+                    campos_var_global = [lexema_nomeTipo, categoria, linha]
+                    # Caso seja um matriz preciso guardar os indicadores de tamanho de linhas e colunas
+                  elif(categoria == "var_matriz_global"):
+                    campos_var_global = [lexema_nomeTipo, categoria, [linha, coluna]]
+                    # Se for uma variavel simples nesse ponto ela nao teve inicializacao
                   else:
-                    categoria = "var_global"
+                    campos_var_global = [lexema_nomeTipo, categoria, "sem_inicializacao"]
+                  self.variaveisGlobais_tab[lexema_nomeCamp] = campos_var_global
                   
-                  #Busca o lexema do tipo primitivo
-                  lexema_nomeTipo = self.tokens[self.i][self.tokens[self.i].find('_')+1: self.tokens[self.i].find('->')]
-                  self.i += 1
-                  self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
-                  
-                  if("tok500_" in self.tokens[self.i]):
+                elif( 'tok115_=' in self.tokens[self.i] ):
+                  self.next_token()
+                  if(("inteiro" in lexema_nomeTipo and "tok300" in self.tokens[self.i]) or
+                     ("real" in lexema_nomeTipo and "tok301" in self.tokens[self.i])or
+                     ("char" in lexema_nomeTipo and "tok400" in self.tokens[self.i]) or
+                     ("cadeia" in lexema_nomeTipo and "tok700" in self.tokens[self.i]) or
+                     (("booleano" in lexema_nomeTipo and "tok618" in self.tokens[self.i]) or ("booleano" in lexema_nomeTipo and "tok619" in self.tokens[self.i]))):
+                    # Pegando conteudo da inicializacao da variavel simples
+                    inicializao_valor = self.conteudo_token()
+                    #Armazenando chave nome da variavel e valores tipo da variavel, categoria: 'var_global' ou 'var_registro' ou 'var_vetor' ou 'var_matriz', escopo = 'global'
+                    campos_var_global = [lexema_nomeTipo, categoria, inicializao_valor]
+                    self.variaveisGlobais_tab[lexema_nomeCamp] = campos_var_global
+                  else:
+                    print ("Erro Semantico: Atribuicao de tipos nao esta correta para variavel " + lexema_nomeCamp + "- linha: "+self.linha_atual+"\n")
+                    self.arquivo_saida.write("Erro Semantico: Atribuicao de tipos nao esta correta para variavel " + lexema_nomeCamp + "- linha: "+self.linha_atual+"\n")
+                    self.tem_erro_semantico = True
+              else: 
+                print ("Erro Semantico: "+ lexema_nomeCamp + " ja foi declarado como nome de registro - linha: "+self.linha_atual+"\n")
+                self.arquivo_saida.write("Erro Semantico: "+ lexema_nomeCamp + " ja foi declarado como nome de registro - linha: "+self.linha_atual+"\n")
+                self.tem_erro_semantico = True
+            else:
+              print ("Erro Semantico: "+ lexema_nomeCamp + " ja foi declarado em Constantes - linha: "+self.linha_atual+"\n")
+              self.arquivo_saida.write("Erro Semantico: "+ lexema_nomeCamp + " ja foi declarado em Constantes - linha: "+self.linha_atual+"\n")
+              self.tem_erro_semantico = True
+          else:
+            print ("Erro Semantico: "+ lexema_nomeCamp + " ja foi declarado em Variaveis Globais - linha: "+self.linha_atual+"\n")
+            self.arquivo_saida.write("Erro Semantico: "+ lexema_nomeCamp + " ja foi declarado em Variaveis Globais - linha: "+self.linha_atual+"\n")
+            self.tem_erro_semantico = True
+                
+      self.next_token()
 
-                      #Busca o lexema nome da variavel
-                      lexema_nomeCamp = self.tokens[self.i][self.tokens[self.i].find('_')+1: self.tokens[self.i].find('->')]
-                      self.i += 1
-                      self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
-                      if(not self.variaveisGlobais_tab.has_key(lexema_nomeCamp)):
-
-                        #Verificando se e um vetor ou uma matriz
-                        if ( 'tok206_[' in self.tokens[self.i] ):
-                          self.i += 1
-                          self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
-                          categoria = "var_vetor"
-                          if ( 'tok300_' in self.tokens[self.i] ):
-                            self.i += 1
-                            self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
-                            if ( 'tok207_]' in self.tokens[self.i] ):
-                              self.i += 1
-                              self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
-                              if ( 'tok206_[' in self.tokens[self.i] ):
-                                self.i += 1
-                                self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
-                                categoria = "var_matriz"
-                                if ( 'tok300_' in self.tokens[self.i] ):
-                                  self.i += 1
-                                  self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
-                                if ( 'tok207_]' in self.tokens[self.i] ):
-                                    self.i += 1
-                                    self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
-                              
-                        if('tok200_;' in self.tokens[self.i]):
-                          #Armazenando chave nome da variavel e valores tipo da variavel, categoria: 'var_global' ou 'var_registro' ou 'var_vetor' ou 'var_matriz', escopo = 'global'
-                          campos_var_global = [lexema_nomeTipo, categoria, "global"]
-                          self.variaveisGlobais_tab[lexema_nomeCamp] = campos_var_global
-                          
-                        elif( 'tok115_=' in self.tokens[self.i] ):
-                          self.i += 1
-                          self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
-                          if((lexema_nomeTipo == "inteiro" and "tok300" in self.tokens[self.i]) or
-                             (lexema_nomeTipo == "real" and "tok301" in self.tokens[self.i])or
-                             (lexema_nomeTipo == "char" and "tok400" in self.tokens[self.i]) or
-                             (lexema_nomeTipo == "cadeia" and "tok700" in self.tokens[self.i]) or
-                             ((lexema_nomeTipo == "booleano" and "tok618" in self.tokens[self.i]) or (lexema_nomeTipo == "booleano" and "tok619" in self.tokens[self.i]))):
-
-                            #Armazenando chave nome da variavel e valores tipo da variavel, categoria: 'var_global' ou 'var_registro' ou 'var_vetor' ou 'var_matriz', escopo = 'global'
-                            campos_var_global = [lexema_nomeTipo, categoria, "global"]
-                            self.variaveisGlobais_tab[lexema_nomeCamp] = campos_var_global
-                          else:
-                            print ("Erro Semantico: Atribuicao de tipos nao esta correta para variavel " + lexema_nomeCamp + "- linha: "+self.linha_atual+"\n")
-                            self.arquivo_saida.write("Erro Semantico: Atribuicao de tipos nao esta correta para variavel " + lexema_nomeCamp + "- linha: "+self.linha_atual+"\n")
-                            self.tem_erro_semantico = True
-                        
-                      else:
-                        print ("Erro Semantico: "+ lexema_nomeCamp + " ja foi declarado em Variaveis Globais - linha: "+self.linha_atual+"\n")
-                        self.arquivo_saida.write("Erro Semantico: "+ lexema_nomeCamp + " ja foi declarado em Variaveis Globais - linha: "+self.linha_atual+"\n")
-                        self.tem_erro_semantico = True
-                        
-              self.i += 1
-              self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
-
-
+  # todas as variaveis locais devem ser declaraddas ao inicio da declaracao de cada funcao
   def preencheFuncaoTab(self):
-      self.i += 1
-      self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
-
+    # Armazeno o tipo de retorno da funcao em questao
+    tipo_retorno = self.conteudo_token()
+    # Armazena os parametros da funcao na ordem e quantidade em que eles foram declarados
+    lista_parametros = []
+    self.next_token()
+    # Armazeno o nome da funcao em questao
+    nome_func = self.conteudo_token()
+    # Avanco ao token '('
+    self.next_token()
+    self.next_token()
+    if(not ')' in self.tokens[self.i]):
+  # todas as variaveis locais devem ser declaraddas ao inicio da declaracao de algoritmo
   def preencheAlgoritmoTab(self):
-      self.i += 1
-      self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
+    self.next_token()
 
   def analisa(self):
 
@@ -281,28 +317,22 @@ class AnalisadorSemantico ():
             
       #Verifica qual tabela sera preenchida
       if("registro" in self.tokens[self.i]):
-          self.i += 1
-          self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
-          self.preencheRegistroTab()
+        self.next_token()
+        self.preencheRegistroTab()
       elif("constantes" in self.tokens[self.i]):
-        self.i += 1
-        self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
+        self.next_token()
         self.preencheConstantesTab()
       elif("variaveis" in self.tokens[self.i]):
-        self.i += 1
-        self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
+        self.next_token()
         self.preencheVariaveisGlogaisTab()
       elif("funcao" in self.tokens[self.i]):
-        self.i += 1
-        self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
+        self.next_token()
         self.preencheFuncaoTab()
       elif("algoritmo" in self.tokens[self.i]):
-        self.i += 1
-        self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
+        self.next_token()
         self.preencheAlgoritmoTab()
       else:
-          self.i += 1
-          self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
+          self.next_token()
     
     # Analise Semantica ja foi realizada, agora indica se foi compilado com sucesso
     if(self.tem_erro_semantico):
@@ -312,7 +342,21 @@ class AnalisadorSemantico ():
       print("Cadeia de tokens na analise semantica reconhecida com sucesso")
       self.arquivo_saida.write("Cadeia de tokens reconhecida com sucesso\n")
 
-    print self.tabela_semantica
+    print("Tabela de registros")
+    print (self.registro_tab)
+    print("\n")
+    print("Tabela de constantes")
+    print (self.constantes_tab)
+    print("\n")
+    print("Tabela de variaveis globais")
+    print (self.variaveisGlobais_tab)
+    print("\n")
+    print("Tabela de funcoes")
+    print (self.funcao_tab)
+    print("\n")
+    print("Tabela de algoritmo")
+    print (self.algoritmo_tab)
+    print("\n")
 
     # Fechando arquivo de saida
     self.arquivo_saida.close()
