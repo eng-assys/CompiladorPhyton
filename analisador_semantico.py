@@ -378,9 +378,9 @@ class AnalisadorSemantico ():
       self.arquivo_saida.write("Erro Semantico: "+ nome_func + " ja foi declarado como nome de funcao - linha: "+self.linha_atual+"\n")
       self.tem_erro_semantico = True
 
-  def dentro_funcao(self, nome_func):
+  def dentro_funcao(self, nomeFunc):
     self.next_token()
-    
+
   def preencheAlgoritmoTab(self):
     self.next_token()
 
