@@ -1087,7 +1087,7 @@ class AnalisadorSintatico():
             self.i += 1
             self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
   
-  #<chamada_funcao> := token_identificador (<decl_param_chamada>)
+  #<chamada_funcao> := funcao token_identificador (<decl_param_chamada>)
   def chamada_funcao(self):
     if("Erro Lexico" in self.tokens[self.i]):
       self.i += 1
@@ -1128,6 +1128,7 @@ class AnalisadorSintatico():
       while(not 'tok200_;' in self.tokens[self.i]):
             self.i += 1
             self.linha_atual = self.tokens[self.i][ self.tokens[self.i].find('->')+2: -1]
+   
 
   #<decl_param_chamada> := <decl_chamada> <chamada_param_deriva> | Ɛ
   def decl_param_chamada(self):

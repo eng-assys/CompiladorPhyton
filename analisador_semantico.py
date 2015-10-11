@@ -22,14 +22,13 @@ class AnalisadorSemantico ():
   def __init__(self):
 
     self.arquivo_entrada = "resp-lex.txt"
-    self.arquivo_saida = "resp-sem.txt"
+    self.arquivo_saida = "log-sem.txt"
 
     self.tem_erro_semantico = False
 
     self.arquivo_saida = open(self.arquivo_saida, 'w')
     # Verifica se o arquivo de entrada existe no diretorio em questao
     if not os.path.exists(self.arquivo_entrada):
-      print("Arquivo de entrada inexistente")
       self.arquivo_saida.write("Arquivo de entrada inexistente")
       return
 
@@ -60,6 +59,8 @@ class AnalisadorSemantico ():
     self.parametro_funcao_tab = {}
     # guarda o escopo analisado no momento
     self.funcao_analisada = ""
+    # guarda os possiveis erros encontrados no código
+    self.tabela_erros = []
 
    # Faz o cabecote de leitura apontar para o proximo token da lista
   def next_token(self):
@@ -74,9 +75,9 @@ class AnalisadorSemantico ():
   def imprime_dicionario(self, dicionario):
 
     for chave in dicionario.keys():
-      print("Chave: ", chave)
-      print("Conteudo: ", dicionario[chave])
-      print("\n")
+      self.arquivo_saida.write("Chave: " + chave+"\n")
+      self.arquivo_saida.write("Conteudo: " + str(dicionario[chave]))
+      self.arquivo_saida.write("\n\n")
 
 
   '''
@@ -90,6 +91,7 @@ class AnalisadorSemantico ():
         # Verifico se ja possuo um registro com esse mesmo nome
         # indico erro caso o mesmo jah tenha sido declarado anteriormente
         if( not lexema_nomeReg in self.registro_tab.keys() ):
+          self.arquivo_saida.write("Tipo registro criado: "+lexema_nomeReg+"\n")
           #Cria um dicionario de campos do registro para cada registro
           campos_registro_tab ={}
           
@@ -114,19 +116,26 @@ class AnalisadorSemantico ():
                       lexema_nomeCamp = self.conteudo_token()
                       
                       if( not lexema_nomeCamp in self.registro_tab.get(lexema_nomeReg).keys() ):
+                        self.arquivo_saida.write("Novo campo registro: " + lexema_nomeTipo + " " + lexema_nomeCamp+"\n")
                         # adiciono o nome campo de registro como chave para o seu tipo
                         campos_registro_tab[lexema_nomeCamp] = lexema_nomeTipo
                         
                       else:
-                        print ("Erro Semantico: "+ lexema_nomeCamp + " ja foi declarado como campo de " + lexema_nomeReg + "- linha: "+self.linha_atual+"\n")
-                        self.arquivo_saida.write("Erro Semantico: "+ lexema_nomeCamp + " ja foi declarado como campo de " + lexema_nomeReg + "- linha: "+self.linha_atual+"\n")
+                        self.arquivo_saida.write("Erro Semantico: "+ lexema_nomeCamp + " ja foi declarado como campo de " + lexema_nomeReg+"\n")
+                        self.arquivo_saida.write("Erro na linha: "+self.linha_atual+"\n")
                         self.tem_erro_semantico = True
+                        while( not ";" in self.conteudo_token() ):
+                          self.next_token()
                       
               self.next_token()
         else: 
-          print ("Erro Semantico: "+ lexema_nomeReg + " ja foi declarado como um tipo registro " + " - linha: "+self.linha_atual+"\n")
-          self.arquivo_saida.write("Erro Semantico: "+ lexema_nomeReg + " ja foi declarado como um tipo registro " + " - linha: "+self.linha_atual+"\n")
+          self.arquivo_saida.write("Erro Semantico: "+ lexema_nomeReg + " ja foi declarado como um tipo registro\n")
+          self.arquivo_saida.write("Erro na linha: "+self.linha_atual+"\n")
           self.tem_erro_semantico = True
+          # percorro até o próximo registro ou a tabela de constantes
+          while( not ("registro" in self.conteudo_token() or "constante" in self.conteudo_token() ) ):
+            self.next_token()
+  
   '''
     Preenche a tabela variaveisGlobais_tab e
     emite erros semanticos caso sejam encontrados duplicidade de nomes de variaveis
@@ -135,7 +144,7 @@ class AnalisadorSemantico ():
   def preencheConstantesTab(self):
     # Caso nao existam constantes o dicionario sera vazio   
     while(not "}" in self.tokens[self.i]):
-
+      erro_constante = False
       if("cadeia" in self.tokens[self.i] or
          "inteiro" in self.tokens[self.i] or
          "char" in self.tokens[self.i] or
@@ -165,21 +174,29 @@ class AnalisadorSemantico ():
                      ("cadeia" in lexema_nomeTipo and "tok700" in valor_constante) or
                      (("booleano" in lexema_nomeTipo and "tok618" in valor_constante) or ("booleano" in lexema_nomeTipo and "tok619" in valor_constante))):
 
+                    self.arquivo_saida.write("Novo campo constante: " + lexema_nomeTipo + " " + lexema_nomeCamp+ " " + valor_constante +"\n")
                     # a chave do dicionario eh o nome do campo constante, o conteudo eh o tipo do campo seguido de seu valor
                     campos_const = [lexema_nomeTipo, valor_constante]
                     self.constantes_tab[lexema_nomeCamp] = campos_const
                   else:
-                    print ("Erro Semantico: Atribuicao de tipos nao esta correta para campo constante: " + lexema_nomeCamp + " e o valor: "+ valor_constante +" - linha: "+self.linha_atual+"\n")
-                    self.arquivo_saida.write("Erro Semantico: Atribuicao de tipos nao esta correta para campo constante: " + lexema_nomeCamp + " e o valor: "+ valor_constante +" - linha: "+self.linha_atual+"\n")
+                    self.arquivo_saida.write("Erro Semantico: Atribuicao de tipos nao esta correta para campo constante: " + lexema_nomeCamp + " e o valor: "+ valor_constante+"\n")
+                    self.arquivo_saida.write("Erro na linha : "+self.linha_atual+"\n")
                     self.tem_erro_semantico = True
+                    erro_constante = True
                 else: 
-                  print ("Erro Semantico: "+ lexema_nomeCamp + " ja foi declarado como tipo registro - linha: "+self.linha_atual+"\n")
-                  self.arquivo_saida.write("Erro Semantico: "+ lexema_nomeCamp + " ja foi declarado como tipo registro - linha: "+self.linha_atual+"\n")
+                  self.arquivo_saida.write("Erro Semantico: "+ lexema_nomeCamp + " ja foi declarado como tipo registro\n")
+                  self.arquivo_saida.write("Erro na linha : "+self.linha_atual+"\n")
                   self.tem_erro_semantico = True
+                  erro_constante = True
               else:
-                print ("Erro Semantico: "+ lexema_nomeCamp + " ja foi declarado como campo contante - linha: "+self.linha_atual+"\n")
-                self.arquivo_saida.write("Erro Semantico: "+ lexema_nomeCamp + " ja foi declarado como campo contante - linha: "+self.linha_atual+"\n")
+                self.arquivo_saida.write("Erro Semantico: "+ lexema_nomeCamp + " ja foi declarado como campo contante \n")
+                self.arquivo_saida.write("Erro na linha : "+self.linha_atual+"\n")
                 self.tem_erro_semantico = True
+                erro_constante = True
+
+              if(erro_constante):
+                while(not ";" in self.conteudo_token() ):
+                  self.next_token()
 
       self.next_token()
   '''
@@ -190,9 +207,11 @@ class AnalisadorSemantico ():
   def preencheVariaveisTab(self, escopo):
     # consumo o primeiro '{'
     self.next_token()
+    erro_var = False
 
     dicionario_var = {}
     self.variaveis_tab[escopo] = dicionario_var
+    self.arquivo_saida.write("\n=== Criando nova tabela de variaveis em escopo: "+escopo+" ===\n")
     while(not "}" in self.tokens[self.i]):
       categoria = ""
       linha = ""
@@ -207,81 +226,104 @@ class AnalisadorSemantico ():
         if( lexema_nomeTipo in self.registro_tab.keys() ):
           categoria = "registro"
         else:
-          print ("Erro Semantico: "+ lexema_nomeTipo + " não foi declarado como registro - linha: "+self.linha_atual+"\n")
-          self.arquivo_saida.write("Erro Semantico: "+ lexema_nomeTipo + " não foi declarado como registro - linha: "+self.linha_atual+"\n")
+          erro_var = True
+          self.arquivo_saida.write("Erro Semantico: "+ lexema_nomeTipo + " não foi declarado como registro\n")
+          self.arquivo_saida.write("Erro na linha: "+self.linha_atual+"\n")
           self.tem_erro_semantico = True
+          while( not ";" in self.conteudo_token() ):
+            self.next_token()
       else:
         categoria = "simples"
 
-      # consumindo o token de tipo de registro
-      self.next_token()
-      # Pegando o nome da variavel analisada no momento
-      lexema_nomeCamp = self.conteudo_token()
-      # consumindo o nome da variavel
-      self.next_token()
+      if(not erro_var):
+        # consumindo o token de tipo de registro
+        self.next_token()
+        # Pegando o nome da variavel analisada no momento
+        lexema_nomeCamp = self.conteudo_token()
+        # consumindo o nome da variavel
+        self.next_token()
 
-      # Verifico se jah nao declarei esse campo de variavel anteriormente
-      if(not lexema_nomeCamp in self.variaveis_tab[escopo].keys() ):
-        # Verifico se jah nao declarei uma constante com o nome em questao
-        if(not lexema_nomeCamp in self.constantes_tab.keys() ):
-          # Verifico se jah nao declarei um registro com o nome em questao
-          if( not lexema_nomeCamp in self.registro_tab.keys() ):
-            # atribuindo ao dicionario de variaveis na chave correspondente o conteudo da variavel lida
-            dicionario_var[ lexema_nomeCamp ] = campos_var
-            #Verificando se e um vetor ou uma matriz
-            if ( 'tok206_[' in self.tokens[self.i] ):
-              self.next_token()
-              categoria = "vetor"
-              if ( 'tok300_' in self.tokens[self.i] ):
-                linha = self.conteudo_token()
+        # Verifico se jah nao declarei esse campo de variavel anteriormente
+        if(not lexema_nomeCamp in self.variaveis_tab[escopo].keys() ):
+          # Verifico se jah nao declarei uma constante com o nome em questao
+          if(not lexema_nomeCamp in self.constantes_tab.keys() ):
+            # Verifico se jah nao declarei um registro com o nome em questao
+            if( not lexema_nomeCamp in self.registro_tab.keys() ):
+              #Verificando se e um vetor ou uma matriz
+              if ( 'tok206_[' in self.tokens[self.i] ):
                 self.next_token()
-                if ( 'tok207_]' in self.tokens[self.i] ):
+                categoria = "vetor"
+                if ( 'tok300_' in self.tokens[self.i] ):
+                  linha = self.conteudo_token()
                   self.next_token()
-                  if ( 'tok206_[' in self.tokens[self.i] ):
+                  if ( 'tok207_]' in self.tokens[self.i] ):
                     self.next_token()
-                    categoria = "matriz"
-                    if ( 'tok300_' in self.tokens[self.i] ):
-                      coluna = self.conteudo_token()
+                    if ( 'tok206_[' in self.tokens[self.i] ):
                       self.next_token()
-                    if ( 'tok207_]' in self.tokens[self.i] ):
+                      categoria = "matriz"
+                      if ( 'tok300_' in self.tokens[self.i] ):
+                        coluna = self.conteudo_token()
                         self.next_token()
-  
-            if( 'tok115_=' in self.tokens[self.i] ):
-              self.next_token()
-              # verifico se os tipos sao compativeis
-              if(("inteiro" in lexema_nomeTipo and "tok300" in self.tokens[self.i]) or
-                 ("real" in lexema_nomeTipo and "tok301" in self.tokens[self.i])or
-                 ("char" in lexema_nomeTipo and "tok400" in self.tokens[self.i]) or
-                 ("cadeia" in lexema_nomeTipo and "tok700" in self.tokens[self.i]) or
-                 (("booleano" in lexema_nomeTipo and "tok618" in self.tokens[self.i]) or ("booleano" in lexema_nomeTipo and "tok619" in self.tokens[self.i]))):
-                # Pegando conteudo da inicializacao da variavel simples
-                inicializao_valor = self.conteudo_token()
+                      if ( 'tok207_]' in self.tokens[self.i] ):
+                          self.next_token()
+    
+              if( 'tok115_=' in self.tokens[self.i] ):
                 self.next_token()
+                # verifico se os tipos sao compativeis
+                if(("inteiro" in lexema_nomeTipo and "tok300" in self.tokens[self.i]) or
+                   ("real" in lexema_nomeTipo and "tok301" in self.tokens[self.i])or
+                   ("char" in lexema_nomeTipo and "tok400" in self.tokens[self.i]) or
+                   ("cadeia" in lexema_nomeTipo and "tok700" in self.tokens[self.i]) or
+                   (("booleano" in lexema_nomeTipo and "tok618" in self.tokens[self.i]) or ("booleano" in lexema_nomeTipo and "tok619" in self.tokens[self.i]))):
+                  # Pegando conteudo da inicializacao da variavel simples
+                  inicializao_valor = self.conteudo_token()
+                  self.next_token()
+                  # Armazenando as informacoes de cada variavel
+                  campos_var.append(lexema_nomeTipo)
+                  campos_var.append(categoria)
+                  campos_var.append(inicializao_valor)
+                  campos_var.append(linha)
+                  campos_var.append(coluna)
+                  self.arquivo_saida.write("Novo campo variavel "+escopo+" criado - nome: "+lexema_nomeCamp+" | tipo: "+lexema_nomeTipo+" | categoria: "+categoria+" | valor inicial: "+inicializao_valor+" | linha: "+linha+" |  coluna: "+coluna+"\n\n")
+                  # atribuindo ao dicionario de variaveis na chave correspondente o conteudo da variavel lida
+                  dicionario_var[ lexema_nomeCamp ] = campos_var
+                else:
+                  self.next_token()
+                  self.arquivo_saida.write("Erro Semantico: Atribuicao de tipos nao esta correta para variavel " + lexema_nomeCamp + "\n")
+                  self.arquivo_saida.write("Erro na linha: "+self.linha_atual+"\n")
+                  self.tem_erro_semantico = True
               else:
-                inicializao_valor = "tipo_incompativel"
-                self.next_token()
-                print ("Erro Semantico: Atribuicao de tipos nao esta correta para variavel " + lexema_nomeCamp + "- linha: "+self.linha_atual+"\n")
-                self.arquivo_saida.write("Erro Semantico: Atribuicao de tipos nao esta correta para variavel " + lexema_nomeCamp + "- linha: "+self.linha_atual+"\n")
-                self.tem_erro_semantico = True
-            # Armazenando as informacoes de cada variavel
-            campos_var.append(lexema_nomeTipo)
-            campos_var.append(categoria)
-            campos_var.append(inicializao_valor)
-            campos_var.append(linha)
-            campos_var.append(coluna)
-          else: 
-            print ("Erro Semantico: "+ lexema_nomeCamp + " ja foi declarado como nome de registro - linha: "+self.linha_atual+"\n")
-            self.arquivo_saida.write("Erro Semantico: "+ lexema_nomeCamp + " ja foi declarado como nome de registro - linha: "+self.linha_atual+"\n")
+                # Armazenando as informacoes de cada variavel
+                campos_var.append(lexema_nomeTipo)
+                campos_var.append(categoria)
+                campos_var.append(inicializao_valor)
+                campos_var.append(linha)
+                campos_var.append(coluna)
+                self.arquivo_saida.write("Novo campo variavel "+escopo+" criado - nome: "+lexema_nomeCamp+" | tipo: "+lexema_nomeTipo+" | categoria: "+categoria+" | valor inicial: "+inicializao_valor+" | linha: "+linha+" |  coluna: "+coluna+"\n\n")
+                # atribuindo ao dicionario de variaveis na chave correspondente o conteudo da variavel lida
+                dicionario_var[ lexema_nomeCamp ] = campos_var
+            else: 
+              self.arquivo_saida.write("Erro Semantico: "+ lexema_nomeCamp + " ja foi declarado como nome de registro \n")
+              self.arquivo_saida.write("Erro na linha: "+self.linha_atual+"\n")
+              self.tem_erro_semantico = True
+              erro_var = True
+          else:
+            self.arquivo_saida.write("Erro Semantico: "+ lexema_nomeCamp + " ja foi declarado em Constantes \n")
+            self.arquivo_saida.write("Erro na linha: "+self.linha_atual+"\n")
             self.tem_erro_semantico = True
+            erro_var = True
         else:
-          print ("Erro Semantico: "+ lexema_nomeCamp + " ja foi declarado em Constantes - linha: "+self.linha_atual+"\n")
-          self.arquivo_saida.write("Erro Semantico: "+ lexema_nomeCamp + " ja foi declarado em Constantes - linha: "+self.linha_atual+"\n")
+          self.arquivo_saida.write("Erro Semantico: "+ lexema_nomeCamp + " ja foi declarado em Variaveis " + escopo + "\n")
+          self.arquivo_saida.write("Erro na linha: "+self.linha_atual+"\n")
           self.tem_erro_semantico = True
+          erro_var = True
+        if(erro_var):
+          while( not ";" in self.conteudo_token() ):
+            self.next_token()
       else:
-        print ("Erro Semantico: "+ lexema_nomeCamp + " ja foi declarado em Variaveis " + escopo + " - linha: "+self.linha_atual+"\n")
-        self.arquivo_saida.write("Erro Semantico: "+ lexema_nomeCamp + " ja foi declarado em Variaveis " + escopo + " - linha: "+self.linha_atual+"\n")
-        self.tem_erro_semantico = True
-
+        while( not ";" in self.conteudo_token() ):
+          self.next_token()
+              
       # consumo o ';'
       self.next_token()
     # consumo o '}'
@@ -289,6 +331,7 @@ class AnalisadorSemantico ():
 
   # todas as variaveis locais devem ser declaraddas ao inicio da declaracao de cada funcao
   def preencheFuncaoTab(self):
+
     # Armazeno o tipo de retorno da funcao em questao
     # LEMBRAR QUE PODE SER VETOR OU MATRIZ OU REGISTRO
     tipo_retorno = []
@@ -387,14 +430,22 @@ class AnalisadorSemantico ():
         # consumo o simbolo '{'
         self.next_token()
 
+      self.arquivo_saida.write("\n+++Tabela de parâmetros da função "+nome_func+ "+++\n")
+      self.imprime_dicionario(self.parametro_funcao_tab[nome_func])
+      
+
       # caso a funcao tenha variaveis locais preciso armazenar suas informacoes
       if("variaveis" in self.tokens[self.i]):
         # consumo variaveis
         self.next_token()
         self.preencheVariaveisTab( nome_func )
-        
+        self.arquivo_saida.write("\n+++Tabela de variaveis locais da função "+nome_func+ "+++\n")
+        self.imprime_dicionario(self.variaveis_tab[nome_func])
+        self.arquivo_saida.write("\n++++++++++++++++++++++++++++++++\n")
+
       # indico que estou analisando a funcao com o nome nome_func no momento
       self.funcao_analisada = nome_func
+      self.arquivo_saida.write("Declaração de comandos escopo: "+nome_func+"\n")
       self.decl_comandos()
       # fica faltando analisar se o tipo de retorno eh compativel c o retorno real
     else:
@@ -413,6 +464,9 @@ class AnalisadorSemantico ():
       self.next_token()
       # Preenchendo as variaveis locais da funcao algoritmo
       self.preencheVariaveisTab( "algoritmo" )
+      self.arquivo_saida.write("\n+++Tabela de variáveis locais em algoritmo criada+++\n")
+      self.imprime_dicionario(self.variaveis_tab["algoritmo"])
+      self.arquivo_saida.write("\n++++++++++++++++++++++++++++++++\n")
     
     # configurando a declaracao de comandos interna a funcao algoritmo
     # self.funcao_analisada = "algoritmo"
@@ -422,35 +476,59 @@ class AnalisadorSemantico ():
   # verifica tambem se ela foi declarada como registro, constante etc
   def retorna_de_escopo(self, variavel):
     informacoes_variavel = []
-
+    virou_dict = False
     if( not variavel in self.constantes_tab.keys() ):
 
       if(not "algoritmo" in self.funcao_analisada):
         # verificando se a variavel foi declarada como variavel local da funcao
         if( variavel in self.variaveis_tab[self.funcao_analisada].keys() ):
           informacoes_variavel = self.variaveis_tab[self.funcao_analisada]
+          virou_dict = True
 
         elif( variavel in self.parametro_funcao_tab[self.funcao_analisada].keys() ):
           informacoes_variavel = self.parametro_funcao_tab[self.funcao_analisada]
+          virou_dict = True
         
         elif( variavel in self.variaveis_tab["global"].keys() ):
           informacoes_variavel = self.variaveis_tab["global"]
+          virou_dict = True
       else:
         # verificando se a variavel foi declarada como variavel local de algoritmo
         if( variavel in self.variaveis_tab[self.funcao_analisada].keys() ):
           informacoes_variavel = self.variaveis_tab[self.funcao_analisada]
+          virou_dict = True
         
         elif( variavel in self.variaveis_tab["global"].keys() ):
           informacoes_variavel = self.variaveis_tab["global"]
+          virou_dict = True
     else:
       print ("Erro Semantico: "+ variavel + " é uma constante e não pode receber atribuições - linha: "+self.linha_atual+"\n")
       self.arquivo_saida.write("Erro Semantico: "+ variavel + " é uma constante e não pode receber atribuições - linha: "+self.linha_atual+"\n")
       self.tem_erro_semantico = True      
-
-    return informacoes_variavel[variavel]
+    # retorna lista com informacoes da variavel se encontrada
+    if(virou_dict):
+      return informacoes_variavel[variavel]
+    # retorna lista vazia caso n tenha encontrada
+    else:
+      return informacoes_variavel
+    
   # verifica se dois tipos sao compativeis
-  def verifica_tipo(self):
-    teste = 1
+  def retorna_campo_registro(self, tipo_registro, campo):
+    if( tipo_registro in self.registro_tab.keys() ):
+      if ( campo in self.registro_tab[tipo_registro].keys() ):
+        campo_tab = self.registro_tab[tipo_registro]
+        return campo_tab[campo]
+      else:
+        print ("Erro Semantico: "+ campo + " não é um campo do tipo registro: " + tipo_registro + "- linha: "+self.linha_atual+"\n")
+        self.arquivo_saida.write("Erro Semantico: "+ campo + " não é um campo do tipo registro: " + tipo_registro + "- linha: "+self.linha_atual+"\n")
+        self.tem_erro_semantico = True
+    else:
+      print ("Erro Semantico: "+ tipo_registro + " não foi declarado como um tipo registro: - linha: "+self.linha_atual+"\n")
+      self.arquivo_saida.write("Erro Semantico: "+ tipo_registro + " não foi declarado como um tipo registro: - linha: "+self.linha_atual+"\n")
+      self.tem_erro_semantico = True
+    # caso o tipo registro nao exista ou nao exista o campo no tipo registro
+    return []
+
     # Declaracao de comandos
     # ================================================================
   def decl_comandos(self):
@@ -485,20 +563,13 @@ class AnalisadorSemantico ():
   #<atribuicao> := token_identificador <identificador_imp_arm_deriva>  = <atribuicao_deriva>;
   def atribuicao(self):
     if('tok500_' in self.tokens[self.i]):
-      variavel = self.conteudo_token()
-      conteudo_variavel = self.retorna_de_escopo( variavel )
-      self.next_token()
-      campo_reg = self.identificador_imp_arm_deriva()
-
-      if(campo_reg != ""):
-        tipo_reg = conteudo_variavel[0]
-
-
+      self.next()
+      self.identificador_imp_arm_deriva()
       if('tok115_=' in self.tokens[self.i]):
-        self.next_token()
+        self.next()
         self.atribuicao_deriva()
         if('tok200_;' in self.tokens[self.i]):
-          self.next_token()
+          self.next()
 
   #<atribuicao_deriva> := <exp_simples> | <chamada_funcao>
   def atribuicao_deriva(self):
@@ -511,7 +582,7 @@ class AnalisadorSemantico ():
          'tok300_' in self.tokens[self.i]):
       self.exp_simples()
 
-  #<chamada_funcao> := token_identificador (<decl_param_chamada>)
+  #<chamada_funcao> := funcao token_identificador (<decl_param_chamada>)
   def chamada_funcao(self):
     if('tok500_' in self.tokens[self.i]):
       self.next_token()
@@ -520,7 +591,7 @@ class AnalisadorSemantico ():
         self.decl_param_chamada()
         if('tok203_)' in self.tokens[self.i]):
           self.next_token()
-        
+      
 
   #<decl_param_chamada> := <decl_chamada> <chamada_param_deriva> | Ɛ
   def decl_param_chamada(self):
@@ -578,7 +649,7 @@ class AnalisadorSemantico ():
        'tok613_inteiro' in self.tokens[self.i] or
        'tok616_char' in self.tokens[self.i] or
        'tok615_booleano' in self.tokens[self.i]):
-          return
+          return ""
     elif("tok100_." in self.tokens[self.i]):
       self.next_token()
       if("tok500_" in self.tokens[self.i]):
@@ -959,16 +1030,34 @@ class AnalisadorSemantico ():
             
       #Verifica qual tabela sera preenchida
       if("registro" in self.tokens[self.i]):
+        self.arquivo_saida.write("\n===Criando nova tabela de registros===\n")
         self.next_token()
         self.preencheRegistroTab()
       elif("constantes" in self.tokens[self.i]):
+
+        self.arquivo_saida.write("\n+++Tabela de registros criada+++\n")
+        self.imprime_dicionario(self.registro_tab)
+        self.arquivo_saida.write("\n++++++++++++++++++++++++++++++++\n")
+        self.arquivo_saida.write("\n")
+
+        self.arquivo_saida.write("\n===Criando nova tabela de constantes===\n")
         self.next_token()
         self.preencheConstantesTab()
       elif("variaveis" in self.tokens[self.i]):
+        self.arquivo_saida.write("\n+++Tabela de constantes criada+++\n")
+        self.imprime_dicionario(self.constantes_tab)
+        self.arquivo_saida.write("\n++++++++++++++++++++++++++++++++\n")
+        self.arquivo_saida.write("\n")
+
         # consumo a palavra variaveis
         self.next_token()
         self.preencheVariaveisTab( "global" )
+
+        self.arquivo_saida.write("\n+++Tabela de variáveis (só com as globais) criada+++\n")
+        self.imprime_dicionario(self.variaveis_tab["global"])
+        self.arquivo_saida.write("\n++++++++++++++++++++++++++++++++\n")
       elif("funcao" in self.tokens[self.i]):
+        # consumo a palavra funcao
         self.next_token()
         self.preencheFuncaoTab()
       elif("algoritmo" in self.tokens[self.i]):
@@ -979,22 +1068,10 @@ class AnalisadorSemantico ():
     
     # Analise Semantica ja foi realizada, agora indica se foi compilado com sucesso
     if(self.tem_erro_semantico):
-      print("Verifique os erros semanticos e tente compilar novamente")
       self.arquivo_saida.write("Verifique os erros semanticos e tente compilar novamente\n")
     else:
-      print("Cadeia de tokens na analise semantica reconhecida com sucesso")
       self.arquivo_saida.write("Cadeia de tokens reconhecida com sucesso\n")
 
-    print("\n+++Tabela de registros+++")
-    self.imprime_dicionario(self.registro_tab)  
-    print("+++Tabela de constantes+++")
-    self.imprime_dicionario(self.constantes_tab)
-    print("+++Tabela de variaveis+++")
-    self.imprime_dicionario(self.variaveis_tab)
-    print("+++Tabela de funcoes+++")
-    self.imprime_dicionario(self.funcao_tab)
-    print("+++Parametros das funcoes+++")
-    self.imprime_dicionario(self.parametro_funcao_tab)
 
     # Fechando arquivo de saida
     self.arquivo_saida.close()

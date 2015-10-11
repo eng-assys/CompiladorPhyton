@@ -1,0 +1,139 @@
+
+===Criando nova tabela de registros===
+Tipo registro criado: tok500_Pessoa
+Novo campo registro: tok617_cadeia tok500_nome
+Novo campo registro: tok613_inteiro tok500_idade
+
+===Criando nova tabela de registros===
+Tipo registro criado: tok500_cidade
+Novo campo registro: tok617_cadeia tok500_nome
+Novo campo registro: tok613_inteiro tok500_numero
+
++++Tabela de registros criada+++
+Chave: tok500_cidade
+Conteudo: {'tok500_numero': 'tok613_inteiro', 'tok500_nome': 'tok617_cadeia'}
+
+Chave: tok500_Pessoa
+Conteudo: {'tok500_nome': 'tok617_cadeia', 'tok500_idade': 'tok613_inteiro'}
+
+
+++++++++++++++++++++++++++++++++
+
+
+===Criando nova tabela de constantes===
+Novo campo constante: tok613_inteiro tok500_MAX tok300_10
+Novo campo constante: tok613_inteiro tok500_MAX2 tok300_50
+Novo campo constante: tok617_cadeia tok500_TEXTO tok700_mensagem
+Novo campo constante: tok616_char tok500_LETRA tok400_a
+Novo campo constante: tok615_booleano tok500_CONDICAO tok618_verdadeiro
+
++++Tabela de constantes criada+++
+Chave: tok500_TEXTO
+Conteudo: ['tok617_cadeia', 'tok700_mensagem']
+
+Chave: tok500_MAX
+Conteudo: ['tok613_inteiro', 'tok300_10']
+
+Chave: tok500_MAX2
+Conteudo: ['tok613_inteiro', 'tok300_50']
+
+Chave: tok500_LETRA
+Conteudo: ['tok616_char', 'tok400_a']
+
+Chave: tok500_CONDICAO
+Conteudo: ['tok615_booleano', 'tok618_verdadeiro']
+
+
+++++++++++++++++++++++++++++++++
+
+
+=== Criando nova tabela de variaveis em escopo: global ===
+Novo campo variavel global criado - nome: tok500_numero | tipo: tok613_inteiro | categoria: simples | valor inicial: sem_inicializacao | linha:  |  coluna: 
+
+Novo campo variavel global criado - nome: tok500_num | tipo: tok613_inteiro | categoria: simples | valor inicial: tok300_10 | linha:  |  coluna: 
+
+Novo campo variavel global criado - nome: tok500_mensagem | tipo: tok617_cadeia | categoria: simples | valor inicial: sem_inicializacao | linha:  |  coluna: 
+
+Novo campo variavel global criado - nome: tok500_mensagem2 | tipo: tok617_cadeia | categoria: simples | valor inicial: tok700_texto | linha:  |  coluna: 
+
+Novo campo variavel global criado - nome: tok500_ana | tipo: tok500_Pessoa | categoria: registro | valor inicial: sem_inicializacao | linha:  |  coluna: 
+
+Novo campo variavel global criado - nome: tok500_vetor | tipo: tok613_inteiro | categoria: vetor | valor inicial: sem_inicializacao | linha: tok300_10 |  coluna: 
+
+Novo campo variavel global criado - nome: tok500_matriz | tipo: tok613_inteiro | categoria: matriz | valor inicial: sem_inicializacao | linha: tok300_12 |  coluna: tok300_12
+
+
++++Tabela de variáveis (só com as globais) criada+++
+Chave: tok500_vetor
+Conteudo: ['tok613_inteiro', 'vetor', 'sem_inicializacao', 'tok300_10', '']
+
+Chave: tok500_num
+Conteudo: ['tok613_inteiro', 'simples', 'tok300_10', '', '']
+
+Chave: tok500_mensagem
+Conteudo: ['tok617_cadeia', 'simples', 'sem_inicializacao', '', '']
+
+Chave: tok500_numero
+Conteudo: ['tok613_inteiro', 'simples', 'sem_inicializacao', '', '']
+
+Chave: tok500_matriz
+Conteudo: ['tok613_inteiro', 'matriz', 'sem_inicializacao', 'tok300_12', 'tok300_12']
+
+Chave: tok500_mensagem2
+Conteudo: ['tok617_cadeia', 'simples', 'tok700_texto', '', '']
+
+Chave: tok500_ana
+Conteudo: ['tok500_Pessoa', 'registro', 'sem_inicializacao', '', '']
+
+
+++++++++++++++++++++++++++++++++
+
++++Tabela de parâmetros da função tok500_faznada+++
+
+=== Criando nova tabela de variaveis em escopo: tok500_faznada ===
+Novo campo variavel tok500_faznada criado - nome: tok500_a | tipo: tok613_inteiro | categoria: simples | valor inicial: tok300_10 | linha:  |  coluna: 
+
+
++++Tabela de variaveis locais da função tok500_faznada+++
+Chave: tok500_a
+Conteudo: ['tok613_inteiro', 'simples', 'tok300_10', '', '']
+
+
+++++++++++++++++++++++++++++++++
+
++++Tabela de parâmetros da função tok500_function1+++
+Chave: tok500_vector
+Conteudo: ['tok613_inteiro', 'vetor', '1']
+
+Chave: tok500_a
+Conteudo: ['tok613_inteiro', 'simples', '0']
+
+Chave: tok500_matriz
+Conteudo: ['tok613_inteiro', 'matriz', '3']
+
+Chave: tok500_pessoa
+Conteudo: ['tok500_Pessoa', 'registro', '2']
+
+
+=== Criando nova tabela de variaveis em escopo: tok500_function1 ===
+Novo campo variavel tok500_function1 criado - nome: tok500_an | tipo: tok613_inteiro | categoria: simples | valor inicial: tok300_10 | linha:  |  coluna: 
+
+
++++Tabela de variaveis locais da função tok500_function1+++
+Chave: tok500_an
+Conteudo: ['tok613_inteiro', 'simples', 'tok300_10', '', '']
+
+
+++++++++++++++++++++++++++++++++
+
+=== Criando nova tabela de variaveis em escopo: algoritmo ===
+Novo campo variavel algoritmo criado - nome: tok500_aana | tipo: tok613_inteiro | categoria: simples | valor inicial: tok300_10 | linha:  |  coluna: 
+
+
++++Tabela de variáveis locais em algoritmo criada+++
+Chave: tok500_aana
+Conteudo: ['tok613_inteiro', 'simples', 'tok300_10', '', '']
+
+
+++++++++++++++++++++++++++++++++
+Cadeia de tokens reconhecida com sucesso
